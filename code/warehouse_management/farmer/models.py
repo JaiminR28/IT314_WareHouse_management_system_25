@@ -20,7 +20,7 @@ class Farmer(models.Model):
     email = models.EmailField(max_length=254)
 
     def __str__(self):
-        return f'{first_name} {phone_number}'
+        return f'{self.first_name} {self.phone_number}'
 
 
 class Crop(models.Model):
@@ -28,3 +28,6 @@ class Crop(models.Model):
     max_storage_temperature = models.IntegerField()
     min_storage_temperature = models.IntegerField()
     max_storage_time_in_days = models.IntegerField()
+
+    def __str__(self):
+        return self.name

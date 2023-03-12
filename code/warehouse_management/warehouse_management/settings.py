@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'warehouse.apps.WarehouseConfig',
     'farmer.apps.FarmerConfig',
+    'home'
 ]
 
 MIDDLEWARE = [

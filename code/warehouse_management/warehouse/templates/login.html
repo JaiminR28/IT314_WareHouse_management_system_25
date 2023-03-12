@@ -1,5 +1,5 @@
 {% block content %}
-    <form action="{% url 'farmer:loginValidate'%}" method="post">
+    <form action="{% url 'warehouse:loginValidate'%}" method="post">
     {% csrf_token %}
         <label for="email">Email:</label><br>
         <input type="text" id="email" name="email"><br><br>

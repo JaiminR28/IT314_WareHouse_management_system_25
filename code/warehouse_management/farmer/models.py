@@ -18,9 +18,10 @@ class Farmer(models.Model):
         ]
     )
     email = models.EmailField(max_length=254)
+    password = models.CharField(max_length=12, null=True)
 
     def __str__(self):
-        return f'{self.first_name} {self.phone_number}'
+        return f'{self.email} {self.phone_number}'
 
 
 class Crop(models.Model):

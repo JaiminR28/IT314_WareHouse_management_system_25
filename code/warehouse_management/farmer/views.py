@@ -13,9 +13,12 @@ def loginValidate(request):
             email = request.POST.get('email')
             password = request.POST.get('password')
 
-            user = Farmer.objects.filer(email__exact=email, password__exact=password)
+            user = Farmer.objects.filter(email__exact=email, password__exact=password).values_list('first_name', flat = True)
             if user:
-                return render(request, 'home.html')
+                context = {
+                    'user' : user[0]
+                }
+                return render(request, 'home.html', context=context)
 
 
 def register(request):

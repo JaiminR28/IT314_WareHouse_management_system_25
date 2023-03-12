@@ -1,5 +1,7 @@
+{% extends 'base_generic.html' %}
+
 {% block content %}
-    <form action="{% url 'farmer:registerEntry'%}" method="post">
+    <form action="{% url 'registerEntry'%}" method="post">
     {% csrf_token %}
         <label for="firstName">First name:</label><br>
         <input type="text" id="firstName" name="firstName"><br>

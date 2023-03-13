@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from warehouse.models import Manager, Warehouse
+from django.contrib import messages
 
 # Create your views here.
 
@@ -22,11 +23,15 @@ def loginValidate(request):
                     'user' : user[0]
                 }
                 return render(request, 'home.html', context=context)
+            else:
+                messages.error(request, "Email or Password incorrect")
+        else:
+            messages.error(request, "Please enter credentails")
+            return render(request, 'login.html')
 
 
 def register(request):
     return render(request, 'register.html')
-
 
 def registerEntry(request):
     if request.method == 'POST':
@@ -62,3 +67,6 @@ def registerEntry(request):
             record.save()
 
             return render(request, 'login.html')
+        else:
+            messages.error(request, "Enter details in all the fields")
+            return render(request, 'register.html')

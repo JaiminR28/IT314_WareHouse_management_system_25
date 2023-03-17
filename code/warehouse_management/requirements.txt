@@ -1,0 +1,3 @@
+Django
+pymongo[snappy,gssapi,srv,tls]
+django-environ

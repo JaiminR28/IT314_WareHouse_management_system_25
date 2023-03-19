@@ -1,13 +1,16 @@
+from pymongo import MongoClient
+import pprint
 from django.shortcuts import render
-from farmer.models import Farmer
+from django.contrib import messages
+
 
 # Create your views here.
 
-def index(request):
-    return render(request, 'home.html')
+def home(request):
+    return render(request, 'f-home.html')
 
 def login(request):
-    return render(request, 'login.html')
+    return render(request, 'f-login.html')
 
 def loginValidate(request):
     if request.method == 'POST':
@@ -15,35 +18,65 @@ def loginValidate(request):
             email = request.POST.get('email')
             password = request.POST.get('password')
 
-            user = Farmer.objects.filter(email__exact=email, password__exact=password).values_list('first_name', flat = True)
-            if user:
-                context = {
-                    'user' : user[0]
-                }
-                return render(request, 'home.html', context=context)
+            client = MongoClient('mongodb://localhost:27017')
+            db = client['warehouse']
+            farmer = db['farmer']
+            
+            query = {'email': email, 'password': password}
+            projection = {'first_name': 1}
 
+            users = farmer.find(query, projection)
+            if len(list(users.clone())) == 1:
+                context = {
+                    'user' : users[0]['first_name']
+                }
+                return render(request, 'f-home.html', context=context)
+            else:
+                messages.error(request, "Email or Password incorrect")
+                return render(request, 'f-login.html')
+        else:
+            messages.error(request, "Please enter credentails")
+            return render(request, 'f-login.html')
 
 def register(request):
-    return render(request, 'register.html')
+    return render(request, 'f-register.html')
 
 
 def registerEntry(request):
     if request.method == 'POST':
         if request.POST.get('firstName') and request.POST.get('lastName') and request.POST.get('phoneNum') and request.POST.get('email') and request.POST.get('password'):
-            firstName = request.POST.get('firstName')
-            lastName = request.POST.get('lastName')
-            phoneNum = request.POST.get('phoneNum')
+            first_name = request.POST.get('firstName')
+            last_name = request.POST.get('lastName')
+            phone_num = request.POST.get('phoneNum')
             email = request.POST.get('email')
             password = request.POST.get('password')
 
-            record = Farmer(
-                first_name = firstName, 
-                last_name = lastName,
-                phone_number = phoneNum,
-                email = email,
-                password = password
-                )
+            client = MongoClient('mongodb://localhost:27017')
+            db = client['warehouse']
+            farmer = db['farmer']
 
-            record.save()
 
-            return render(request, 'login.html')
+            query = {'email': email}
+            projection = {'_id': 1}
+
+            users = farmer.find(query, projection)
+
+            if len(list(users.clone())) != 0:
+                messages.error(request, 'Email already registered!')
+                return render(request, 'f-register.html')
+
+            else:
+                farmer.insert_one({
+                    'first_name': first_name,
+                    'last_name': last_name,
+                    'phone_num': phone_num,
+                    'email': email,
+                    'password': password
+                })
+
+                messages.success(request, 'Registration successful')
+                return render(request, 'f-login.html')
+
+        else:
+            messages.error(request, "Enter details in all the fields")
+            return render(request, 'f-register.html')

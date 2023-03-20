@@ -62,22 +62,30 @@ body {
 	/* display: flex; */
 }
 
-.option a {
+.option--link {
 	text-decoration: none;
-	font-size: 1.8 rem;
+	font-size: 1.4rem;
 	line-height: 2rem;
 	color: #333;
 }
 
-.option a:hover,
+.option--link:hover,
 .option:hover {
 	color: #858585;
 }
 
-.red-border {
+.red-text-border {
 	border: 3px solid #e40b31;
 }
 
-.purple-border {
+.red-text {
+	color: #e40b31;
+}
+
+.purple-text-border {
 	border: 3px solid #5a4ff3;
+}
+
+.purple-text {
+	color: #5a4ff3;
 }

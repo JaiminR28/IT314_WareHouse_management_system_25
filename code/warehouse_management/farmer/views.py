@@ -18,7 +18,7 @@ def loginValidate(request):
             email = request.POST.get('email')
             password = request.POST.get('password')
 
-            client = MongoClient('mongodb://localhost:27017')
+            client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.net/?retryWrites=true&w=majority')
             db = client['warehouse']
             farmer = db['farmer']
             
@@ -51,7 +51,7 @@ def registerEntry(request):
             email = request.POST.get('email')
             password = request.POST.get('password')
 
-            client = MongoClient('mongodb://localhost:27017')
+            client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.net/?retryWrites=true&w=majority')
             db = client['warehouse']
             farmer = db['farmer']
 

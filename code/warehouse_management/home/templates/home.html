@@ -3,12 +3,36 @@
 	<head>
 		<title>Choose an app</title>
 	</head>
-	<link rel="stylesheet" href="./styles/styles.css" />
+
+	<!-- Font links -->
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link
+		href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600&display=swap"
+		rel="stylesheet"
+	/>
+
+	<!-- Styles -->
+	<link rel="stylesheet" href="styles/styles.css" />
 	<body>
-		<h1>Choose an app:</h1>
-		<ul>
-			<li><a href="{% url 'warehouse:login' %}">Warehouse App</a></li>
-			<li><a href="{% url 'farmer:login' %}">Farmer App</a></li>
-		</ul>
+		<main class="container">
+			<div class="option--container">
+				<h1 class="heading">I'm A</h1>
+				<ul class="options--list">
+					<li class="option red--border-3px">
+						<a
+							class="option--link"
+							href="{% url 'warehouse:login' %}"
+							>Worker</a
+						>
+					</li>
+					<li class="option purple--border-3px">
+						<a class="option--link" href="{% url 'farmer:login' %}"
+							>Farmer</a
+						>
+					</li>
+				</ul>
+			</div>
+		</main>
 	</body>
 </html>

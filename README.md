@@ -17,7 +17,7 @@
 # Steps for running the website on your computer:
 
 * First clone this repsitory using cmd: 
-`git clone https://github.com/JaiminRathwa/IT314_WareHouse_management_system_25.git`
+`git clone https://github.com/JaiminR28/IT314_WareHouse_management_system_25.git`
 
 * Open the cmd prompt and navigate to `IT314_WareHouse_management_system_25/code/warehouse_management`
 

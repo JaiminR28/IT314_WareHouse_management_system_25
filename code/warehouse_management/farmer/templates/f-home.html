@@ -2,4 +2,7 @@
 
 {% block content %}
     <h1>Hi! {{ user }}</h1>
+    <a href="{% url 'farmer:logout' %}" class="btn btn-primary">Log out</a>
+    <a href="{% url 'farmer:storedGoods' %}" class="btn btn-primary">Stored Goods</a>
+
 {% endblock %}

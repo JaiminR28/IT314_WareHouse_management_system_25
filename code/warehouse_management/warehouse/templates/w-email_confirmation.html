@@ -1,0 +1,6 @@
+{% autoescape off %} 
+Welcome to DAIICT Warehouse login!! 
+Hello {{ name }}!! 
+Please confirm your email by clicking on the following link. 
+Confirmation Link: http://{{ domain }}{% url 'warehouse:activate' uidb64=uid token=token %} 
+{% endautoescape %}

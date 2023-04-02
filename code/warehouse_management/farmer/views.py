@@ -36,6 +36,8 @@ def loginValidate(request):
 
             users = farmer.find(query, projection)
             if len(list(users.clone())) == 1 and users[0]['verified']:
+                request.session['isLoggedIn'] = True
+                request.session['farmerId'] = users[0]['_id']
                 context = {
                     'user' : users[0]['first_name']
                 }
@@ -89,8 +91,6 @@ def registerEntry(request):
             phone_num = request.POST.get('phoneNum')
             email = request.POST.get('email')
             password = request.POST.get('password')
-            # verified = False
-            
             query = {'email': email}
             projection = {'_id': 1}
 
@@ -101,6 +101,7 @@ def registerEntry(request):
                 return render(request, 'f-register.html')
 
             else:
+                request.session['isLoggedIn'] = False
                 farmer.insert_one({
                     'first_name': first_name,
                     'last_name': last_name,
@@ -141,3 +142,34 @@ def registerEntry(request):
         else:
             messages.error(request, "Enter details in all the fields")
             return render(request, 'f-register.html')
+
+
+def logout(request):
+    request.session['isLoggedIn'] = False
+    return render(request, 'f-login.html')
+
+def storedGoods(request):
+    if request.session['isLoggedIn'] == True:
+        client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.net/?retryWrites=true&w=majority')
+        db = client['warehouse_management']
+        warehouse = db['warehouse']
+
+        query = {
+            'crops_stored': {
+                'farmer_id': request.session['farmerId']
+            }
+        }
+
+        projection = {}
+
+        warehouse_list = warehouse.find(query, projection)
+        farmer_id = request.session['farmerId']
+
+        context = {
+            'warehouse_list': warehouse_list,
+            'farmer_id': farmer_id,
+        }
+        return render(request, 'f-stored-goods.html', context=context)
+    else:
+        messages.error(request, 'You need to Login first!')
+        return render(request, 'f-login.html')

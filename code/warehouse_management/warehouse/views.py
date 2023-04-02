@@ -1,8 +1,16 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib import messages
 import pymongo
 from pymongo import MongoClient
 import re
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.utils.encoding import force_bytes, force_str
+from django.contrib.auth import authenticate, login, logout
+from .tokens import generate_token
+from warehouse_management import settings
+from django.core.mail import EmailMessage, send_mail
 
 # Create your views here.
 # regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
@@ -15,7 +23,8 @@ import re
 client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.net/?retryWrites=true&w=majority')
 db = client['demo']
 warehouse = db['Warehouse']
-manager = db['Manager']
+
+EMAIL = ""
 
 def index(request):
     return render(request, 'home.html')
@@ -23,6 +32,8 @@ def index(request):
 def login(request):
     return render(request, 'w-login.html')
 
+def email_confirmation(request):
+    return render("w-email_confirmation.html")
 
 def loginValidate(request):
     if request.method == 'POST':
@@ -31,14 +42,19 @@ def loginValidate(request):
             password = request.POST.get('password')
             
             query = {'email': email, 'password': password}
-            projection = {'email': 1}
+            projection = {'email': 1, 'verified': 1}
 
-            users = manager.find(query, projection)
-            if len(list(users.clone())) == 1:
+            users = warehouse.find(query, projection)
+
+            print(users[0]['verified'])
+            if len(list(users.clone())) == 1 and users[0]['verified']:
                 context = {
                     'user' : users[0]['email']
                 }
                 return render(request, 'w-home.html', context=context)
+            elif len(list(users.clone())) == 1 and not users[0]['verified']:
+                messages.error(request, "You have not verfied your email")
+                return render(request, 'w-login.html')
             else:
                 messages.error(request, "Email or Password incorrect")
                 return render(request, 'w-login.html')
@@ -50,12 +66,37 @@ def loginValidate(request):
 def register(request):
     return render(request, 'w-register.html')
 
+#Registers new user and saves info in db
+def activate(request,uidb64,token):
+    try:
+        email = force_str(urlsafe_base64_decode(uidb64))
+        query = {'email': email}
+        projection = {'email': 1, 'verified': 1}
+        new_house = warehouse.find(query, projection)
+        
+    except (TypeError,ValueError,OverflowError):
+        new_house = [[]]
+
+    if len(list(new_house.clone())) == 1 and generate_token.check_token(email,token):
+        print(new_house[0]['verified'])
+        myquery = {'email': email}
+        newvalues = { "$set": { "verified": True } }
+        warehouse.update_one(myquery, newvalues)
+        new_house[0]['verified'] = True
+        print(new_house[0]['verified'])
+        # user.profile.signup_confirmation = True
+        messages.success(request, "Your Account has been activated!!")
+        # print("Hereeeeeeeeeeeeeeeeeeeeeeeee")
+        return render(request, 'w-login.html')
+    else:
+        # print("HEEEEEEEEEEEEEEEEErEEEEEEEEEEEEEEEEEe")
+        messages.error(request, "Account activation failed!!")
+        return render(request,'w-register.html')
+
 def registerEntry(request):
     if request.method == 'POST':
-        if request.POST.get('storage_capacity') and request.POST.get('longitude') and request.POST.get('latitude') and request.POST.get('name') and request.POST.get('firstName') and request.POST.get('lastName') and request.POST.get('phoneNum') and request.POST.get('email') and request.POST.get('password'):
-            
-            firstName = request.POST.get('firstName')
-            lastName = request.POST.get('lastName')
+        if request.POST.get('storage_capacity') and request.POST.get('longitude') and request.POST.get('latitude') and request.POST.get('name') and request.POST.get('phoneNum') and request.POST.get('email') and request.POST.get('password'):
+        
             phoneNum = request.POST.get('phoneNum')
             email = request.POST.get('email')
             password = request.POST.get('password')
@@ -84,17 +125,35 @@ def registerEntry(request):
                     'longitude': longitude,
                     'storage_capacity': storage_capacity, 
                     'email': email,
-                })
-                manager.insert_one({
-                    'first_name': firstName, 
-                    'last_name': lastName,
-                    'phone_number': phoneNum,
-                    'email': email,
+                    'verified': False,
                     'password': password,
-                    'latitude': latitude,
-                    'longitude': longitude,
+                    'phone_number': phoneNum,
                 })
+                EMAIL = email
                 messages.success(request, 'Registration successful')
+                # Welcome Email
+                subject = "Welcome to Warehouse Manager!!"
+                message = "Hello " + name + "!! \n" + "Welcome to DAIICT Warehouse Manager!! \nThank you for visiting our website.\n We have also sent you a confirmation email, please confirm your email address. \n\nThanking You\nArth Detroja"        
+                from_email = settings.EMAIL_HOST_USER
+                to_list = [email]
+                send_mail(subject, message, from_email, to_list, fail_silently=False)       
+                # Email Address Confirmation Email
+                current_site = get_current_site(request)
+                email_subject = "Confirm your Email @ DAIICT Warehouse manager!!"
+                message2 = render_to_string('w-email_confirmation.html',{            
+                    'name': email,
+                    'domain': current_site.domain,
+                    'uid': urlsafe_base64_encode(force_bytes(email)),
+                    'token': generate_token.make_token(email),
+                })
+                email_temp = EmailMessage(
+                    email_subject,
+                    message2,
+                    settings.EMAIL_HOST_USER,
+                    [email],
+                )
+                email_temp.fail_silently = False
+                email_temp.send()
                 return render(request, 'w-login.html')
         else:
             return render(request, 'w-register.html')

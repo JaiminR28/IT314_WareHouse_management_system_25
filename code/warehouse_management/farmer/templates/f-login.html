@@ -20,6 +20,11 @@
         <input type="text" id="password" name="password"><br><br>
         <input type="submit" value="Submit" class="btn btn-primary">
     </form> 
-    <a href="{% url 'farmer:register' %}" class="btn btn-primary">Register</a>
-
+    <button id="register-btn">Register</button>
+    <script>
+        document.getElementById("register-btn").addEventListener("click", function() {
+            window.location.href = "{% url 'farmer:register' %}";
+        });
+    </script>
 {% endblock %}
+

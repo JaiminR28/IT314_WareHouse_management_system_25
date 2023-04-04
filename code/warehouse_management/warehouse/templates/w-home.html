@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -26,7 +26,7 @@
                         <li><a href="#" class="btn1">Login</a></li>
                         <div class="hr"> </div>
                         <li><a href="#" class="button">Sign Up</a></li>
-                        <!-- </div> -->
+                         </div> 
                     </div>
                 </ul>
             </div>
@@ -34,4 +34,21 @@
     </header>
 </body>
 
-</html>
+</html> -->
+
+
+{% block content %}
+<form action="{% url 'warehouse:generateReport'%}" method="post">
+    {% csrf_token %}
+        <label for="email">Email:</label><br>
+        <input type="text" id="email" name="email"><br><br>
+        <input type="submit" value="Submit">        
+    </form>
+
+{% endblock %}
+<!-- 
+<script>
+    document.getElementById("register-btn").addEventListener("click", function() {
+        window.location.href = "{% url 'warehouse:generateReport' %}";
+    });
+</script> -->

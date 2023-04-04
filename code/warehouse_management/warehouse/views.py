@@ -23,6 +23,7 @@ from django.core.mail import EmailMessage, send_mail
 client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.net/?retryWrites=true&w=majority')
 db = client['demo']
 warehouse = db['Warehouse']
+goods = db['Goods']
 
 EMAIL = ""
 
@@ -34,6 +35,14 @@ def login(request):
 
 def email_confirmation(request):
     return render("w-email_confirmation.html")
+
+def logout(request):
+    request.session['isLoggedIn'] = False
+    return render(request, 'w-login.html')
+
+def report(request):
+    if(request.session['isLoggedIn']):
+        return render(request, 'report.html')
 
 def loginValidate(request):
     if request.method == 'POST':
@@ -48,6 +57,8 @@ def loginValidate(request):
 
             print(users[0]['verified'])
             if len(list(users.clone())) == 1 and users[0]['verified']:
+                request.session['isLoggedIn'] = True
+                request.session['farmerId'] = users[0]['email']
                 context = {
                     'user' : users[0]['email']
                 }
@@ -119,6 +130,7 @@ def registerEntry(request):
                 return render(request, 'w-register.html')
             
             else:
+                request.session['isLoggedIn'] = False                
                 warehouse.insert_one({
                     'name': name,
                     'latitude': latitude,
@@ -157,3 +169,25 @@ def registerEntry(request):
                 return render(request, 'w-login.html')
         else:
             return render(request, 'w-register.html')
+        
+def generateReport(request):
+    if request.session['isLoggedIn']:
+        if request.POST.get('email'):
+            email = request.POST.get('email')
+            # print(email)
+            query = {'warehouse_email': email}
+            query1 = {'email': email}
+            projection = {'farmer_email': 1, 'crop_name': 1, 'from_date': 1, 'to_date': 1}
+            projection1 = {'name': 1, 'latitude': 1, 'longitude': 1, 'storage_capacity': 1, 'phone_number': 1}
+            warehouse_details = warehouse.find(query1, projection1)
+            crop_details = goods.find(query, projection)
+            # print(crop_details[0])
+            return render(request, 'report.html', {
+                'warehouse_details': warehouse_details,
+                'crop_details': crop_details,
+            })
+        else:
+            return render(request, 'w-login.html')
+    else:
+        messages.error(request, 'Log in First!')
+        return render(request, 'w-login.html')

@@ -1,0 +1,22 @@
+{% block title %}{{ section.title }}{% endblock %}
+
+{% block content %}
+<h1>{{ section.title }}</h1>
+
+{% for x in warehouse_details %}
+    {{ x.name }}
+    {{ x.latitude }}
+    {{ x.longitude }}
+    {{ x.storage_capacity }}
+    {{ x.phone_number }}
+{% endfor %}
+<br>
+
+{% for x in crop_details %}
+    {{ x.farmer_email }}
+    {{ x.crop_name }}
+    {{ x.from_date }}
+    {{ x.to_date }}
+    <br> 
+{% endfor %}
+{% endblock %} 

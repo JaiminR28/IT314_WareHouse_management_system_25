@@ -37,7 +37,7 @@ def loginValidate(request):
             users = farmer.find(query, projection)
             if len(list(users.clone())) == 1 and users[0]['verified']:
                 request.session['isLoggedIn'] = True
-                request.session['farmerId'] = users[0]['_id']
+                request.session['farmerEmail'] = users[0]['email']
                 context = {
                     'user' : users[0]['first_name']
                 }
@@ -111,13 +111,13 @@ def registerEntry(request):
                     'verified': False
                 })
                 EMAIL = email
-                messages.success(request, 'Registration successful')
                 # Welcome Email
                 subject = "Welcome to farmer Manager!!"
                 message = "Hello " + first_name + "!! \n" + "Welcome to DAIICT Warehouse Manager!! \nThank you for visiting our website.\n We have also sent you a confirmation email, please confirm your email address. \n\nThanking You\nArth Detroja"        
                 from_email = settings.EMAIL_HOST_USER
                 to_list = [email]
-                send_mail(subject, message, from_email, to_list, fail_silently=False)       
+                send_mail(subject, message, from_email, to_list, fail_silently=False)  
+
                 # Email Address Confirmation Email
                 current_site = get_current_site(request)
                 # print("*********" + str(current_site.domain))

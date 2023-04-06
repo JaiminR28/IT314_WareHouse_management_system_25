@@ -13,4 +13,6 @@ urlpatterns = [
     path('storedGoods', views.storedGoods, name='storedGoods'),
     path('home', views.home, name='home'),
     path('activate/<uidb64>/<token>', views.activate, name='activate'),
+    path('search-nearby-warehouses', views.searchNearbyWarehouses, name='searchNearbyWarehouses'),
+    path('show-nearby-warehouses', views.showNearbyWarehouses, name='showNearbyWarehouses'),
 ]

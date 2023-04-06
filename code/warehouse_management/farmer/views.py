@@ -10,12 +10,15 @@ from django.contrib.auth import authenticate, login, logout
 from .tokens import generate_token
 from warehouse_management import settings
 from django.core.mail import EmailMessage, send_mail
+from math import cos, asin, sqrt, pi
 
 
 EMAIL = ""
 client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.net/?retryWrites=true&w=majority')
 db = client['demo']
 farmer = db['Farmer']
+warehouse = db['Warehouse']
+
 
 # Create your views here.
 
@@ -37,7 +40,8 @@ def loginValidate(request):
             users = farmer.find(query, projection)
             if len(list(users.clone())) == 1 and users[0]['verified']:
                 request.session['isLoggedIn'] = True
-                request.session['farmerEmail'] = users[0]['email']
+                print(users[0])
+                request.session['farmerEmail'] = email
                 context = {
                     'user' : users[0]['first_name']
                 }
@@ -148,12 +152,54 @@ def logout(request):
     request.session['isLoggedIn'] = False
     return render(request, 'f-login.html')
 
+def computeDistance(lat1, lon1, lat2, lon2):
+    p = pi/180
+    a = 0.5 - cos((lat2-lat1)*p)/2 + cos(lat1*p) * cos(lat2*p) * (1-cos((lon2-lon1)*p))/2
+    return 12742 * asin(sqrt(a)) #2*R*asin...
+
+def sortFunc(e):
+    return e['distance']
+
+def showNearbyWarehouses(request):
+    if request.method == 'POST':
+        if request.POST.get('latitude') and request.POST.get('longitude') and request.POST.get('distance'):
+            if request.session['isLoggedIn'] == True:
+                latitude = int(request.POST.get('latitude'))
+                longitude = int(request.POST.get('longitude'))
+                target_distance = int(request.POST.get('distance'))
+                query = {}
+                projection = {}
+                warehouse_list = warehouse.find(query, projection)
+
+                nearby_warehouse_list = []
+                
+                for w in warehouse_list:
+                    curr_dist = computeDistance(int(w['latitude']), int(w['longitude']), latitude, longitude)
+                    if curr_dist <= target_distance:
+                        w['distance'] = round(curr_dist, 2)
+                        nearby_warehouse_list.append(w)
+
+                nearby_warehouse_list.sort(key=sortFunc)
+                context = {
+                    'warehouse_list': nearby_warehouse_list,
+                    'distance': target_distance,
+                }
+
+                return render(request, 'f-show-nearby-warehouses.html', context=context)
+            else:
+                return render(request, 'f-login.html')
+        else:
+            messages.error(request, "Enter details in all the fields")
+            return render(request, 'f-search-nearby-warehouses.html')
+
+def searchNearbyWarehouses(request):
+    if request.session['isLoggedIn'] == True:
+        return render(request, 'f-search-nearby-warehouses.html')
+    else:
+        return render(request, 'f-login.html')
+
 def storedGoods(request):
     if request.session['isLoggedIn'] == True:
-        client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.net/?retryWrites=true&w=majority')
-        db = client['warehouse_management']
-        warehouse = db['warehouse']
-
         query = {
             'crops_stored': {
                 'farmer_id': request.session['farmerId']
@@ -173,3 +219,5 @@ def storedGoods(request):
     else:
         messages.error(request, 'You need to Login first!')
         return render(request, 'f-login.html')
+
+

@@ -1,0 +1,32 @@
+{% extends 'f-base-generic.html' %}
+
+{% block content %}
+
+
+    {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+
+
+    <form action="{% url 'farmer:showNearbyWarehouses'%}" method="post">
+    {% csrf_token %}
+        <label for="latitude">Latitude:</label><br>
+        <input type="text" id="latitude" name="latitude"><br><br>
+        <label for="longitude">Longitude:</label><br>
+        <input type="text" id="longitude" name="longitude"><br><br>
+        <label for="distance">Distance:</label><br>
+        <input type="text" id="distance" name="distance"><br><br>
+        <input type="submit" value="Submit" class="btn btn-primary">
+    </form> 
+    <button id="register-btn">Register</button>
+    <script>
+        document.getElementById("register-btn").addEventListener("click", function() {
+            window.location.href = "{% url 'farmer:register' %}";
+        });
+    </script>
+{% endblock %}
+

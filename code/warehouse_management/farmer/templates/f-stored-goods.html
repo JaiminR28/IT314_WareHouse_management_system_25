@@ -1,0 +1,20 @@
+{% extends 'f-base-generic.html' %}
+
+{% block content %}
+    Your crops are stored in the following warehouses:
+
+    {% for warehouse in warehouse_list %}
+        <br><br>
+        <div>Warehouse Name: {{ warehouse['name'] }}</div>
+        <div>Crop details</div>
+        {% for crop in warehouse['crop_stored'] %}
+            {% if crop['farmer_id'] == farmer_id %}
+                <div>Id: {{ crop['crop_id'] }}</div>
+                <div>Quantity: {{ crop['quantity'] }}</div>
+                <div>Start Date: {{ crop['start_date'] }}</div>
+                <hr>
+                <br><br>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+{% endblock %}

@@ -12,13 +12,14 @@ from .tokens import generate_token
 from warehouse_management import settings
 from django.core.mail import EmailMessage, send_mail
 
-# Create your views here.
+
 # regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
 # def check(email):
 #     if(re.fullmatch(regex, email)):
 #         print("Valid Email") 
 #     else:
 #         print("Invalid Email")
+
 
 client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.net/?retryWrites=true&w=majority')
 db = client['demo']

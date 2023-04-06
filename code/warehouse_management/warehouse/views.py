@@ -28,7 +28,10 @@ goods = db['Goods']
 EMAIL = ""
 
 def index(request):
-    return render(request, 'home.html')
+    return render(request, 'w-index.html')
+
+def home(request):
+    return render(request, 'w-home.html')
 
 def login(request):
     return render(request, 'w-login.html')

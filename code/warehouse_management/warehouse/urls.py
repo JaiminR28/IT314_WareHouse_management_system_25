@@ -4,7 +4,7 @@ from . import views
 app_name = 'warehouse'
 
 urlpatterns = [
-    path('', views.login, name='default'), 
+    path('', views.index, name='default'), 
     path('generateReport', views.generateReport, name='generateReport'),   
     path('login', views.login, name='login'),
     path('login/validate', views.loginValidate, name='loginValidate'),
@@ -14,5 +14,4 @@ urlpatterns = [
     path('activate/<uidb64>/<token>', views.activate, name='activate'),
     path('logout', views.logout, name='logout'),
     path('report', views.report, name='report'),
-    
 ]

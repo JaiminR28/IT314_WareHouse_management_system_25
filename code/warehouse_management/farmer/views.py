@@ -22,6 +22,9 @@ warehouse = db['Warehouse']
 
 # Create your views here.
 
+def index(request):
+    return render(request, 'f-index.html')
+
 def home(request):
     return render(request, 'f-home.html')
 

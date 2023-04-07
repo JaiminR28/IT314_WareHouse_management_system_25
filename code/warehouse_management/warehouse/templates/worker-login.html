@@ -29,8 +29,19 @@
             </ul>
 
     </nav>
+    <div>
+        {% if messages %}
+        <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+
     <div class="container">
-        <form action="" class="form">
+        <form action="{% url 'warehouse:loginValidate'%}" method="post" class="form">
+        {% csrf_token %}
             <h2 class="heading"><span>Worker</span> Login</h2>
             <div class="input--container">
                 <h5 class="input--label">Email</h5>
@@ -43,7 +54,7 @@
             <input type="submit" value="Log In" id="submit">
             <div class="sign--up-prompt">
                 <p>Don't Have An Account ?</p>
-                <a href="../Sign_up page/registration.html">Sign up</a>
+                <a href="{% url 'warehouse:register' %}">Sign up</a>
             </div>
         </form>
         <div class="side"></div>

@@ -1,0 +1,180 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html {
+	font-size: 62.5%;
+}
+
+body {
+	/* background-color: #fd4e4e; */
+	font-family: "Montserrat", sans-serif;
+}
+/* Container */
+.container {
+	display: flex;
+	width: 100%;
+	height: 100vh;
+	/*border: 1px solid black;*/
+	margin: auto;
+	box-shadow: 15px 15px 20px black;
+}
+
+.black--text {
+	color: black !important;
+}
+
+/* navbar */
+.navbar {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	position: fixed;
+	width: 80%;
+	left: 50%;
+	transform: translateX(-50%);
+	margin: 0.8rem auto;
+
+	padding: 2rem 2rem;
+}
+.nav--items {
+	display: flex;
+	list-style: none;
+	width: 50%;
+	justify-content: space-between;
+}
+
+li {
+	display: table-cell;
+	position: relative;
+}
+
+.Service--button,
+.nav--item {
+	text-decoration: none;
+	color: #fff;
+	font-weight: 400;
+	font-size: 1.6rem;
+	line-height: 1rem;
+}
+
+.nav--item:hover,
+.nav--item:active {
+	font-weight: 600;
+}
+
+.Service--button {
+	background-color: #e40b31;
+	padding: 0.75rem 1.5rem;
+	border-radius: 4px;
+}
+/*Login Form */
+.form {
+	display: flex;
+	flex-direction: column;
+	width: 60%;
+	align-items: center;
+	background-color: #fff;
+}
+.heading {
+	text-transform: uppercase;
+	font-weight: 500;
+	font-size: 36px;
+	line-height: 43px;
+	margin: 13rem 0 4.8rem 0;
+}
+
+.heading span {
+	color: #e40b31;
+}
+
+.input--container {
+	margin-bottom: 3rem;
+}
+
+.input--label {
+	margin: 0 0 4px 3px;
+	font-style: normal;
+	font-weight: 400;
+	font-size: 1.6rem;
+	line-height: 24px;
+}
+.box {
+	padding: 1.2rem;
+	width: 36rem;
+	font-size: 2rem;
+	height: 7.1rem;
+	border: 1.7px solid black;
+	outline: none;
+	border-radius: 5px;
+}
+
+.box:focus {
+	border: 1.7px solid rgba(0, 0, 0, 0.379);
+	transition: all 0.2s;
+}
+#submit {
+	padding: 1.6rem 4rem;
+	width: 16rem;
+	margin-top: 1.6rem;
+	background-color: #e40b31;
+	color: white;
+
+	font-weight: 700;
+	font-size: 1.6rem;
+	line-height: 24px;
+	text-transform: capitalize;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+}
+#submit:hover {
+	cursor: pointer;
+	background-color: #750000;
+}
+.form a {
+	text-decoration: none;
+	color: black;
+	margin-top: 20px;
+}
+.form a:hover {
+	color: #fd4e4e;
+}
+/* Right Side */
+.side {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 45%;
+	background-image: linear-gradient(
+			rgba(228, 11, 51, 0.21),
+			rgba(228, 11, 51, 0.21)
+		),
+		url(../Images/Farmer_login_bg.png);
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: 50%;
+	background-position: right;
+}
+.side img {
+	width: 400px;
+	height: 500px;
+}
+
+.sign--up-prompt {
+	text-align: center;
+	margin-top: 3rem;
+	font-size: 1.6rem;
+	font-weight: 300;
+}
+
+.sign--up-prompt p {
+	margin-bottom: 6px;
+}
+
+.sign--up-prompt a {
+	font-weight: 600;
+}

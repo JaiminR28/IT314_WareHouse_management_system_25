@@ -1,30 +1,134 @@
-{% if messages %}
-    <ul class="messages">
-    {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-    </ul>
-{% endif %}
+{% load static %}
+<!DOCTYPE html>
 
-<h1> Enter details about  Warehouse</h1>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Responsive Registration Form | Warehouse manegment</title>
 
-{% block content %}
-    <form action="{% url 'warehouse:registerEntry'%}" method="post">
-    {% csrf_token %}
-        <label for="name">Name:</label><br>
-        <input type="text" id="name" name="name"><br>
-        <label for="latitude">Latitude:</label><br>
-        <input type="number" id="latitude" name="latitude"><br><br>
-        <label for="longitude">Longitude:</label><br>
-        <input type="number" id="longitude" name="longitude"><br><br>
-        <label for="storage_capacity">Storage capacity:</label><br>
-        <input type="number" id="storage_capacity" name="storage_capacity"><br><br>
-        <label for="phoneNum">Mobile Number:</label><br>
-        <input type="text" id="phoneNum" name="phoneNum"><br><br>
-        <label for="email">Email:</label><br>
-        <input type="text" id="email" name="email"><br><br>
-        <label for="password">Password:</label><br>
-        <input type="text" id="password" name="password"><br><br>
-        <input type="submit" value="Submit">
-    </form> 
-{% endblock %}
+		<!-- Font -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600&display=swap"
+			rel="stylesheet"
+		/>
+
+			<link rel="stylesheet" href="{% static 'styles/worker_register.css' %}">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	</head>
+	<body>
+        <div>
+            {% if messages %}
+			<ul class="messages">
+			{% for message in messages %}
+				<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+			{% endfor %}
+			</ul>
+			{% endif %}
+        </div>
+
+          <div class="container">
+			<div>
+				<img src="{% static 'Images/register_page_Background.svg' %}">
+			</div>
+            <div class="registration--form--block">
+				<div class="navbar">
+					<h2>Logo</h2>
+
+                    <div class="home--logIn">
+                        <a class="to-home" href="{% url 'warehouse:index' %}">Home</a>
+					    <p>Already Have an Account ? <a class="LogIn--option" href="{% url 'warehouse:login'%}">LogIn</a></p>
+                    </div>
+				</div>
+                <div class="registration--form">
+				    <div class="title">Worker's Registration</div>
+                    <form action="{% url 'warehouse:registerEntry'%}" method="post">
+                    {% csrf_token %}
+                        <div class="user-details">
+							<div class="input-box">
+								<span class="details">Name</span>
+								<input
+                                class="text--input-box"
+									type="text"
+                                    id="name"
+                                    name="name"
+									placeholder="Enter your first name"
+									required
+								/>
+                            </div>
+                            <div class="input-box">
+								<span class="details">Mobile Number</span>
+								<input
+                                class="text--input-box"
+									type="number"
+                                    id="phoneNum"
+                                    name="phoneNum"
+									placeholder="Enter your first name"
+									required
+								/>
+                            </div>
+							<div class="input-box">
+								<span class="details">Latitude</span>
+								<input
+                                class="text--input-box"
+									type="text"
+                                    id="latitude"
+                                    name="latitude"
+									placeholder="Enter your first name"
+									required
+								/>
+                            </div>
+							<div class="input-box">
+								<span class="details">Longitude</span>
+								<input
+                                class="text--input-box"
+									type="text"
+                                    id="longitude"
+                                    name="longitude"
+									placeholder="Enter your first name"
+									required
+								/>
+                            </div>
+							<div class="input-box">
+								<span class="details">Storage Capacity</span>
+								<input
+                                class="text--input-box"
+									type="number"
+                                    id="storage_capacity"
+                                    name="storage_capacity"
+									placeholder="Enter your first name"
+									required
+								/>
+                            </div>
+							
+							<div class="input-box">
+								<span class="details">Email</span>
+								<input
+                                class="text--input-box"
+									type="number"
+                                    id="email"
+                                    name="email"
+									placeholder="Enter your first name"
+									required
+								/>
+                            </div>
+							<div class="input-box">
+								<span class="details">Password</span>
+								<input
+                                class="text--input-box"
+									type="number"
+                                    id="password"
+                                    name="password"
+									placeholder="Enter your first name"
+									required
+								/>
+                            </div>
+                        </div>
+                        <div class="submit--button">
+							<input type="submit" value="Registration" />
+						</div>
+                </div>
+            </div>
+        </div>
+    </body>

@@ -41,6 +41,9 @@ body {
 .LogIn--option {
 	color: #e40b31;
 }
+.title span {
+	color: #e40b31;
+}
 
 .LogIn--option:hover,
 .LogIn--option:active {

@@ -42,7 +42,8 @@
     </div>
     
     <div class="container">
-        <form action="{% url 'farmer:loginValidate'%}" class="form">
+        <form action="{% url 'farmer:loginValidate'%}" class="form" method="post">
+        {% csrf_token %}
             <h2 class="heading"><span>Farmer</span> Login</h2>
             <div class="input--container">
                 <h5 class="input--label">Email</h5>

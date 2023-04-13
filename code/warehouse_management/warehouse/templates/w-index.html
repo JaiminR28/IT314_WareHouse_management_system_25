@@ -1,41 +1,66 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Warehouse</title>
-    <link rel="stylesheet" href="./styles/w-home.css">
-    <link rel="stylesheet" href="{% static 'styles/w-home.css' %}" >
-</head>
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<body>
-    <header>
-        <div class="banner">
-            <div class="navbar">
-                <img src="./Images/wh_logo.png" class="logo">
-                <img src="{% static './Images/wh_logo.png' %}">
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Contacts</a></li>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#" class="button">Services</a></li>
+		<!-- Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600&display=swap"
+			rel="stylesheet"
+		/>
+		<!-- Style link -->
+		<link rel="stylesheet" href="{% static 'styles/w-home.css' %}" />
+		<title>Warehouse</title>
+	</head>
 
-                    <div class="center">
+	<body>
+		<header>
+			<div class="banner">
+				<div class="navbar">
+					<h2 class="logo">LOGO</h2>
+					<ul>
+						<li><a href="#">Contacts</a></li>
+						<li><a href="#">About Us</a></li>
+						<li><a href="#" class="button">Services</a></li>
+					</ul>
+				</div>
+			</div>
+		</header>
 
-                        <li><a href="{% url 'warehouse:login' %}" class="btn1">Login</a></li>
-                        <div class="hr"> </div>
-                        <li><a href="{% url 'warehouse:register' %}" class="button">Sign Up</a></li>
-                         </div> 
-                    </div>
-                </ul>
-            </div>
-        </div>
-    </header>
-</body>
-
+		<div class="main--login--panel">
+			<div class="image--container">
+				<img
+					class="heading--style--image"
+					src="{% static './Images/Exclude.svg' %}"
+					alt="Just a vector image covering the heading"
+				/>
+				<h1 class="heading">
+					<span>Warehouse</span><span> Management</span>
+					<span> System </span>
+				</h1>
+			</div>
+			<div class="center">
+				<li>
+					<a
+						href="{% url 'warehouse:login' %}"
+						class="btn btn-primary btn1"
+						>Login</a
+					>
+				</li>
+				<div class="hr"></div>
+				<li>
+					<a
+						href="{% url 'warehouse:register' %}"
+						class="btn btn-primary"
+						>Sign Up</a
+					>
+				</li>
+			</div>
+		</div>
+	</body>
 </html>
-
-
-

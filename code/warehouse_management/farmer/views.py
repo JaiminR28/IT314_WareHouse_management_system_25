@@ -167,8 +167,8 @@ def showNearbyWarehouses(request):
     if request.method == 'POST':
         if request.POST.get('latitude') and request.POST.get('longitude') and request.POST.get('distance'):
             if request.session['isLoggedIn'] == True:
-                latitude = int(request.POST.get('latitude'))
-                longitude = int(request.POST.get('longitude'))
+                latitude = float(request.POST.get('latitude'))
+                longitude = float(request.POST.get('longitude'))
                 target_distance = int(request.POST.get('distance'))
                 query = {}
                 projection = {}
@@ -177,7 +177,7 @@ def showNearbyWarehouses(request):
                 nearby_warehouse_list = []
                 
                 for w in warehouse_list:
-                    curr_dist = computeDistance(int(w['latitude']), int(w['longitude']), latitude, longitude)
+                    curr_dist = computeDistance(float(w['latitude']), float(w['longitude']), latitude, longitude)
                     if curr_dist <= target_distance:
                         w['distance'] = round(curr_dist, 2)
                         nearby_warehouse_list.append(w)

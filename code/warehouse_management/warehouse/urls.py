@@ -4,8 +4,7 @@ from . import views
 app_name = 'warehouse'
 
 urlpatterns = [
-    path('', views.index, name='default'), 
-    path('generateReport', views.generateReport, name='generateReport'),   
+    path('', views.index, name='default'),    
     path('login', views.login, name='login'),
     path('login/validate', views.loginValidate, name='loginValidate'),
     path('register', views.register, name='register'),
@@ -15,4 +14,5 @@ urlpatterns = [
     path('logout', views.logout, name='logout'),
     path('report', views.report, name='report'),
     path('generatePDF', views.generatePDF, name='generatePDF'),
+    path('mailPDF', views.mailPDF, name='mailPDF'),
 ]

@@ -43,10 +43,10 @@ def loginValidate(request):
             query = {'email': email, 'password': password}
             projection = {'first_name': 1, 'verified': 1}
 
+            print(request)
             users = farmer.find(query, projection)
             if len(list(users.clone())) == 1 and users[0]['verified']:
                 request.session['isLoggedIn'] = True
-                print(users[0])
                 request.session['farmerEmail'] = email
                 context = {
                     'user' : users[0]['first_name']
@@ -106,7 +106,7 @@ def registerEntry(request):
 
             users = farmer.find(query, projection)
 
-            pattern = re.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,12}$")
+            pattern = re.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$")
 
             if len(list(users.clone())) != 0:
                 messages.error(request, 'Email already registered!')

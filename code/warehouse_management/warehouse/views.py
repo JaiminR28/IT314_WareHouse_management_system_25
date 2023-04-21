@@ -65,7 +65,7 @@ def loginValidate(request):
 
             users = warehouse.find(query, projection)
 
-            print(users[0]['verified'])
+            # print(users[0]['verified'])
             if len(list(users.clone())) == 1 and users[0]['verified']:
                 request.session['isLoggedIn'] = True
                 request.session['farmerId'] = users[0]['email']
@@ -135,10 +135,16 @@ def registerEntry(request):
 
             users = warehouse.find(query, projection)
 
+            pattern = re.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$")
+
             if len(list(users.clone())) != 0:
                 messages.error(request, 'Email already registered!')
                 return render(request, 'w-register.html')
-            
+
+            elif pattern.match(password) is None:
+                messages.error(request, 'Your password should be of length between 8 and 12 including atleast one uppercase, one lowercase, one number and one special character (@$!%*?&)')
+                return render(request, 'w-register.html')
+
             else:
                 request.session['isLoggedIn'] = False                
                 warehouse.insert_one({

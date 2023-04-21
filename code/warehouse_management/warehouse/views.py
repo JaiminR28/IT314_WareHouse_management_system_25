@@ -11,6 +11,13 @@ from django.contrib.auth import authenticate, login, logout
 from .tokens import generate_token
 from warehouse_management import settings
 from django.core.mail import EmailMessage, send_mail
+from django.http import HttpResponse
+from reportlab.lib.pagesizes import letter, landscape
+from reportlab.lib import colors
+from reportlab.lib.units import inch
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, Image
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from io import BytesIO
 
 # Create your views here.
 # regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
@@ -45,7 +52,7 @@ def logout(request):
 
 def report(request):
     if(request.session['isLoggedIn']):
-        return render(request, 'report.html')
+        return render(request, 'w-report.html')
 
 def loginValidate(request):
     if request.method == 'POST':
@@ -172,23 +179,285 @@ def registerEntry(request):
                 return render(request, 'w-login.html')
         else:
             return render(request, 'w-register.html')
-        
-def generateReport(request):
+
+def generatePDF(request):
+    # request.session['isLoggedIn']
     if request.session['isLoggedIn']:
-        if request.POST.get('email'):
+        if request.POST.get('email'):         
+
             email = request.POST.get('email')
-            # print(email)
             query = {'warehouse_email': email}
             query1 = {'email': email}
             projection = {'farmer_email': 1, 'crop_name': 1, 'from_date': 1, 'to_date': 1}
             projection1 = {'name': 1, 'latitude': 1, 'longitude': 1, 'storage_capacity': 1, 'phone_number': 1}
+            
+            # Retrieve data from the database
             warehouse_details = warehouse.find(query1, projection1)
             crop_details = goods.find(query, projection)
-            # print(crop_details[0])
-            return render(request, 'report.html', {
-                'warehouse_details': warehouse_details,
-                'crop_details': crop_details,
-            })
+            
+            # Create a list to hold the crop data
+            crop_data = []
+            for crop in crop_details:
+                farmer_email = crop['farmer_email']
+                crop_name = crop['crop_name']
+                from_date = crop['from_date']
+                to_date = crop['to_date']
+                crop_data.append([farmer_email, crop_name, from_date, to_date])
+            
+            # Create a list to hold the crop header row
+            crop_header = ['Farmer Email', 'Crop Name', 'From Date', 'To Date']
+            
+            # Create a table object for the crop data and set its style
+            crop_table = Table([crop_header] + crop_data, colWidths=[2.5*inch, 2.5*inch, 2.25*inch, 2.25*inch], hAlign='CENTER')
+            crop_table.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), colors.lightskyblue),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
+                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                ('FONTSIZE', (0, 0), (-1, 0), 16),
+                ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                ('TEXTCOLOR', (0, 1), (-1, -1), colors.black),
+                ('ALIGN', (0, 1), (-1, -1), 'CENTER'),
+                ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
+                ('FONTSIZE', (0, 1), (-1, -1), 13),
+                ('BOTTOMPADDING', (0, 1), (-1, -1), 8),
+            ]))
+            
+            # Create a list to hold the warehouse data
+            warehouse_data = []
+            for warehouse_detail in warehouse_details:
+                name = warehouse_detail['name']
+                latitude = warehouse_detail['latitude']
+                longitude = warehouse_detail['longitude']
+                storage_capacity = warehouse_detail['storage_capacity']
+                phone_number = warehouse_detail['phone_number']
+                warehouse_data.append(['Warehouse Name', name])
+                warehouse_data.append(['Latitude', str(latitude)])
+                warehouse_data.append(['Longitude', str(longitude)])
+                warehouse_data.append(['Storage Capacity', str(storage_capacity)])
+                warehouse_data.append(['Phone Number', phone_number])
+            
+            # Create a list to hold the warehouse header row
+            warehouse_header = ['Item', 'Value']
+            
+            # Create a table object for the warehouse data and set its style
+            warehouse_table = Table([warehouse_header] + warehouse_data, colWidths=[3.5*inch, 5*inch], hAlign='CENTER')
+            warehouse_table.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), colors.royalblue),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
+                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                ('FONTSIZE', (0, 0), (-1, 0), 18),
+                ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                ('BACKGROUND', (0, 1), (-1, -1), colors.peachpuff),
+                ('TEXTCOLOR', (0, 1), (-1, -1), colors.black),
+                ('ALIGN', (0, 1), (-1, -1), 'CENTER'),
+                ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
+                ('FONTSIZE', (0, 1), (-1, -1), 15),
+                ('BOTTOMPADDING', (0, 1), (-1, -1), 8),
+            ]))
+
+            # Create a list to hold the elements of the PDF
+            elements = []
+            styles = getSampleStyleSheet()
+            center_style = styles['Heading1']
+            center_style.alignment = 1 
+
+            # Header
+            space = Spacer(1, 0.2*inch)
+            header = Table([[Image('C:/Users/Tom/Desktop/IT314_WareHouse_management_system_25/code/warehouse_management/warehouse/static/Images/dalogo.png', width=1*inch, height=1*inch)], [Paragraph('<strong>DA Warehouse</strong>', center_style)]], colWidths=[7.5*inch])
+            header.setStyle(TableStyle([
+                ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
+                ('BACKGROUND', (0, 0), (-1, -1), colors.lightskyblue),
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('FONTNAME', (0, 0), (-1, -1), 'Helvetica-Bold'),
+                ('FONTSIZE', (0, 0), (-1, -1), 16),
+            ]))
+            elements.append(header)
+            elements.append(space)
+            elements.append(space)
+            elements.append(space)
+            # Add the warehouse heading to the list of elements
+             # adjust the height as needed
+            warehouse_heading = Paragraph('Warehouse Details', center_style)
+            elements.append(warehouse_heading)
+            elements.append(space)
+            elements.append(space)
+            elements.append(space)
+
+            # Add the warehouse table to the list of elements
+            elements.append(warehouse_table)
+            elements.append(space)
+            elements.append(space)
+            elements.append(space)
+            elements.append(space)
+            elements.append(space)
+            elements.append(space)
+            elements.append(space)
+            # Add the crop heading to the list of elements
+            crop_heading = Paragraph('Crop Details', center_style)
+            elements.append(crop_heading)
+            elements.append(space)
+            # Add the crop table to the list of elements
+            elements.append(crop_table)
+
+            # Create the PDF
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="details.pdf"'
+            doc = SimpleDocTemplate(response, pagesize=landscape(letter))
+            doc.build(elements)
+            return response
+        else:
+            return render(request, 'w-login.html')
+    else:
+        messages.error(request, 'Log in First!')
+        return render(request, 'w-login.html')
+    
+def generate_pdf(email):
+    if True:
+        if True:      
+            query = {'warehouse_email': email}
+            query1 = {'email': email}
+            projection = {'farmer_email': 1, 'crop_name': 1, 'from_date': 1, 'to_date': 1}
+            projection1 = {'name': 1, 'latitude': 1, 'longitude': 1, 'storage_capacity': 1, 'phone_number': 1}
+            
+            # Retrieve data from the database
+            warehouse_details = warehouse.find(query1, projection1)
+            crop_details = goods.find(query, projection)
+            
+            # Create a list to hold the crop data
+            crop_data = []
+            for crop in crop_details:
+                farmer_email = crop['farmer_email']
+                crop_name = crop['crop_name']
+                from_date = crop['from_date']
+                to_date = crop['to_date']
+                crop_data.append([farmer_email, crop_name, from_date, to_date])
+            
+            # Create a list to hold the crop header row
+            crop_header = ['Farmer Email', 'Crop Name', 'From Date', 'To Date']
+            
+            # Create a table object for the crop data and set its style
+            crop_table = Table([crop_header] + crop_data, colWidths=[2.5*inch, 2.5*inch, 2.25*inch, 2.25*inch], hAlign='CENTER')
+            crop_table.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), colors.lightskyblue),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
+                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                ('FONTSIZE', (0, 0), (-1, 0), 16),
+                ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                ('TEXTCOLOR', (0, 1), (-1, -1), colors.black),
+                ('ALIGN', (0, 1), (-1, -1), 'CENTER'),
+                ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
+                ('FONTSIZE', (0, 1), (-1, -1), 13),
+                ('BOTTOMPADDING', (0, 1), (-1, -1), 8),
+            ]))
+            
+            # Create a list to hold the warehouse data
+            warehouse_data = []
+            for warehouse_detail in warehouse_details:
+                name = warehouse_detail['name']
+                latitude = warehouse_detail['latitude']
+                longitude = warehouse_detail['longitude']
+                storage_capacity = warehouse_detail['storage_capacity']
+                phone_number = warehouse_detail['phone_number']
+                warehouse_data.append(['Warehouse Name', name])
+                warehouse_data.append(['Latitude', str(latitude)])
+                warehouse_data.append(['Longitude', str(longitude)])
+                warehouse_data.append(['Storage Capacity', str(storage_capacity)])
+                warehouse_data.append(['Phone Number', phone_number])
+            
+            # Create a list to hold the warehouse header row
+            warehouse_header = ['Item', 'Value']
+            
+            # Create a table object for the warehouse data and set its style
+            warehouse_table = Table([warehouse_header] + warehouse_data, colWidths=[3.5*inch, 5*inch], hAlign='CENTER')
+            warehouse_table.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), colors.royalblue),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
+                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                ('FONTSIZE', (0, 0), (-1, 0), 18),
+                ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                ('BACKGROUND', (0, 1), (-1, -1), colors.peachpuff),
+                ('TEXTCOLOR', (0, 1), (-1, -1), colors.black),
+                ('ALIGN', (0, 1), (-1, -1), 'CENTER'),
+                ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
+                ('FONTSIZE', (0, 1), (-1, -1), 15),
+                ('BOTTOMPADDING', (0, 1), (-1, -1), 8),
+            ]))
+
+            # Create a list to hold the elements of the PDF
+            elements = []
+            styles = getSampleStyleSheet()
+            center_style = styles['Heading1']
+            center_style.alignment = 1 
+
+            # Header
+            space = Spacer(1, 0.2*inch)
+            header = Table([[Image('C:/Users/Tom/Desktop/IT314_WareHouse_management_system_25/code/warehouse_management/warehouse/static/Images/dalogo.png', width=1*inch, height=1*inch)], [Paragraph('<strong>DA Warehouse</strong>', center_style)]], colWidths=[7.5*inch])
+            header.setStyle(TableStyle([
+                ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
+                ('BACKGROUND', (0, 0), (-1, -1), colors.lightskyblue),
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('FONTNAME', (0, 0), (-1, -1), 'Helvetica-Bold'),
+                ('FONTSIZE', (0, 0), (-1, -1), 16),
+            ]))
+            elements.append(header)
+            elements.append(space)
+            elements.append(space)
+            elements.append(space)
+            # Add the warehouse heading to the list of elements
+             # adjust the height as needed
+            warehouse_heading = Paragraph('Warehouse Details', center_style)
+            elements.append(warehouse_heading)
+            elements.append(space)
+            elements.append(space)
+            elements.append(space)
+
+            # Add the warehouse table to the list of elements
+            elements.append(warehouse_table)
+            elements.append(space)
+            elements.append(space)
+            elements.append(space)
+            elements.append(space)
+            elements.append(space)
+            elements.append(space)
+            elements.append(space)
+            # Add the crop heading to the list of elements
+            crop_heading = Paragraph('Crop Details', center_style)
+            elements.append(crop_heading)
+            elements.append(space)
+            # Add the crop table to the list of elements
+            elements.append(crop_table)
+
+            # Create the PDF
+            # response = HttpResponse(content_type='application/pdf')
+            # response['Content-Disposition'] = 'attachment; filename="details.pdf"'
+            buffer = BytesIO()
+            doc = SimpleDocTemplate(buffer, pagesize=landscape(letter))
+            doc.build(elements)
+            
+            pdf_data = buffer.getvalue()
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+            response.write(pdf_data)
+            return response
+
+
+def mailPDF(request):
+    # request.session['isLoggedIn']
+    if request.session['isLoggedIn']:
+        if request.POST.get('email'):    
+            email = request.POST.get('email')
+            pdf = generate_pdf(email)
+            send_email = EmailMessage('Warehouse Report', 'Here is your warehouse report.', settings.EMAIL_HOST_USER, [email])
+            send_email.attach('report.pdf', pdf.getvalue(), 'application/pdf')
+            send_email.send()
+            messages.success(request, "Email sent successfully")
+            return render(request, 'w-home.html')
         else:
             return render(request, 'w-login.html')
     else:

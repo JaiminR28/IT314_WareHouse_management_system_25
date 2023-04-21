@@ -37,18 +37,22 @@
 </html> -->
 
 
-{% block content %}
-<form action="{% url 'warehouse:generateReport'%}" method="post">
+<!-- Generate pdf -->
+
+<h3>Download Report</h3>
+
+<form action="{% url 'warehouse:generatePDF'%}" method="post">
     {% csrf_token %}
         <label for="email">Email:</label><br>
         <input type="text" id="email" name="email"><br><br>
         <input type="submit" value="Submit">        
-    </form>
+</form>
 
-{% endblock %}
-<!-- 
-<script>
-    document.getElementById("register-btn").addEventListener("click", function() {
-        window.location.href = "{% url 'warehouse:generateReport' %}";
-    });
-</script> -->
+<h3>Email report</h3>
+
+<form action="{% url 'warehouse:mailPDF'%}" method="post">
+    {% csrf_token %}
+        <label for="email">Email:</label><br>
+        <input type="text" id="email" name="email"><br><br>
+        <input type="submit" value="Submit">        
+</form>

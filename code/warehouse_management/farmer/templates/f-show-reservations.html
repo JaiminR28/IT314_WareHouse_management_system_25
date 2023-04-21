@@ -1,0 +1,18 @@
+{% extends 'f-base-generic.html' %}
+
+{% block content %}
+    <div>
+        Reservations made by you are:
+        <br><br>
+        {% for item in items %}
+            <div>
+                Item Name: {{ item.item_name }} <br>
+                Warehouse Email: {{ item.warehouse_email }} <br>
+                Start Date: {{ item.start_date }} <br>
+                End Date: {{ item.end_date }} <br>
+                Quantity: {{ item.quantity }} kg <br>
+            </div>
+            <br><br><hr>
+        {% endfor %}
+    </div>
+{% endblock %}

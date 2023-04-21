@@ -12,6 +12,7 @@ from warehouse_management import settings
 from django.core.mail import EmailMessage, send_mail
 from math import cos, asin, sqrt, pi
 from datetime import datetime
+import re
 
 
 EMAIL = ""
@@ -42,10 +43,10 @@ def loginValidate(request):
             query = {'email': email, 'password': password}
             projection = {'first_name': 1, 'verified': 1}
 
+            print(request)
             users = farmer.find(query, projection)
             if len(list(users.clone())) == 1 and users[0]['verified']:
                 request.session['isLoggedIn'] = True
-                print(users[0])
                 request.session['farmerEmail'] = email
                 context = {
                     'user' : users[0]['first_name']
@@ -105,10 +106,15 @@ def registerEntry(request):
 
             users = farmer.find(query, projection)
 
+            pattern = re.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$")
+
             if len(list(users.clone())) != 0:
                 messages.error(request, 'Email already registered!')
                 return render(request, 'f-register.html')
 
+            elif pattern.match(password) is None:
+                messages.error(request, 'Your password should be of length between 8 and 12 including atleast one uppercase, one lowercase, one number and one special character (@$!%*?&)')
+                return render(request, 'f-register.html')
             else:
                 request.session['isLoggedIn'] = False
                 farmer.insert_one({

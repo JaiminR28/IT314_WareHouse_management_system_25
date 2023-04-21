@@ -11,6 +11,7 @@ from .tokens import generate_token
 from warehouse_management import settings
 from django.core.mail import EmailMessage, send_mail
 from math import cos, asin, sqrt, pi
+from datetime import datetime
 
 
 EMAIL = ""
@@ -18,6 +19,7 @@ client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.ne
 db = client['demo']
 farmer = db['Farmer']
 warehouse = db['Warehouse']
+items_stored = db['Items_Stored']
 
 
 # Create your views here.
@@ -164,12 +166,12 @@ def sortFunc(e):
     return e['distance']
 
 def showNearbyWarehouses(request):
-    if request.method == 'POST':
-        if request.POST.get('latitude') and request.POST.get('longitude') and request.POST.get('distance'):
-            if request.session['isLoggedIn'] == True:
+    if request.session['isLoggedIn'] == True:
+        if request.method == 'POST':
+            if request.POST.get('latitude') and request.POST.get('longitude') and request.POST.get('distance'):
                 latitude = float(request.POST.get('latitude'))
                 longitude = float(request.POST.get('longitude'))
-                target_distance = int(request.POST.get('distance'))
+                target_distance = float(request.POST.get('distance'))
                 query = {}
                 projection = {}
                 warehouse_list = warehouse.find(query, projection)
@@ -190,15 +192,19 @@ def showNearbyWarehouses(request):
 
                 return render(request, 'f-show-nearby-warehouses.html', context=context)
             else:
-                return render(request, 'f-login.html')
+                messages.error(request, "Enter details in all the fields")
+                return render(request, 'f-search-nearby-warehouses.html')
         else:
-            messages.error(request, "Enter details in all the fields")
-            return render(request, 'f-search-nearby-warehouses.html')
+            return render(request, 'f-error.html')
+    else:
+        messages.error(request, 'You need to Login first!')
+        return render(request, 'f-login.html')
 
 def searchNearbyWarehouses(request):
     if request.session['isLoggedIn'] == True:
         return render(request, 'f-search-nearby-warehouses.html')
     else:
+        messages.error(request, 'You need to Login first!')
         return render(request, 'f-login.html')
 
 def storedGoods(request):
@@ -224,3 +230,106 @@ def storedGoods(request):
         return render(request, 'f-login.html')
 
 
+def makeReservation(request):
+    if request.session['isLoggedIn'] == True:
+        query = {}
+        projection = {}
+
+        item_list = items_stored.find(query, projection)
+
+        context = {
+            'item_list': item_list,
+        }
+        return render(request, 'f-make-reservation.html', context=context)
+    else:
+        messages.error(request, 'You need to Login first!')
+        return render(request, 'f-login.html')
+
+
+def reservationEntry(request):
+    if request.session['isLoggedIn'] == True:
+        if request.method == 'POST':
+            if request.POST.get('warehouseEmail') and request.POST.get('itemName') and request.POST.get('startDate') and request.POST.get('endDate') and request.POST.get('quantity'):
+                warehouse_email = request.POST.get('warehouseEmail')
+                item_name = request.POST.get('itemName')
+                start_date = request.POST.get('startDate')
+                end_date = request.POST.get('endDate')  
+                quantity = request.POST.get('quantity')
+
+                print(start_date)
+                print(end_date)
+
+                query = {}
+                projection = {}
+                items_stored_list = items_stored.find(query, projection)
+
+                query = {
+                    'email': warehouse_email
+                }
+                
+                projection = {}
+
+                warehouse_details = warehouse.find(query, projection)
+
+                if len(list(warehouse_details.clone())) == 0:
+                    messages.error(request, 'Warehouse not found!')
+                    return render(request, 'f-make-reservation.html')
+
+                
+                quantity_stored = 0
+                format = '%Y-%m-%d'
+
+                start_date_obj = datetime.strptime(start_date, format) 
+                end_date_obj = datetime.strptime(end_date, format) 
+
+                print(start_date_obj)
+                print(end_date_obj)
+
+                if start_date_obj > end_date_obj:
+                    messages.error(request, 'Invalid start date and end date')
+                    return render(request, 'f-make-reservation.html')
+
+                for i in items_stored_list:
+                    t_start_date = datetime.strptime(i['start_date'], format) 
+                    t_end_date = datetime.strptime(i['end_date'], format) 
+                    if (t_start_date >= start_date_obj and t_start_date <= end_date_obj) or (t_end_date >= start_date_obj and t_end_date <= end_date_obj) or (t_start_date <= start_date and t_end_date >= end_date):
+                        quantity_stored += float(i['quantity'])
+                
+                if quantity_stored + float(quantity) <= float(warehouse_details[0]['storage_capacity']):
+                    messages.success(request, 'Reservation successful')
+                    items_stored.insert_one({
+                        'item_name': item_name,
+                        'warehouse_email': warehouse_email,
+                        'farmer_email': request.session.get('farmerEmail'),
+                        'start_date': start_date,
+                        'end_date': end_date,
+                        'quantity': quantity
+                    })
+                    return render(request, 'f-home.html')
+                else:
+                    messages.error(request, 'Quantity exceeds the warehouse limit')
+                    return render(request, 'f-make-reservation.html')
+            else:
+                messages.error(request, "Enter details in all the fields")
+                return render(request, 'f-make-reservation.html')
+    else:
+        messages.error(request, 'You need to Login first!')
+        return render(request, 'f-login.html')
+
+
+def showReservations(request):
+    if request.session['isLoggedIn'] == True:
+        query = {
+            'farmer_email': request.session.get('farmerEmail')
+        }
+        projection = {}
+        items_stored_list = items_stored.find(query, projection)
+
+        context = {
+            'items': items_stored_list,
+        }
+
+        return render(request, 'f-show-reservations.html', context=context)
+    else:
+        messages.error(request, 'You need to Login first!')
+        return render(request, 'f-login.html')

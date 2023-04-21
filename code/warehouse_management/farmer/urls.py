@@ -16,4 +16,7 @@ urlpatterns = [
     path('activate/<uidb64>/<token>', views.activate, name='activate'),
     path('search-nearby-warehouses', views.searchNearbyWarehouses, name='searchNearbyWarehouses'),
     path('show-nearby-warehouses', views.showNearbyWarehouses, name='showNearbyWarehouses'),
+    path('make-reservation', views.makeReservation, name='makeReservation'),
+    path('make-reservation/entry', views.reservationEntry, name='reservationEntry'),
+    path('show-reservations', views.showReservations, name='showReservations'),
 ]

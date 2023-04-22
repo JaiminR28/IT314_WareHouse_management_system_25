@@ -28,6 +28,7 @@ from io import BytesIO
 #     else:
 #         print("Invalid Email")
 
+# client = MongoClient()
 client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.net/?retryWrites=true&w=majority')
 db = client['demo']
 warehouse = db['Warehouse']

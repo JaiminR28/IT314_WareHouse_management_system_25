@@ -11,6 +11,7 @@
                 Start Date: {{ item.start_date }} <br>
                 End Date: {{ item.end_date }} <br>
                 Quantity: {{ item.quantity }} kg <br>
+                <a href="{% url 'farmer:modifyReservation' item.reservation_id %}" class="btn btn-primary">Modify Reservation</a>
             </div>
             <br><br><hr>
         {% endfor %}

@@ -17,12 +17,25 @@
         <input type="text" id="warehouseEmail" name="warehouseEmail"><br><br>
         <label for="itemName">Choose a item:</label>
         <select id="itemName" name="itemName">
-          <option value="volvo">Volvo</option>
+          {% comment %} <option value="volvo">Volvo</option>
           <option value="saab">Saab</option>
           <option value="fiat">Fiat</option>
-          <option value="audi">Audi</option>
+          <option value="audi">Audi</option> {% endcomment %}
+
+        {% for item in items %}
+            <option value={{ item.name }}>
+                <p>
+                    Name: {{ item.name }}, 
+                    Min Temperature: {{ item.min_temperature }}, 
+                    Max Temperature: {{ item.max_temperature }}, 
+                    Storage Life: {{ item.storage_life }}, 
+                    Is a crop: {{ item.is_crop }}
+                </p>
+            </option>
+        {% endfor %}
         </select>
         <br><br>
+        <a href="{% url 'farmer:addItem' %}" class="btn btn-primary">Add Item</a><br>
         <label for="startDate">Start Date:</label><br>
         <input type="date" id="startDate" name="startDate"><br><br>
         <label for="endDate">End Date:</label><br>

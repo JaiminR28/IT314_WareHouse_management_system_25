@@ -21,6 +21,7 @@ db = client['demo']
 farmer = db['Farmer']
 warehouse = db['Warehouse']
 items_stored = db['Items_Stored']
+items = db['Items']
 
 
 # Create your views here.
@@ -241,10 +242,10 @@ def makeReservation(request):
         query = {}
         projection = {}
 
-        item_list = items_stored.find(query, projection)
+        items_list = items.find(query, projection)
 
         context = {
-            'item_list': item_list,
+            'items': items_list,
         }
         return render(request, 'f-make-reservation.html', context=context)
     else:
@@ -298,7 +299,7 @@ def reservationEntry(request):
                 for i in items_stored_list:
                     t_start_date = datetime.strptime(i['start_date'], format) 
                     t_end_date = datetime.strptime(i['end_date'], format) 
-                    if (t_start_date >= start_date_obj and t_start_date <= end_date_obj) or (t_end_date >= start_date_obj and t_end_date <= end_date_obj) or (t_start_date <= start_date and t_end_date >= end_date):
+                    if (t_start_date >= start_date_obj and t_start_date <= end_date_obj) or (t_end_date >= start_date_obj and t_end_date <= end_date_obj) or (t_start_date <= start_date_obj and t_end_date >= end_date_obj):
                         quantity_stored += float(i['quantity'])
                 
                 if quantity_stored + float(quantity) <= float(warehouse_details[0]['storage_capacity']):
@@ -336,6 +337,54 @@ def showReservations(request):
         }
 
         return render(request, 'f-show-reservations.html', context=context)
+    else:
+        messages.error(request, 'You need to Login first!')
+        return render(request, 'f-login.html')
+
+def addItem(request):
+    if request.session['isLoggedIn'] == True:
+        return render(request, 'f-add-item.html')
+    else:
+        return render(request, 'f-login.html')
+
+def itemEntry(request):
+    if request.session['isLoggedIn'] == True:
+        if request.method == 'POST':
+            if request.POST.get('itemName') and request.POST.get('minTemp') and request.POST.get('maxTemp') and request.POST.get('storageLife') and request.POST.get('isCrop'):
+                item_name = request.POST.get('itemName')
+                min_temp = request.POST.get('minTemp')
+                max_temp = request.POST.get('maxTemp')
+                storage_life = request.POST.get('storageLife')  
+                is_crop = request.POST.get('isCrop') 
+
+                query = {'name': item_name}
+                projection = {}
+
+                items_list = items.find(query, projection)
+
+                if len(list(items_list.clone())) != 0:
+                    messages.error(request, 'Item Name already present in the system')
+                    return render(request, 'f-add-item.html')
+                
+                if is_crop == 'True':
+                    is_crop_bool = True
+                else:
+                    is_crop_bool = False
+
+                
+                items.insert_one({
+                    'name': item_name,
+                    'min_temperature': min_temp,
+                    'max_temperature': max_temp,
+                    'storage_life': storage_life,
+                    'is_crop': is_crop_bool
+                })
+
+                messages.success(request, 'Item entered successfully')
+                return render(request, 'f-make-reservation.html')
+            else:
+                messages.error(request, "Enter details in all the fields")
+                return render(request, 'f-add-item.html')
     else:
         messages.error(request, 'You need to Login first!')
         return render(request, 'f-login.html')

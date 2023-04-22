@@ -19,4 +19,6 @@ urlpatterns = [
     path('make-reservation', views.makeReservation, name='makeReservation'),
     path('make-reservation/entry', views.reservationEntry, name='reservationEntry'),
     path('show-reservations', views.showReservations, name='showReservations'),
+    path('add-item', views.addItem, name='addItem'),
+    path('add-item/entry', views.itemEntry, name='itemEntry'),
 ]

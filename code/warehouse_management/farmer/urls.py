@@ -19,4 +19,5 @@ urlpatterns = [
     path('make-reservation', views.makeReservation, name='makeReservation'),
     path('make-reservation/entry', views.reservationEntry, name='reservationEntry'),
     path('show-reservations', views.showReservations, name='showReservations'),
+    path('videoCall', views.videoCall, name='videoCall'),
 ]

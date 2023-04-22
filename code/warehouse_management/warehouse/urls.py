@@ -15,4 +15,5 @@ urlpatterns = [
     path('report', views.report, name='report'),
     path('generatePDF', views.generatePDF, name='generatePDF'),
     path('mailPDF', views.mailPDF, name='mailPDF'),
+    path('videoCall', views.videoCall, name='videoCall'),
 ]

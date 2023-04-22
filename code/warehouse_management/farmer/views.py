@@ -13,7 +13,7 @@ from django.core.mail import EmailMessage, send_mail
 from math import cos, asin, sqrt, pi
 from datetime import datetime
 import re
-
+import os
 
 EMAIL = ""
 client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.net/?retryWrites=true&w=majority')
@@ -33,6 +33,24 @@ def home(request):
 
 def login(request):
     return render(request, 'f-login.html')
+
+def videoCall(request):
+    # print(email)
+    email = request.session['farmerEmail']
+    query = {'email': email}
+    projection = {'email': 1, 'first_name': 1}
+    users = farmer.find(query, projection)
+
+    room_name = ""
+    for i in email:
+        if i.isalpha():
+            room_name += i
+
+    template_path = os.path.join(settings.BASE_DIR, 'base', 'templates', 'base', 'lobby.html')
+    return render(request, template_path, {
+        'room': room_name,
+        'name': users[0]['first_name'],
+    })
 
 def loginValidate(request):
     if request.method == 'POST':
@@ -339,3 +357,4 @@ def showReservations(request):
     else:
         messages.error(request, 'You need to Login first!')
         return render(request, 'f-login.html')
+

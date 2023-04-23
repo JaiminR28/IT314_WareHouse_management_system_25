@@ -23,4 +23,5 @@ urlpatterns = [
     path('add-item/entry', views.itemEntry, name='itemEntry'),
     re_path(r'^modify-reservation/(?P<reservation_id>[-\w\d]+)$', views.modifyReservation, name='modifyReservation'),
     re_path(r'^modify-reservation/entry/(?P<reservation_id>[-\w\d]+)$', views.modifyReservationEntry, name='modifyReservationEntry'),
+    path('show-crop-suggestions', views.showCropSuggestions, name='showCropSuggestions'),
 ]

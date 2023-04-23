@@ -488,3 +488,46 @@ def modifyReservationEntry(request, reservation_id):
     else:
         messages.error(request, 'You need to Login first!')
         return render(request, 'f-login.html')
+
+def showCropSuggestions(request):
+    if request.session['isLoggedIn'] == True:
+        items_list = items_stored.aggregate([
+			{
+				'$lookup':
+		        {
+		           'from': 'Items',
+		           'localField': 'item_name',
+		           'foreignField': 'name',
+		           'as': "item"
+		        }
+			},
+			{
+				'$match': {'item.is_crop': True}
+			},
+            {
+                '$group':{
+                    '_id': '$item_name',
+                    'totQty': {'$sum': '$quantity'}
+                },
+            },
+            {
+                '$sort': {'totQty': 1}
+            },
+            { 
+            	'$project': {  
+					'_id': 0,
+					'name': "$_id",
+					'totQty': 1
+		   		}
+			}
+        ])
+
+
+        context = {
+            'items': items_list,
+        }
+
+        return render(request, 'f-show-crop-suggestions.html', context=context)
+    else:
+        messages.error(request, 'You need to Login first!')
+        return render(request, 'f-login.html')

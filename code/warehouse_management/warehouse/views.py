@@ -645,6 +645,15 @@ def modifyReservationEntry(request, reservation_id):
                             'quantity': quantity
                         }
                     }
+                    query = {'email': farmer_email}
+                    projection = {'email': 1, 'first_name': 1}
+                    result = farmer.find(query, projection)
+                    subject = "Your Items are updated!!"
+                    new_store = f"Item Name: {item_name} \nStart Date: {start_date}\nEnd Date: {end_date}\nQuantity: {quantity}" 
+                    message = "Hello " + result[0]['first_name'] + "!! \n" +new_store+ "\n\nThanking You\nArth Detroja"        
+                    from_email = settings.EMAIL_HOST_USER
+                    to_list = [farmer_email]
+                    send_mail(subject, message, from_email, to_list, fail_silently=False)  
                     items_stored.update_one(query, newvalues)
                     return render(request, 'w-home.html')
                 else:

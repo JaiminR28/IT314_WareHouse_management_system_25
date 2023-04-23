@@ -338,6 +338,15 @@ def reservationEntry(request):
                         'end_date': end_date,
                         'quantity': quantity
                     })
+                    query = {'email': request.session['farmerEmail']}
+                    projection = {'email': 1, 'first_name': 1}
+                    result = farmer.find(query, projection)
+                    subject = "Your Items are updated!!"
+                    new_store = f"Reservation ID: {reservation_id} \nWarehouse Email: {warehouse_email} \nItem Name: {item_name} \nStart Date: {start_date}\nEnd Date: {end_date}\nQuantity: {quantity}" 
+                    message = "Hello " + result[0]['first_name'] + "!! \n" +new_store+ "\n\nThanking You\nArth Detroja"        
+                    from_email = settings.EMAIL_HOST_USER
+                    to_list = [request.session['farmerEmail']]
+                    send_mail(subject, message, from_email, to_list, fail_silently=False) 
                     return render(request, 'f-home.html')
                 else:
                     messages.error(request, 'Quantity exceeds the warehouse limit')
@@ -495,6 +504,15 @@ def modifyReservationEntry(request, reservation_id):
                         }
                     }
                     items_stored.update_one(query, newvalues)
+                    query = {'email': request.session['farmerEmail']}
+                    projection = {'email': 1, 'first_name': 1}
+                    result = farmer.find(query, projection)
+                    subject = "Your Items are updated!!"
+                    new_store = f"Item Name: {item_name} \nStart Date: {start_date}\nEnd Date: {end_date}\nQuantity: {quantity}" 
+                    message = "Hello " + result[0]['first_name'] + "!! \n" +new_store+ "\n\nThanking You\nArth Detroja"        
+                    from_email = settings.EMAIL_HOST_USER
+                    to_list = [request.session['farmerEmail']]
+                    send_mail(subject, message, from_email, to_list, fail_silently=False) 
                     return render(request, 'f-home.html')
                 else:
                     messages.error(request, 'Quantity exceeds the warehouse limit')

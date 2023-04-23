@@ -238,27 +238,27 @@ def searchNearbyWarehouses(request):
         messages.error(request, 'You need to Login first!')
         return render(request, 'f-login.html')
 
-def storedGoods(request):
-    if request.session['isLoggedIn'] == True:
-        query = {
-            'crops_stored': {
-                'farmer_id': request.session['farmerId']
-            }
-        }
+# def storedGoods(request):
+#     if request.session['isLoggedIn'] == True:
+#         query = {
+#             'crops_stored': {
+#                 'farmer_id': request.session['farmerId']
+#             }
+#         }
 
-        projection = {}
+#         projection = {}
 
-        warehouse_list = warehouse.find(query, projection)
-        farmer_id = request.session['farmerId']
+#         warehouse_list = warehouse.find(query, projection)
+#         farmer_id = request.session['farmerId']
 
-        context = {
-            'warehouse_list': warehouse_list,
-            'farmer_id': farmer_id,
-        }
-        return render(request, 'f-stored-goods.html', context=context)
-    else:
-        messages.error(request, 'You need to Login first!')
-        return render(request, 'f-login.html')
+#         context = {
+#             'warehouse_list': warehouse_list,
+#             'farmer_id': farmer_id,
+#         }
+#         return render(request, 'f-stored-goods.html', context=context)
+#     else:
+#         messages.error(request, 'You need to Login first!')
+#         return render(request, 'f-login.html')
 
 
 def makeReservation(request):
@@ -285,7 +285,7 @@ def reservationEntry(request):
                 item_name = request.POST.get('itemName')
                 start_date = request.POST.get('startDate')
                 end_date = request.POST.get('endDate')  
-                quantity = request.POST.get('quantity')
+                quantity = float(request.POST.get('quantity'))
                 reservation_id = str(uuid.uuid4())
 
                 # print(start_date)
@@ -314,8 +314,8 @@ def reservationEntry(request):
                 start_date_obj = datetime.strptime(start_date, format) 
                 end_date_obj = datetime.strptime(end_date, format) 
 
-                print(start_date_obj)
-                print(end_date_obj)
+                # print(start_date_obj)
+                # print(end_date_obj)
 
                 if start_date_obj > end_date_obj:
                     messages.error(request, 'Invalid start date and end date')
@@ -327,7 +327,7 @@ def reservationEntry(request):
                     if (t_start_date >= start_date_obj and t_start_date <= end_date_obj) or (t_end_date >= start_date_obj and t_end_date <= end_date_obj) or (t_start_date <= start_date_obj and t_end_date >= end_date_obj):
                         quantity_stored += float(i['quantity'])
                 
-                if quantity_stored + float(quantity) <= float(warehouse_details[0]['storage_capacity']):
+                if quantity_stored + quantity <= float(warehouse_details[0]['storage_capacity']):
                     messages.success(request, 'Reservation successful')
                     items_stored.insert_one({
                         'reservation_id': reservation_id,
@@ -380,7 +380,7 @@ def itemEntry(request):
                 item_name = request.POST.get('itemName')
                 min_temp = request.POST.get('minTemp')
                 max_temp = request.POST.get('maxTemp')
-                storage_life = request.POST.get('storageLife')  
+                storage_life = int(request.POST.get('storageLife'))
                 is_crop = request.POST.get('isCrop') 
 
                 query = {'name': item_name}
@@ -440,7 +440,7 @@ def modifyReservationEntry(request, reservation_id):
                 item_name = request.POST.get('itemName')
                 start_date = request.POST.get('startDate')
                 end_date = request.POST.get('endDate')  
-                quantity = request.POST.get('quantity')
+                quantity = float(request.POST.get('quantity'))
 
                 # print(start_date)
                 # print(end_date)
@@ -482,7 +482,7 @@ def modifyReservationEntry(request, reservation_id):
                         if (t_start_date >= start_date_obj and t_start_date <= end_date_obj) or (t_end_date >= start_date_obj and t_end_date <= end_date_obj) or (t_start_date <= start_date_obj and t_end_date >= end_date_obj):
                             quantity_stored += float(i['quantity'])
                 
-                if quantity_stored + float(quantity) <= float(warehouse_details[0]['storage_capacity']):
+                if quantity_stored + quantity <= float(warehouse_details[0]['storage_capacity']):
                     messages.success(request, 'Reservation modified successfully')
                     query = {'reservation_id': reservation_id}
                     newvalues = {

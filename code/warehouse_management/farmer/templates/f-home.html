@@ -11,7 +11,7 @@
 
     <h1>Hi! {{ user }}</h1>
     <a href="{% url 'farmer:logout' %}" class="btn btn-primary">Log out</a>
-    <a href="{% url 'farmer:storedGoods' %}" class="btn btn-primary">Stored Goods</a>
+    {% comment %} <a href="{% url 'farmer:storedGoods' %}" class="btn btn-primary">Stored Goods</a> {% endcomment %}
     <a href="{% url 'farmer:searchNearbyWarehouses' %}" class="btn btn-primary">Search nearby Warehouses</a>
     <a href="{% url 'farmer:makeReservation' %}" class="btn btn-primary">Make Reservation</a>
     <a href="{% url 'farmer:showReservations' %}" class="btn btn-primary">Show Reservations</a>

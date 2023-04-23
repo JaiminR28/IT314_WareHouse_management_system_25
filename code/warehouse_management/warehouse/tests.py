@@ -73,7 +73,9 @@ class LoginTestCase(TestCase):
 
     def tearDown(self):
         self.warehouse.delete_many({'name': 'test'})
+from django.test import TestCase
         
+
 class RegistrationTestCase(TestCase):
     def init(self):
         print("Warehouse Registration Test Case Started ---------------------------------------------\n\n")
@@ -225,3 +227,4 @@ class RegistrationTestCase(TestCase):
 
     def tearDown(self):
         self.warehouse.delete_many({'name':'test'})
+# Create your tests here.

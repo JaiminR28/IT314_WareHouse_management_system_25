@@ -56,3 +56,14 @@
         <input type="text" id="email" name="email"><br><br>
         <input type="submit" value="Submit">        
 </form>
+
+<h3>Start Video Call</h3>
+
+<form action="{% url 'warehouse:videoCall'%}" method="post">
+    {% csrf_token %}
+        <label for="userEmail">Enter the user email: </label><br>
+        <input type="text" id="userEmail" name="userEmail"><br><br>
+        <label for="managerEmail">Enter your email: </label><br>
+        <input type="text" id="managerEmail" name="managerEmail"><br><br>
+        <input type="submit" value="Submit">        
+</form>

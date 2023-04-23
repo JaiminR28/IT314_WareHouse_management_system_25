@@ -3,6 +3,7 @@ from django.contrib import messages
 import pymongo
 from pymongo import MongoClient
 import re
+import os
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
@@ -32,6 +33,7 @@ client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.ne
 db = client['demo']
 warehouse = db['Warehouse']
 goods = db['Goods']
+farmer = db['Farmer']
 
 EMAIL = ""
 
@@ -54,6 +56,27 @@ def logout(request):
 def report(request):
     if(request.session['isLoggedIn']):
         return render(request, 'w-report.html')
+
+def videoCall(request):
+    if request.method == 'POST':
+        if request.POST.get('userEmail') and request.POST.get('managerEmail'):
+            userEmail = request.POST.get('userEmail')
+            managerEmail = request.POST.get('managerEmail')
+            # print(userEmail)
+            query = {'email': managerEmail}
+            projection = {'email': 1, 'name': 1}
+            managers = warehouse.find(query, projection)
+
+            room_name = ""
+            for i in userEmail:
+                if i.isalpha():
+                    room_name += i
+
+            template_path = os.path.join(settings.BASE_DIR, 'base', 'templates', 'base', 'lobby.html')
+            return render(request, template_path, {
+                'room': room_name,
+                'name': managers[0]['name']
+            })
 
 def loginValidate(request):
     if request.method == 'POST':
@@ -186,6 +209,8 @@ def registerEntry(request):
                 return render(request, 'w-login.html')
         else:
             return render(request, 'w-register.html')
+
+
 
 def generatePDF(request):
     # request.session['isLoggedIn']
@@ -470,3 +495,4 @@ def mailPDF(request):
     else:
         messages.error(request, 'Log in First!')
         return render(request, 'w-login.html')
+    

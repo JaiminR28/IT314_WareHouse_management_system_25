@@ -582,6 +582,38 @@ def modifyReservation(request, reservation_id):
     else:
         messages.error(request, 'You need to Login first!')
         return render(request, 'w-login.html')
+    
+def deleteReservation(request, reservation_id):
+    if request.session['isLoggedIn'] == True:
+        query = {}
+        projection = {}
+
+        items_list = items.find(query, projection)
+
+        context = {
+            'reservation_id': reservation_id,
+            'items': items_list,
+        }       
+
+        query = {'reservation_id': reservation_id}
+        projection = {'reservation_id': 1, 'farmer_email': 1, 'start_date': 1, 'end_date': 1, 'quantity': 1, 'item_name': 1}
+        stores = items_stored.find(query, projection)
+        # print(items_list.item_name)
+        query = {'email': stores[0]['farmer_email']}
+        projection = {'email': 1, 'first_name': 1}
+        result = farmer.find(query, projection)
+        subject = "Reservation Cancellation!!"
+        new_store = f"Item Name: {stores[0]['item_name']} \nStart Date: {stores[0]['start_date']}\nEnd Date: {stores[0]['end_date']}\nQuantity: {stores[0]['quantity']}" 
+        message = "Hello " + result[0]['first_name'] + "!! \n" + "Your reservation with following details have been successfully deleted! \n" +new_store+ "\n\nThanking You\nArth Detroja"        
+        from_email = settings.EMAIL_HOST_USER
+        to_list = [stores[0]['farmer_email']]
+        send_mail(subject, message, from_email, to_list, fail_silently=False) 
+        items_stored.delete_one({'reservation_id': reservation_id})
+        messages.success(request, 'Item deleted successfully')
+        return render(request, 'w-home.html', context=context)
+    else:
+        messages.error(request, 'You need to Login first!')
+        return render(request, 'w-login.html')
 
 def modifyReservationEntry(request, reservation_id):
     if request.session['isLoggedIn'] == True:

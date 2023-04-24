@@ -22,4 +22,5 @@ urlpatterns = [
     path('performVideoCall', views.performVideoCall, name='performVideoCall'),
     re_path(r'^modify-reservation/(?P<reservation_id>[-\w\d]+)$', views.modifyReservation, name='modifyReservation'),
     re_path(r'^modify-reservation/entry/(?P<reservation_id>[-\w\d]+)$', views.modifyReservationEntry, name='modifyReservationEntry'),
+    re_path(r'^delete-reservation/(?P<reservation_id>[-\w\d]+)$', views.deleteReservation, name='deleteReservation'),
 ]

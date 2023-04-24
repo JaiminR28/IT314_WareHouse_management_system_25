@@ -1,18 +1,16 @@
-{% extends 'f-base-generic.html' %}
-
 {% block content %}
     <div>
-        Reservations made by you are:
+        Reservations made on this warehouse are:
         <br><br>
         {% for item in items %}
             <div>
                 Item Name: {{ item.item_name }} <br>
-                Warehouse Email: {{ item.warehouse_email }} <br>
+                Farmer Email: {{ item.farmer_email }} <br>
                 Start Date: {{ item.start_date }} <br>
                 End Date: {{ item.end_date }} <br>
                 Quantity: {{ item.quantity }} kg <br>
-                <a href="{% url 'farmer:modifyReservation' item.reservation_id %}" class="btn btn-primary">Modify Reservation</a>
-                <a href="{% url 'farmer:deleteReservation' item.reservation_id %}" class="btn btn-primary">Delete Reservation</a>
+                <a href="{% url 'warehouse:modifyReservation' item.reservation_id %}" class="btn btn-primary">Modify Reservation</a>
+                <a href="{% url 'warehouse:deleteReservation' item.reservation_id %}" class="btn btn-primary">Delete Reservation</a>
             </div>
             <br><br><hr>
         {% endfor %}

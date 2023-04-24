@@ -1,7 +1,4 @@
-{% extends 'f-base-generic.html' %}
-
 {% block content %}
-
 
     {% if messages %}
     <ul class="messages">
@@ -11,10 +8,10 @@
     </ul>
     {% endif %}
 
-    <form action="{% url 'farmer:reservationEntry'%}" method="post">
+    <form action="{% url 'warehouse:modifyReservationEntry' reservation_id %}" method="post">
     {% csrf_token %}
-        <label for="warehouseEmail">Warehouse Email:</label><br>
-        <input type="text" id="warehouseEmail" name="warehouseEmail"><br><br>
+        <label for="farmerEmail">Farmer Email:</label><br>
+        <input type="text" id="warehouseEmail" name="farmerEmail"><br><br>
         <label for="itemName">Choose a item:</label>
         <select id="itemName" name="itemName">
           {% comment %} <option value="volvo">Volvo</option>
@@ -35,7 +32,7 @@
         {% endfor %}
         </select>
         <br><br>
-        <a href="{% url 'farmer:addItem' %}" class="btn btn-primary">Add Item</a><br>
+        <a href="{% url 'warehouse:addItem' %}" class="btn btn-primary">Add Item</a><br>
         <label for="startDate">Start Date:</label><br>
         <input type="date" id="startDate" name="startDate"><br><br>
         <label for="endDate">End Date:</label><br>

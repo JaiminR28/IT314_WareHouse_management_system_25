@@ -1,0 +1,14 @@
+{% extends 'f-base-generic.html' %}
+
+{% block content %}
+    <div>
+        Crops for you to grow are:
+        <br><br>
+        {% for item in items %}
+            <div>
+                Name: {{ item.name }} <br>
+                Email: {{ item.totQty }} <br>
+            </div><hr>
+        {% endfor %}
+    </div>
+{% endblock %}

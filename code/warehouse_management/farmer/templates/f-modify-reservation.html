@@ -11,7 +11,7 @@
     </ul>
     {% endif %}
 
-    <form action="{% url 'farmer:reservationEntry'%}" method="post">
+    <form action="{% url 'farmer:modifyReservationEntry' reservation_id %}" method="post">
     {% csrf_token %}
         <label for="warehouseEmail">Warehouse Email:</label><br>
         <input type="text" id="warehouseEmail" name="warehouseEmail"><br><br>

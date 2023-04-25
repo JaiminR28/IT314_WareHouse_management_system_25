@@ -1,9 +1,22 @@
 {% extends 'f-base-generic.html' %}
 
 {% block content %}
+    {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+
     <h1>Hi! {{ user }}</h1>
     <a href="{% url 'farmer:logout' %}" class="btn btn-primary">Log out</a>
-    <a href="{% url 'farmer:storedGoods' %}" class="btn btn-primary">Stored Goods</a>
+    {% comment %} <a href="{% url 'farmer:storedGoods' %}" class="btn btn-primary">Stored Goods</a> {% endcomment %}
     <a href="{% url 'farmer:searchNearbyWarehouses' %}" class="btn btn-primary">Search nearby Warehouses</a>
-
+    <a href="{% url 'farmer:makeReservation' %}" class="btn btn-primary">Make Reservation</a>
+    <a href="{% url 'farmer:showReservations' %}" class="btn btn-primary">Show Reservations</a>
+    <a href="{% url 'farmer:showCropSuggestions' %}" class="btn btn-primary">Show Crop Suggestions</a>
+    {% comment %} <a href="{% url 'farmer:addItem' %}" class="btn btn-primary">Add Item</a> {% endcomment %}
+    <a href="{% url 'farmer:videoCall' %}" class="btn btn-primary">Video Call</a>
+    <a href="{% url 'farmer:generateReport' %}" class="btn btn-primary">Download Report</a>
 {% endblock %}

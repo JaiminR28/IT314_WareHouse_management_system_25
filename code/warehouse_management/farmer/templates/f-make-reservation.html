@@ -1,0 +1,48 @@
+{% extends 'f-base-generic.html' %}
+
+{% block content %}
+
+
+    {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+
+    <form action="{% url 'farmer:reservationEntry'%}" method="post">
+    {% csrf_token %}
+        <label for="warehouseEmail">Warehouse Email:</label><br>
+        <input type="text" id="warehouseEmail" name="warehouseEmail"><br><br>
+        <label for="itemName">Choose a item:</label>
+        <select id="itemName" name="itemName">
+          {% comment %} <option value="volvo">Volvo</option>
+          <option value="saab">Saab</option>
+          <option value="fiat">Fiat</option>
+          <option value="audi">Audi</option> {% endcomment %}
+
+        {% for item in items %}
+            <option value={{ item.name }}>
+                <p>
+                    Name: {{ item.name }}, 
+                    Min Temperature: {{ item.min_temperature }}, 
+                    Max Temperature: {{ item.max_temperature }}, 
+                    Storage Life: {{ item.storage_life }}, 
+                    Is a crop: {{ item.is_crop }}
+                </p>
+            </option>
+        {% endfor %}
+        </select>
+        <br><br>
+        <a href="{% url 'farmer:addItem' %}" class="btn btn-primary">Add Item</a><br>
+        <label for="startDate">Start Date:</label><br>
+        <input type="date" id="startDate" name="startDate"><br><br>
+        <label for="endDate">End Date:</label><br>
+        <input type="date" id="endDate" name="endDate"><br><br>
+        <label for="quantity">Quantity (in kg):</label><br>
+        <input type="number" step="any" min=0 id="quantity" name="quantity"><br><br>
+        <input type="submit" value="Submit" class="btn btn-primary">
+    </form> 
+{% endblock %}
+

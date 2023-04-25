@@ -1,0 +1,33 @@
+{% extends 'f-base-generic.html' %}
+
+{% block content %}
+
+
+    {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+
+    <form action="{% url 'farmer:itemEntry'%}" method="post">
+    {% csrf_token %}
+        <label for="itemName">Item Name:</label><br>
+        <input type="text" id="itemName" name="itemName"><br><br>
+        <label for="minTemp">Min Temperature:</label><br>
+        <input type="text" id="minTemp" name="minTemp"><br><br>
+        <label for="maxTemp">Max Temperature:</label><br>
+        <input type="text" id="maxTemp" name="maxTemp"><br><br>
+        <label for="storageLife">Max Storage Life in days:</label><br>
+        <input type="text" id="storageLife" name="storageLife"><br><br>
+        <label for="isCrop">Is this item a crop?:</label>
+        <select id="isCrop" name="isCrop">
+          <option value="True">Yes</option>
+          <option value="False">No</option>
+        </select>
+        <br><br>
+        <input type="submit" value="Submit" class="btn btn-primary">
+    </form> 
+{% endblock %}
+

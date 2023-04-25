@@ -37,18 +37,37 @@
 </html> -->
 
 
-{% block content %}
-<form action="{% url 'warehouse:generateReport'%}" method="post">
+<!-- Generate pdf -->
+
+<!-- <h3>Download Report</h3>
+
+<form action="{% url 'warehouse:generatePDF'%}" method="post">
     {% csrf_token %}
         <label for="email">Email:</label><br>
         <input type="text" id="email" name="email"><br><br>
         <input type="submit" value="Submit">        
-    </form>
+</form> -->
+<a href="{% url 'warehouse:generatePDF' %}" class="btn btn-primary">Download Report</a>
+<!-- <h3>Email report</h3> -->
 
-{% endblock %}
-<!-- 
-<script>
-    document.getElementById("register-btn").addEventListener("click", function() {
-        window.location.href = "{% url 'warehouse:generateReport' %}";
-    });
-</script> -->
+<!-- <form action="{% url 'warehouse:mailPDF'%}" method="post">
+    {% csrf_token %}
+        <label for="email">Email:</label><br>
+        <input type="text" id="email" name="email"><br><br>
+        <input type="submit" value="Submit">        
+</form> -->
+<a href="{% url 'warehouse:mailPDF' %}" class="btn btn-primary">Email Report</a>
+<a href="{% url 'warehouse:performVideoCall' %}" class="btn btn-primary">Video Call</a>
+<!-- <h3>Start Video Call</h3>
+
+<form action="{% url 'warehouse:videoCall'%}" method="post">
+    {% csrf_token %}
+        <label for="userEmail">Enter the user email: </label><br>
+        <input type="text" id="userEmail" name="userEmail"><br><br>
+        <label for="managerEmail">Enter your email: </label><br>
+        <input type="text" id="managerEmail" name="managerEmail"><br><br>
+        <input type="submit" value="Submit">        
+</form> -->
+
+
+<a href="{% url 'warehouse:showReservations' %}" class="btn btn-primary">Show Reservations</a>

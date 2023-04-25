@@ -22,11 +22,5 @@
         <input type="text" id="distance" name="distance"><br><br>
         <input type="submit" value="Submit" class="btn btn-primary">
     </form> 
-    <button id="register-btn">Register</button>
-    <script>
-        document.getElementById("register-btn").addEventListener("click", function() {
-            window.location.href = "{% url 'farmer:register' %}";
-        });
-    </script>
 {% endblock %}
 

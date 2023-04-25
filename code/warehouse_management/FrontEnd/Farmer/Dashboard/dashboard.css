@@ -682,6 +682,122 @@ main .weather-price-div h2 {
 
 /* weather */
 
+.weather--container {
+	width: 40%;
+    padding: 1rem;
+    border-radius: var(--border-radius-2);
+}
+
+.weather{
+    	background-color: white;
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.location {
+	display: flex;
+	align-items: center;
+}
+
+.location--svg {
+	width: 2rem;
+	margin-right: 1rem;
+}
+
+.last-updated-div {
+	display: flex;
+	font-size: 1rem;
+}
+.weather-body {
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	margin-block: 1rem;
+	display: none;
+}
+.weather-body img {
+	width: 10rem;
+}
+
+.weather-box {
+	margin-block: 1rem;
+	text-align: center;
+}
+
+.weather-box .temperature {
+	font-size: 1.2rem;
+	font-weight: 800;
+	position: relative;
+}
+
+.weather-box .temperature sup {
+	font-size: 2rem;
+	position: absolute;
+	font-weight: 600;
+}
+
+.weather-box .description {
+	font-size: 2rem;
+	font-weight: 700;
+	text-transform: capitalize;
+}
+
+.weather-details {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	margin-top: 2rem;
+}
+
+.humidity,
+.wind {
+	display: flex;
+	align-items: center;
+}
+
+.humidity {
+	margin-left: 2rem;
+}
+
+.wind {
+	margin-right: 2rem;
+}
+
+.weather-details i {
+	font-size: 36px;
+}
+
+.weather-details .text {
+	margin-left: 10px;
+	font-size: 16px;
+}
+
+.text span {
+	font-size: 2rem;
+	font-weight: 700;
+}
+
+.location-not-found {
+	margin-top: 2rem;
+	display: none;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.location-not-found h1 {
+	font-size: 2rem;
+	color: #6b6b6b;
+	margin-block-end: 15px;
+}
+.location-not-found img {
+	width: 80%;
+}
+
+
 
 /* Crop pricing */
 

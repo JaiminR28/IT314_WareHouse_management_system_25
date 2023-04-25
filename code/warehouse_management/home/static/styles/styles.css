@@ -29,7 +29,7 @@ html {
 			rgba(255, 255, 255, 0.9),
 			rgba(255, 255, 255, 0.9)
 		),
-		url(../Images/Farmer_homePage_image.png);
+		url("/static/Images/Farmer_homePage_image.png");
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-size: 100% 100%;

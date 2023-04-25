@@ -227,27 +227,29 @@ def generatePDF(request):
             email = request.session['warehouseEmail']
             query = {'warehouse_email': email}
             query1 = {'email': email}
-            projection = {'farmer_email': 1, 'crop_name': 1, 'from_date': 1, 'to_date': 1}
+            projection = {'farmer_email': 1, 'item_name': 1, 'start_date': 1, 'end_date': 1, 'quantity': 1}
             projection1 = {'name': 1, 'latitude': 1, 'longitude': 1, 'storage_capacity': 1, 'phone_number': 1}
             
             # Retrieve data from the database
             warehouse_details = warehouse.find(query1, projection1)
-            crop_details = goods.find(query, projection)
+            crop_details = items_stored.find(query, projection)
             
             # Create a list to hold the crop data
             crop_data = []
             for crop in crop_details:
                 farmer_email = crop['farmer_email']
-                crop_name = crop['crop_name']
-                from_date = crop['from_date']
-                to_date = crop['to_date']
-                crop_data.append([farmer_email, crop_name, from_date, to_date])
+                crop_name = crop['item_name']
+                start_date = crop['start_date']
+                end_date = crop['end_date']
+                item_name = crop['item_name']
+                quantity = crop['quantity']
+                crop_data.append([farmer_email, crop_name, start_date, end_date, item_name, quantity])
             
             # Create a list to hold the crop header row
-            crop_header = ['Farmer Email', 'Crop Name', 'From Date', 'To Date']
+            crop_header = ['Farmer Email', 'Crop Name', 'From Date', 'To Date', 'Item Name', 'quantity']
             
             # Create a table object for the crop data and set its style
-            crop_table = Table([crop_header] + crop_data, colWidths=[2.5*inch, 2.5*inch, 2.25*inch, 2.25*inch], hAlign='CENTER')
+            crop_table = Table([crop_header] + crop_data, colWidths=[2.5*inch, 1.5*inch, 1.25*inch, 1.25*inch], hAlign='CENTER')
             crop_table.setStyle(TableStyle([
                 ('BACKGROUND', (0, 0), (-1, 0), colors.lightskyblue),
                 ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
@@ -281,7 +283,7 @@ def generatePDF(request):
             warehouse_header = ['Item', 'Value']
             
             # Create a table object for the warehouse data and set its style
-            warehouse_table = Table([warehouse_header] + warehouse_data, colWidths=[3.5*inch, 5*inch], hAlign='CENTER')
+            warehouse_table = Table([warehouse_header] + warehouse_data, colWidths=[2.5*inch, 5*inch], hAlign='CENTER')
             warehouse_table.setStyle(TableStyle([
                 ('BACKGROUND', (0, 0), (-1, 0), colors.royalblue),
                 ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
@@ -352,33 +354,37 @@ def generatePDF(request):
     else:
         messages.error(request, 'Log in First!')
         return render(request, 'w-login.html')
-    
+
 def generate_pdf(email):
     if True:
         if True:      
+            # email = request.session['warehouseEmail']
             query = {'warehouse_email': email}
             query1 = {'email': email}
-            projection = {'farmer_email': 1, 'crop_name': 1, 'from_date': 1, 'to_date': 1}
+            projection = {'farmer_email': 1, 'item_name': 1, 'start_date': 1, 'end_date': 1, 'quantity': 1}
             projection1 = {'name': 1, 'latitude': 1, 'longitude': 1, 'storage_capacity': 1, 'phone_number': 1}
             
             # Retrieve data from the database
             warehouse_details = warehouse.find(query1, projection1)
-            crop_details = goods.find(query, projection)
+            crop_details = items_stored.find(query, projection)
             
             # Create a list to hold the crop data
             crop_data = []
             for crop in crop_details:
                 farmer_email = crop['farmer_email']
-                crop_name = crop['crop_name']
-                from_date = crop['from_date']
-                to_date = crop['to_date']
-                crop_data.append([farmer_email, crop_name, from_date, to_date])
+                crop_name = crop['item_name']
+                start_date = crop['start_date']
+                end_date = crop['end_date']
+                item_name = crop['item_name']
+                quantity = crop['quantity']
+                crop_data.append([farmer_email, crop_name, start_date, end_date, item_name, quantity])
             
             # Create a list to hold the crop header row
-            crop_header = ['Farmer Email', 'Crop Name', 'From Date', 'To Date']
+            crop_header = ['Farmer Email', 'Crop Name', 'From Date', 'To Date', 'Item Name', 'quantity']
+            
             
             # Create a table object for the crop data and set its style
-            crop_table = Table([crop_header] + crop_data, colWidths=[2.5*inch, 2.5*inch, 2.25*inch, 2.25*inch], hAlign='CENTER')
+            crop_table = Table([crop_header] + crop_data, colWidths=[2.5*inch, 1.5*inch, 1.25*inch, 1.25*inch], hAlign='CENTER')
             crop_table.setStyle(TableStyle([
                 ('BACKGROUND', (0, 0), (-1, 0), colors.lightskyblue),
                 ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
@@ -412,7 +418,7 @@ def generate_pdf(email):
             warehouse_header = ['Item', 'Value']
             
             # Create a table object for the warehouse data and set its style
-            warehouse_table = Table([warehouse_header] + warehouse_data, colWidths=[3.5*inch, 5*inch], hAlign='CENTER')
+            warehouse_table = Table([warehouse_header] + warehouse_data, colWidths=[2.5*inch, 5*inch], hAlign='CENTER')
             warehouse_table.setStyle(TableStyle([
                 ('BACKGROUND', (0, 0), (-1, 0), colors.royalblue),
                 ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
@@ -484,7 +490,6 @@ def generate_pdf(email):
             response['Content-Disposition'] = 'attachment; filename="report.pdf"'
             response.write(pdf_data)
             return response
-
 
 def mailPDF(request):
     # request.session['isLoggedIn']

@@ -31,6 +31,8 @@
 
     </nav>
 
+    
+    <div class="container">
     <div>
         {% if messages %}
         <ul class="messages">
@@ -40,8 +42,6 @@
         </ul>
         {% endif %}
     </div>
-    
-    <div class="container">
         <form action="{% url 'farmer:loginValidate'%}" class="form" method="post">
         {% csrf_token %}
             <h2 class="heading"><span>Farmer</span> Login</h2>

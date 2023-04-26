@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale-1.0" />
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap"
+			rel="stylesheet"
+		/>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+		<link rel="stylesheet" href="modify_registration.css" />
+
+		<script defer src="./script.js"></script>
+
+		<title>Modify Reservation</title>
+	</head>
+
+	<body>
+		<div class="container">
+			<aside>
+				<div class="top">
+					<div class="logo">
+						<img src="./Images/WarehouseWise.png" />
+					</div>
+					<div class="close" id="close-btn">
+						<span class="material-symbols-outlined"> close </span>
+					</div>
+				</div>
+				<div class="sidebar">
+					<a href="#">
+						<img
+							src="./Images/navbar/house.svg"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Home</h3>
+					</a>
+
+					<a
+						href="../Reservation-page-for-farmers-main/farmer-reservation.html"
+					>
+						<img
+							src="./Images/navbar/list-plus.svg"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Add Registraion</h3>
+					</a>
+
+					<a href="#" class="active">
+						<img
+							src="./Images/Navbar/file-edit-svgrepo-com.svg"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Modify Registraion</h3>
+					</a>
+					<a href="#">
+						<img
+							src="./Images/Navbar/report-text-svgrepo-com.svg"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Show Registrations</h3>
+					</a>
+					<a href="#">
+						<img
+							src="./Images/Navbar/file-arrow-down.svg"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Generate Report</h3>
+					</a>
+					<a href="#">
+						<img
+							src="./Images/Navbar/add-to-queue-svgrepo-com.svg"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Add Item</h3>
+					</a>
+					<a href="#">
+						<img
+							src="./Images/Navbar/video-camera.svg"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Video Call</h3>
+					</a>
+
+					<a href="#">
+						<img
+							class="navbar--menu-icon"
+							src="./Images/navbar/logout-svgrepo-com.svg"
+							alt=""
+						/>
+						<h3>Logout</h3>
+					</a>
+				</div>
+			</aside>
+			<main>
+				<h1 class="page--title">Modify Registration</h1>
+				<div class="content">
+					<form action="#">
+						<div class="user-details">
+							<div class="input-box">
+								<label class="details">Warehouse Email </label>
+								<input
+									type="email"
+									name="fname"
+									id="warehouseEmail"
+									name="warehouseEmail"
+									placeholder="Enter Your Email"
+									required
+								/>
+							</div>
+							<div class="custom-select input-box">
+								<div class="choose--items">
+									<label class="details"
+										>Choose a item:</label
+									>
+									<select
+										class="select"
+										id="itemName"
+										name="itemName"
+									>
+										<option
+											class="item--option"
+											value="volvo"
+										>
+											Volvo
+										</option>
+										<option
+											class="item--option"
+											value="saab"
+										>
+											Saab
+										</option>
+										<option
+											class="item--option"
+											value="fiat"
+										>
+											Fiat
+										</option>
+										<option
+											class="item--option"
+											value="audi"
+										>
+											Audi
+										</option>
+
+										<option
+											class="item--option"
+											value="{{"
+											item.name
+											}}
+										>
+											<p>
+												Name: {{ item.name }}, Min
+												Temperature: {{
+												item.min_temperature }}, Max
+												Temperature: {{
+												item.max_temperature }}, Storage
+												Life: {{ item.storage_life }},
+												Is a crop: {{ item.is_crop }}
+											</p>
+										</option>
+										{% endfor %}
+									</select>
+								</div>
+								<button class="add-item-btn">Add Item</button>
+							</div>
+							<div class="input-box">
+								<label class="details">Start Date</label>
+								<input
+									type="date"
+									name="date"
+									id="startDate"
+									required
+								/>
+							</div>
+							<div class="input-box">
+								<label class="details">End Date</label>
+								<input
+									type="date"
+									name="date"
+									id="endDate"
+									required
+								/>
+							</div>
+							<div class="input-box">
+								<label class="details">Quantity (in kgs)</label>
+								<input
+									type="number"
+									name="number"
+									id="number"
+									min="0"
+									required
+								/>
+							</div>
+						</div>
+						<div class="button">
+							<input type="submit" value="Register" />
+						</div>
+					</form>
+				</div>
+			</main>
+		</div>
+	</body>
+</html>

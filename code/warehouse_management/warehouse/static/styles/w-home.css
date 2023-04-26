@@ -25,7 +25,10 @@ body {
 .logo {
 	color: white;
 }
-
+.logo-img {
+	width: 6rem;
+	height: 3rem;
+}
 .navbar {
 	width: 60%;
 	margin: auto;

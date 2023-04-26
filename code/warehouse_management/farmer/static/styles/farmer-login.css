@@ -41,6 +41,11 @@ body {
 
 	padding: 2rem 2rem;
 }
+
+.Logo .logo-img {
+	width: 32rem;
+}
+
 .nav--items {
 	display: flex;
 	list-style: none;

@@ -92,7 +92,7 @@ def loginValidate(request):
             password = request.POST.get('password')
             
             query = {'email': email, 'password': password}
-            projection = {'email': 1, 'verified': 1}
+            projection = {'email': 1, 'verified': 1, 'name': 1}
 
             users = warehouse.find(query, projection)
 
@@ -101,7 +101,8 @@ def loginValidate(request):
                 request.session['isLoggedIn'] = True
                 request.session['farmerId'] = users[0]['email']
                 context = {
-                    'user' : users[0]['email']
+                    'user' : users[0]['email'],
+                    'name' : users[0]['name']
                 }
                 request.session['warehouseEmail'] = email
                 return render(request, 'w-home.html', context=context)
@@ -500,7 +501,7 @@ def mailPDF(request):
         send_email.attach('report.pdf', pdf.getvalue(), 'application/pdf')
         send_email.send()
         messages.success(request, "Email sent successfully")
-        return render(request, 'w-home.html')
+        return redirect('warehouse:home')
     else:
         # return render(request, 'w-login.html')
         messages.error(request, 'Log in First!')
@@ -526,13 +527,60 @@ def showReservations(request):
     else:
         messages.error(request, 'You need to Login first!')
         return render(request, 'w-login.html')
+
+def addJustItem(request):
+    if request.session['isLoggedIn'] == True:
+        return render(request, 'w-add-just-item.html')
+    return render(request, 'w-login.html')
     
 def addItem(request):
     if request.session['isLoggedIn'] == True:
         return render(request, 'w-add-item.html')
     else:
         return render(request, 'w-login.html')
-    
+
+def itemJustEntry(request):
+    if request.session['isLoggedIn'] == True:
+        if request.method == 'POST':
+            if request.POST.get('itemName') and request.POST.get('minTemp') and request.POST.get('maxTemp') and request.POST.get('storageLife') and request.POST.get('isCrop'):
+                item_name = request.POST.get('itemName')
+                min_temp = request.POST.get('minTemp')
+                max_temp = request.POST.get('maxTemp')
+                storage_life = int(request.POST.get('storageLife'))
+                is_crop = request.POST.get('isCrop') 
+
+                query = {'name': item_name}
+                projection = {}
+
+                items_list = items.find(query, projection)
+
+                if len(list(items_list.clone())) != 0:
+                    messages.error(request, 'Item Name already present in the system')
+                    return render(request, 'w-add-item.html')
+                
+                if is_crop == 'True':
+                    is_crop_bool = True
+                else:
+                    is_crop_bool = False
+
+                
+                items.insert_one({
+                    'name': item_name,
+                    'min_temperature': min_temp,
+                    'max_temperature': max_temp,
+                    'storage_life': storage_life,
+                    'is_crop': is_crop_bool
+                })
+
+                messages.success(request, 'Item entered successfully')
+                return redirect('warehouse:home')
+            else:
+                messages.error(request, "Enter details in all the fields")
+                return render(request, 'w-add-item.html')
+    else:
+        messages.error(request, 'You need to Login first!')
+        return render(request, 'w-login.html')
+
 def itemEntry(request):
     if request.session['isLoggedIn'] == True:
         if request.method == 'POST':
@@ -650,7 +698,7 @@ def modifyReservationEntry(request, reservation_id):
 
                 if len(list(warehouse_details.clone())) == 0:
                     messages.error(request, 'Farmer not found!')
-                    return redirect('farmer:modifyReservation', reservation_id=reservation_id)
+                    return redirect('warehouse:modifyReservation', reservation_id=reservation_id)
 
                 
                 quantity_stored = 0
@@ -664,7 +712,7 @@ def modifyReservationEntry(request, reservation_id):
 
                 if start_date_obj > end_date_obj:
                     messages.error(request, 'Invalid start date and end date')
-                    return redirect('farmer:modifyReservation', reservation_id=reservation_id)
+                    return redirect('warehouse:modifyReservation', reservation_id=reservation_id)
 
                 for i in items_stored_list:
                     if i['reservation_id'] != reservation_id:
@@ -695,14 +743,14 @@ def modifyReservationEntry(request, reservation_id):
                     to_list = [farmer_email]
                     send_mail(subject, message, from_email, to_list, fail_silently=False)  
                     items_stored.update_one(query, newvalues)
-                    return render(request, 'w-home.html')
+                    return redirect('warehouse:home')
                 else:
                     messages.error(request, 'Quantity exceeds the warehouse limit')
-                    return redirect('farmer:modifyReservation', reservation_id=reservation_id)
+                    return redirect('warehouse:modifyReservation', reservation_id=reservation_id)
             else:
                 messages.error(request, "Enter details in all the fields")
                 # return render(request, 'w-modify-reservation.html')
-                return redirect('farmer:modifyReservation', reservation_id=reservation_id)
+                return redirect('warehouse:modifyReservation', reservation_id=reservation_id)
     else:
         messages.error(request, 'You need to Login first!')
         return render(request, 'w-login.html')

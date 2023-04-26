@@ -62,7 +62,7 @@
 
 		<link rel="stylesheet" href="{% static 'styles/modify_registration.css' %}" />
 
-		<script defer src=".{% static 'script/script.js' %}"></script>
+		<script defer src="{% static 'script/script.js' %}"></script>
 
 		<title>Modify Reservation</title>
 	</head>
@@ -79,7 +79,7 @@
 					</div>
 				</div>
 				<div class="sidebar">
-					<a href="#">
+					<a href="{% url 'warehouse:home' %}">
 						<img
 							src="{% static '/Images/navbar/house.svg' %}"
 							alt=""
@@ -89,33 +89,33 @@
 					</a>
 
 					<a
-						href="../Reservation-page-for-farmers-main/farmer-reservation.html"
+						href="{% url 'warehouse:mailPDF' %}"
 					>
 						<img
 							src="{% static '/Images/navbar/list-plus.svg' %}"
 							alt=""
 							class="navbar--menu-icon"
 						/>
-						<h3>Add Registraion</h3>
+						<h3>Mail PDF</h3>
 					</a>
 
-					<a href="#">
+					<a href="{% url 'warehouse:showReservations' %}" class="active">
 						<img
 							src="{% static '/Images/navbar/file-edit-svgrepo-com.svg' %}"
 							alt=""
 							class="navbar--menu-icon"
 						/>
-						<h3>Modify Registraion</h3>
+						<h3>Modify Reservations</h3>
 					</a>
-					<a href="#">
+					<a href="{% url 'warehouse:showReservations' %}">
 						<img
 							src="{% static '/Images/Navbar/report-text-svgrepo-com.svg' %}"
 							alt=""
 							class="navbar--menu-icon"
 						/>
-						<h3>Show Registrations</h3>
+						<h3>Show Reservations</h3>
 					</a>
-					<a href="#">
+					<a href="{% url 'warehouse:generatePDF' %}">
 						<img
 							src="{% static '/Images/Navbar/file-arrow-down.svg' %}"
 							alt=""
@@ -123,7 +123,7 @@
 						/>
 						<h3>Generate Report</h3>
 					</a>
-					<a href="#" class="active">
+					<a href="{% url 'warehouse:addItem' %}">
 						<img
 							src="{% static '/Images/Navbar/add-to-queue-svgrepo-com.svg' %}"
 							alt=""
@@ -131,7 +131,7 @@
 						/>
 						<h3>Add Item</h3>
 					</a>
-					<a href="#">
+					<a href="{% url 'warehouse:performVideoCall' %}">
 						<img
 							src="{% static '/Images/Navbar/video-camera.svg' %}"
 							alt=""
@@ -140,7 +140,7 @@
 						<h3>Video Call</h3>
 					</a>
 
-					<a href="#">
+					<a href="{% url 'warehouse:logout' %}">
 						<img
 							class="navbar--menu-icon"
 							src="{% static '/Images/navbar/logout-svgrepo-com.svg' %}"
@@ -153,10 +153,10 @@
 			<main>
 				<h1 class="page--title">Modify Registration</h1>
 				<div class="content">
-					<form action="#">
+					<form action="{% url 'warehouse:modifyReservationEntry' reservation_id %}" method="POST">
 						<div class="user-details">
 							<div class="input-box">
-								<label class="details">Warehouse Email </label>
+								<label class="details">Farmer Email </label>
 								<input
 									type="email"
 									name="fname"
@@ -168,59 +168,18 @@
 							</div>
 							<div class="custom-select input-box">
 								<div class="choose--items">
-									<label class="details"
-										>Choose a item:</label
-									>
-									<select
-										class="select"
-										id="itemName"
-										name="itemName"
-									>
-										<option
-											class="item--option"
-											value="volvo"
-										>
-											Volvo
-										</option>
-										<option
-											class="item--option"
-											value="saab"
-										>
-											Saab
-										</option>
-										<option
-											class="item--option"
-											value="fiat"
-										>
-											Fiat
-										</option>
-										<option
-											class="item--option"
-											value="audi"
-										>
-											Audi
-										</option>
-
-										<option
-											class="item--option"
-											value="{{"
-											item.name
-											}}
-										>
+									<label class="details" >Choose a item:</label>
+									<select class="select" id="itemName" name="itemName" >
+										<option	class="item--option" value="{{ item.name }}">
 											<p>
-												Name: {{ item.name }}, Min
-												Temperature: {{
-												item.min_temperature }}, Max
-												Temperature: {{
-												item.max_temperature }}, Storage
-												Life: {{ item.storage_life }},
-												Is a crop: {{ item.is_crop }}
+												Name: {{ item.name }}, Min Temperature: {{ item.min_temperature }}, Max Temperature: {{ item.max_temperature }}, Storage Life: {{ item.storage_life }}, Is a crop: {{ item.is_crop }}
 											</p>
-										</option>
-										
+										</option>										
 									</select>
 								</div>
-								<button class="add-item-btn">Add Item</button>
+                                <a href="{% url 'warehouse:addItem' %}">
+								    <button class="add-item-btn">Add Item</button>
+                                </a>
 							</div>
 							<div class="input-box">
 								<label class="details">Start Date</label>

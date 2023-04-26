@@ -1,0 +1,210 @@
+<!-- {% block content %}
+
+
+    {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+
+    <form action="{% url 'warehouse:itemEntry'%}" method="post">
+    {% csrf_token %}
+        <label for="itemName">Item Name:</label><br>
+        <input type="text" id="itemName" name="itemName"><br><br>
+        <label for="minTemp">Min Temperature:</label><br>
+        <input type="text" id="minTemp" name="minTemp"><br><br>
+        <label for="maxTemp">Max Temperature:</label><br>
+        <input type="text" id="maxTemp" name="maxTemp"><br><br>
+        <label for="storageLife">Max Storage Life in days:</label><br>
+        <input type="text" id="storageLife" name="storageLife"><br><br>
+        <label for="isCrop">Is this item a crop?:</label>
+        <select id="isCrop" name="isCrop">
+          <option value="True">Yes</option>
+          <option value="False">No</option>
+        </select>
+        <br><br>
+        <input type="submit" value="Submit" class="btn btn-primary">
+    </form> 
+{% endblock %}
+ -->
+ {% load static %}
+
+ <!DOCTYPE html>
+ <html lang="en">
+     <head>
+         <meta charset="UTF-8" />
+         <meta name="viewport" content="width=device-width, initial-scale-1.0" />
+ 
+         <link rel="preconnect" href="https://fonts.googleapis.com" />
+         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+         <link
+             href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap"
+             rel="stylesheet"
+         />
+ 
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+ 
+         <link rel="stylesheet" href="{% static 'styles/addItem.css' %}" />
+ 
+         <script defer src="{% static 'script/script.js' %}"></script>
+ 
+         <title>Add Items</title>
+     </head>
+ 
+     <body>
+         <div class="container">
+            <aside>
+				<div class="top">
+					<div class="logo">
+						<img src="{% static 'Images/WarehouseWise.png' %}" />
+					</div>
+					<div class="close" id="close-btn">
+						<span class="material-symbols-outlined"> close </span>
+					</div>
+				</div>
+				<div class="sidebar">
+					<a href="{% url 'warehouse:home' %}">
+						<img
+							src="{% static '/Images/navbar/house.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Home</h3>
+					</a>
+
+					<a
+						href="{% url 'warehouse:mailPDF' %}"
+					>
+						<img
+							src="{% static '/Images/navbar/list-plus.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Mail PDF</h3>
+					</a>
+
+					<a href="{% url 'warehouse:showReservations' %}">
+						<img
+							src="{% static '/Images/navbar/file-edit-svgrepo-com.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Modify Reservations</h3>
+					</a>
+					<a href="{% url 'warehouse:showReservations' %}">
+						<img
+							src="{% static '/Images/Navbar/report-text-svgrepo-com.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Show Reservations</h3>
+					</a>
+					<a href="{% url 'warehouse:generatePDF' %}">
+						<img
+							src="{% static '/Images/Navbar/file-arrow-down.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Generate Report</h3>
+					</a>
+					<a href="{% url 'warehouse:addItem' %}" class="active">
+						<img
+							src="{% static '/Images/Navbar/add-to-queue-svgrepo-com.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Add Item</h3>
+					</a>
+					<a href="{% url 'warehouse:performVideoCall' %}">
+						<img
+							src="{% static '/Images/Navbar/video-camera.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Video Call</h3>
+					</a>
+
+					<a href="{% url 'warehouse:logout' %}">
+						<img
+							class="navbar--menu-icon"
+							src="{% static '/Images/navbar/logout-svgrepo-com.svg' %}"
+							alt=""
+						/>
+						<h3>Logout</h3>
+					</a>
+				</div>
+			</aside>
+             <main>
+                 <div class="title--heading">
+                     <h1 class="page--title">Add items</h1>
+                 </div>
+                 <div class="content">
+                     <form action="{% url 'warehouse:itemJustEntry'%}">
+                         <div class="user-details">
+                             <div class="input-box">
+                                 <label class="details">Item Name </label>
+                                 <input
+                                     type="text"
+                                     name="fname"
+                                     id="fname"
+                                     placeholder="Enter item Name"
+                                     required
+                                 />
+                             </div>
+                             <br />
+                             <div class="input-box">
+                                 <label class="details">Min Temperature:</label>
+                                 <input
+                                     type="number"
+                                     name="number"
+                                     id="minTemp"
+                                     placeholder="Enter min Temperature "
+                                     required
+                                 />
+                             </div>
+                             <br />
+                             <div class="input-box">
+                                 <label class="details">Max Temperature:</label>
+                                 <input
+                                     type="number"
+                                     name="maxTemp"
+                                     id="enter max Temperature"
+                                     placeholder="Enter max Days"
+                                     required
+                                 />
+                             </div>
+                             <br />
+                             <div class="input-box">
+                                 <label class="details"
+                                     >Max Storage Life in days:</label
+                                 >
+                                 <input
+                                     type="number"
+                                     name="max storageLife"
+                                     placeholder="enter max storageLife in days"
+                                     required
+                                 />
+                             </div>
+                             <br />
+                             <div class="input-box">
+                                 <label class="details" for="isCrop"
+                                     >Is this item a crop?:</label
+                                 >
+                                 <select id="isCrop" name="isCrop">
+                                     <option value="True">Yes</option>
+                                     <option value="False">No</option>
+                                 </select>
+                             </div>
+                         </div>
+                         <div class="button">
+                             <input type="submit" value="submit" />
+                         </div>
+                     </form>
+                 </div>
+             </main>
+         </div>
+     </body>
+ </html>
+ 

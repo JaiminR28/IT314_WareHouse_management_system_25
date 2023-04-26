@@ -40,14 +40,14 @@
 			<aside>
 				<div class="top">
 					<div class="logo">
-						<img src="{% static '/Images/WarehouseWise.png' %}" />
+						<img src="{% static 'Images/WarehouseWise.png' %}" />
 					</div>
 					<div class="close" id="close-btn">
 						<span class="material-symbols-outlined"> close </span>
 					</div>
 				</div>
 				<div class="sidebar">
-					<a href="#" >
+					<a href="{% url 'warehouse:home' %}">
 						<img
 							src="{% static '/Images/navbar/house.svg' %}"
 							alt=""
@@ -57,33 +57,33 @@
 					</a>
 
 					<a
-						href="../Reservation-page-for-farmers-main/farmer-reservation.html"
+						href="{% url 'warehouse:mailPDF' %}"
 					>
 						<img
 							src="{% static '/Images/navbar/list-plus.svg' %}"
 							alt=""
 							class="navbar--menu-icon"
 						/>
-						<h3>Add Registraion</h3>
+						<h3>Mail PDF</h3>
 					</a>
 
-					<a href="#">
+					<a href="{% url 'warehouse:showReservations' %}">
 						<img
-							src="{% static '/Images/Navbar/file-edit-svgrepo-com.svg' %}"
+							src="{% static '/Images/navbar/file-edit-svgrepo-com.svg' %}"
 							alt=""
 							class="navbar--menu-icon"
 						/>
-						<h3>Modify Registraion</h3>
+						<h3>Modify Reservations</h3>
 					</a>
-					<a href="#">
+					<a href="{% url 'warehouse:showReservations' %}">
 						<img
 							src="{% static '/Images/Navbar/report-text-svgrepo-com.svg' %}"
 							alt=""
 							class="navbar--menu-icon"
 						/>
-						<h3>Show Registrations</h3>
+						<h3>Show Reservations</h3>
 					</a>
-                    <a href="#" >
+					<a href="{% url 'warehouse:generatePDF' %}">
 						<img
 							src="{% static '/Images/Navbar/file-arrow-down.svg' %}"
 							alt=""
@@ -91,7 +91,7 @@
 						/>
 						<h3>Generate Report</h3>
 					</a>
-					<a href="#">
+					<a href="{% url 'warehouse:addItem' %}">
 						<img
 							src="{% static '/Images/Navbar/add-to-queue-svgrepo-com.svg' %}"
 							alt=""
@@ -99,7 +99,7 @@
 						/>
 						<h3>Add Item</h3>
 					</a>
-					<a href="#" class="active">
+					<a href="{% url 'warehouse:performVideoCall' %}" class="active">
 						<img
 							src="{% static '/Images/Navbar/video-camera.svg' %}"
 							alt=""
@@ -108,8 +108,7 @@
 						<h3>Video Call</h3>
 					</a>
 
-
-					<a href="#">
+					<a href="{% url 'warehouse:logout' %}">
 						<img
 							class="navbar--menu-icon"
 							src="{% static '/Images/navbar/logout-svgrepo-com.svg' %}"
@@ -125,7 +124,8 @@
 			
 				<div class="Generate-report--div">
                     <p>To start a video call fill int the following details</p>
-					<form action="{% url 'warehouse:videoCall'%}">
+					<form action="{% url 'warehouse:videoCall'%}" method='POST'>
+						{% csrf_token %}
 						<div class="user-details">
 							<div class="input-box">
 								<label class="details">Enter customer email</label>

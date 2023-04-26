@@ -4,7 +4,8 @@ from . import views
 app_name = 'warehouse'
 
 urlpatterns = [
-    path('', views.index, name='default'),    
+    path('', views.index, name='default'),  
+    path('home', views.home, name='home'),  
     path('login', views.login, name='login'),
     path('login/validate', views.loginValidate, name='loginValidate'),
     path('register', views.register, name='register'),
@@ -18,6 +19,8 @@ urlpatterns = [
     path('videoCall', views.videoCall, name='videoCall'),
     path('show-reservations', views.showReservations, name='showReservations'),
     path('add-item', views.addItem, name='addItem'),
+    path('add-just-item', views.addJustItem, name='addJustItem'),
+    path('add-just-item/entry', views.itemJustEntry, name='itemJustEntry'),
     path('add-item/entry', views.itemEntry, name='itemEntry'),
     path('performVideoCall', views.performVideoCall, name='performVideoCall'),
     re_path(r'^modify-reservation/(?P<reservation_id>[-\w\d]+)$', views.modifyReservation, name='modifyReservation'),

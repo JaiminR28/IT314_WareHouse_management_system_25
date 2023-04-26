@@ -27,6 +27,25 @@ body {
 }
 
 /* navbar */
+
+.messages {
+	margin: 20px 0;
+	padding: 15px;
+	border: 2px solid #4caf50;
+	border-radius: 5px;
+
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.messages li.error {
+	background-color: #ffcccc;
+}
+
+.messages li.success {
+	background-color: #ccffcc;
+	color: #006600;
+}
 .navbar {
 	display: flex;
 	flex-direction: row;

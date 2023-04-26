@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale-1.0" />
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap"
+			rel="stylesheet"
+		/>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+		<link rel="stylesheet" href="addItem.css" />
+
+		<script defer src="./script.js"></script>
+
+		<title>Add Items</title>
+	</head>
+
+	<body>
+		<div class="container">
+			<aside>
+				<div class="top">
+					<div class="logo">
+						<img src="./Images/WarehouseWise.png" />
+					</div>
+					<div class="close" id="close-btn">
+						<span class="material-symbols-outlined"> close </span>
+					</div>
+				</div>
+				<div class="sidebar">
+					<a href="#">
+						<img
+							src="./Images/navbar/house.svg"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Home</h3>
+					</a>
+
+					<a
+						href="../Reservation-page-for-farmers-main/farmer-reservation.html"
+					>
+						<img
+							src="./Images/navbar/list-plus.svg"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Add Registraion</h3>
+					</a>
+
+					<a href="#">
+						<img
+							src="./Images/Navbar/file-edit-svgrepo-com.svg"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Modify Registraion</h3>
+					</a>
+					<a href="#">
+						<img
+							src="./Images/Navbar/report-text-svgrepo-com.svg"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Show Registrations</h3>
+					</a>
+					<a href="#">
+						<img
+							src="./Images/Navbar/file-arrow-down.svg"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Generate Report</h3>
+					</a>
+					<a href="#" class="active">
+						<img
+							src="./Images/Navbar/add-to-queue-svgrepo-com.svg"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Add Item</h3>
+					</a>
+					<a href="#">
+						<img
+							src="./Images/Navbar/video-camera.svg"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Video Call</h3>
+					</a>
+
+					<a href="#">
+						<img
+							class="navbar--menu-icon"
+							src="./Images/navbar/logout-svgrepo-com.svg"
+							alt=""
+						/>
+						<h3>Logout</h3>
+					</a>
+				</div>
+			</aside>
+			<main>
+				<div class="title--heading">
+					<h1 class="page--title">Add items</h1>
+				</div>
+				<div class="content">
+					<form action="#">
+						<div class="user-details">
+							<div class="input-box">
+								<label class="details">Item Name </label>
+								<input
+									type="text"
+									name="fname"
+									id="fname"
+									placeholder="Enter item Name"
+									required
+								/>
+							</div>
+							<br />
+							<div class="input-box">
+								<label class="details">Min Temperature:</label>
+								<input
+									type="number"
+									name="number"
+									id="minTemp"
+									placeholder="Enter min Temperature "
+									required
+								/>
+							</div>
+							<br />
+							<div class="input-box">
+								<label class="details">Max Temperature:</label>
+								<input
+									type="number"
+									name="maxTemp"
+									id="enter max Temperature"
+									placeholder="Enter max Days"
+									required
+								/>
+							</div>
+							<br />
+							<div class="input-box">
+								<label class="details"
+									>Max Storage Life in days:</label
+								>
+								<input
+									type="number"
+									name="max storageLife"
+									placeholder="enter max storageLife in days"
+									required
+								/>
+							</div>
+							<br />
+							<div class="input-box">
+								<label class="details" for="isCrop"
+									>Is this item a crop?:</label
+								>
+								<select id="isCrop" name="isCrop">
+									<option value="True">Yes</option>
+									<option value="False">No</option>
+								</select>
+							</div>
+						</div>
+						<div class="button">
+							<input type="submit" value="submit" />
+						</div>
+					</form>
+				</div>
+			</main>
+		</div>
+	</body>
+</html>

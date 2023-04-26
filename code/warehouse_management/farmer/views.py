@@ -211,7 +211,7 @@ def showNearbyWarehouses(request):
                 longitude = float(request.POST.get('longitude'))
                 target_distance = float(request.POST.get('distance'))
                 query = {}
-                projection = {}
+                projection = {'_id': 0}
                 warehouse_list = warehouse.find(query, projection)
 
                 nearby_warehouse_list = []
@@ -242,7 +242,7 @@ def searchNearbyWarehouses(request):
     if request.session['isLoggedIn'] == True:
         return render(request, 'f-search-nearby-warehouses.html')
     else:
-        messages.error(request, 'You need to Login first!')
+        messages.error(request, 'You need to login first!')
         return render(request, 'f-login.html')
 
 # def storedGoods(request):
@@ -280,7 +280,7 @@ def makeReservation(request):
         }
         return render(request, 'f-make-reservation.html', context=context)
     else:
-        messages.error(request, 'You need to Login first!')
+        messages.error(request, 'You need to login first!')
         return render(request, 'f-login.html')
 
 

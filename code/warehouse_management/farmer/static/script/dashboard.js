@@ -278,7 +278,6 @@ const location_not_found = document.querySelector(".location-not-found");
 const weather_body = document.querySelector(".weather-body");
 
 function getLocation() {
-	let longitude, latitude;
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition((location) => {
 			checkWeather(location.coords);
@@ -330,19 +329,19 @@ async function checkWeather(coords) {
 
 	switch (weather_data.current.condition.text) {
 		case "Overcast":
-			weather_img.src = "./Images/Weather/cloud.png";
+			weather_img.src = "/static/Images/Weather/cloud.png";
 			break;
 		case "Sunny":
-			weather_img.src = "./Images/Weather/clear.png";
+			weather_img.src = "/static/Images/Weather/clear.png";
 			break;
 		case "Rain":
-			weather_img.src = "./Images/Weather/rain.png";
+			weather_img.src = "/static/Images/Weather/rain.png";
 			break;
 		case "Mist":
-			weather_img.src = "./Images/Weather/mist.png";
+			weather_img.src = "/static/Images/Weather/mist.png";
 			break;
 		case "Snow":
-			weather_img.src = "./Images/Weather/snow.png";
+			weather_img.src = "/static/Images/Weather/snow.png";
 			break;
 	}
 }

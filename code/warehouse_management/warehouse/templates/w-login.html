@@ -20,8 +20,12 @@
 			href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600&display=swap"
 			rel="stylesheet"
 		/>
+
+        	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+            
+
 		<!-- Style link -->
-		<link rel="stylesheet" href="{% static 'styles/farmer-login.css' %}" />
+		<link rel="stylesheet" href="{% static 'styles/worker-login.css' %}" />
 
 		<title>Login Form</title>
 	</head>
@@ -39,19 +43,18 @@
 					<a class="nav--item Service--button" href="#">Services</a>
 				</li>
 			</ul>
-		</nav>
-
-		<div>
-            {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                {% endfor %}
-            </ul>
-            {% endif %}
-
-        </div>
+        </nav>
         <div class="container">
+            <div>
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
+            </div>
             <form action="{% url 'warehouse:loginValidate'%}" method="post" class="form">
                 {% csrf_token %}
 
@@ -74,11 +77,11 @@
     </div>
 
         <script>
-            document
+            {% comment %} document
                 .getElementById("register-btn")
                 .addEventListener("click", function () {
                     window.location.href = "{% url 'warehouse:register' %}";
-                });
+                }); {% endcomment %}
         </script>
 
     </body>

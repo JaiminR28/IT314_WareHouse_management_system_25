@@ -1,0 +1,883 @@
+
+:root
+{
+     --color-primary: #d62828;
+    --color-danger: #f77f00;
+    --color-success: #41f1b6;
+    --color-warning: #ffbb55;
+    --color-white: #fff;
+    --color-info-dark: #7d8da1;
+    --color-info-light:#dce1eb;
+    --color-dark: #363949;
+    --color-light: rgba(132,139,200,0.18);
+    --color-primary-variant: #111e88;
+    --color-dark-variant: #677483;
+    --color-background: #f6f6f9;
+
+    
+  --color-dark--1: var(--color-dark);
+  --color-dark--2: #42484d;
+  --color-light--1: #aaa;
+  --color-light--2: #ececec;
+  --color-light--3: rgb(214, 222, 224);
+
+    --color-border-radius: 2rem;
+    --border-radius-1: 0.4rem;
+    --border-radius-2: 0.8rem;
+    --border-radius-3: 1.2rem;
+
+    --card-padding: 1.8rem;
+    --padding-1: 1.2rem;
+
+    --box-shadow: 0 2rem 3rem :var(--color-light);
+}
+
+.dark-theme-variables {
+	--color-background: #181a1e;
+	--color-dark: rgba(0, 0, 0, 0.4);
+	--color-light: #edeffd;
+	--color-white: #202528;
+	--color-dark-variant: #a3bdcc;
+	--box-shadow: 0 2rem 3rem var(--color-light);
+}
+* {
+	margin: 0;
+	padding: 0;
+	outline: 0;
+	appearance: none;
+	border: 0;
+	text-decoration: none;
+	list-style: none;
+	box-sizing: border-box;
+}
+
+html {
+	font-size: 62.5%;
+}
+
+body {
+	width: 100vw;
+	height: 100vh;
+	font-family: "Manrope", sans-serif;
+	font-size: 1.6rem;
+	background-color: #E9FFFF;
+	user-select: none;
+	overflow-x: hidden;
+	overflow: hidden;
+	color: var(--color-dark);
+}
+
+.container {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+
+a {
+	color: var(--color-dark);
+}
+
+img {
+	display: block;
+	width: 100%;
+}
+
+h1 {
+	font-weight: 800;
+	font-size: 1.8rem;
+}
+
+h2 {
+	font-size: 1.8rem;
+}
+
+h3 {
+	font-size: 1.4rem;
+}
+h4 {
+	font-size: 1.6rem;
+}
+
+h5 {
+	font-size: 1.2rem;
+}
+
+small {
+	font-size: 0.75rem;
+}
+.material-symbols-outlined {
+	font-variation-settings: "FILL" 0, "wght" 200, "GRAD" 0, "opsz" 48;
+}
+
+.profile-photo {
+	width: 2.8rem;
+	height: 2.8rem;
+	border-radius: 50%;
+	overflow: hidden;
+}
+
+.text-muted {
+	color: var(--color-info-dark);
+}
+
+p {
+	color: var(--color-dark-variant);
+}
+
+b {
+	color: var(--color-dark);
+}
+
+.primary {
+	color: var(--color-primary);
+}
+
+.danger {
+	color: var(--color-danger);
+}
+
+.success {
+	color: var(--color-success);
+}
+
+.warning {
+	color: var(--color-warning);
+}
+
+.logo img{
+	width: 1rem;
+}
+
+aside {
+	height: 100vh;
+	background-color: rgb(240, 234, 234);
+	width: 20%;
+}
+.navbar--menu-icon{
+	width: 1.6rem;
+}
+aside .top {
+	/* background: white; */
+	/* position: fixed; */
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 1.4rem;
+}
+aside .logo {
+	display: flex;
+	gap: 2rem;
+}
+
+aside .logo img {
+	width: 2rem;
+	height: 2rem;
+}
+
+aside .close {
+	display: none;
+}
+aside .sidebar {
+	/* background: white ;  */
+	display: flex;
+	flex-direction: column;
+	height: 86vh;
+	position: relative;
+	top: 3rem;
+}
+
+aside .logo img {
+	width: 2rem;
+	height: 2rem;
+}
+
+aside h3 {
+	font-size: 1.6rem;
+	font-weight: 500;
+}
+
+aside .sidebar a {
+	display: flex;
+	color: var(--color-info-dark);
+	margin-left: 2rem;
+	gap: 1rem;
+	align-items: center;
+	position: relative;
+	height: 3.7rem;
+	transition: all 300ms ease;
+	margin-bottom: 1.2rem;
+}
+aside .sidebar a span {
+	font-size: 1.6rem;
+	transition: all 300ms ease;
+}
+aside .sidebar a:last-child {
+	position: absolute;
+	bottom: 2rem;
+	width: 100%;
+}
+aside .sidebar a.active {
+	background: var(--color-light);
+	color: var(--color-primary);
+	margin-left: 0;
+	padding: 1rem;
+}
+
+aside .sidebar a.active::before {
+	content: "";
+	width: 6px;
+	height: 100%;
+	background: var(--color-primary);
+}
+aside .sidebar a .onclickf {
+	transition: all 300ms ease;
+}
+aside .sidebar a.active span {
+	color: var(--color-primary);
+	margin-left: calc(1rem -3px);
+}
+
+aside .sidebar a:hover {
+	color: var(--color-primary);
+}
+
+aside .sidebar a:hover span {
+	margin-left: 1rem;
+}
+
+aside .sidebar .message-count {
+	background: var(--color-danger);
+	color: var(--color-white);
+	padding: 2px 10px;
+	font-size: 11px;
+	border-radius: var(--border-radius-1);
+}
+
+/* main */
+
+.page--title {
+	font-size: 4.2rem;
+	margin: 1.6rem 0 0 0;
+}
+
+main {
+	margin: 1.4rem 2.4rem;
+	width: 70%;
+}
+
+main .date {
+	display: inline-block;
+	background-color: var(--color-light);
+	border-radius: var(--border-radius-1);
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	padding: 0.5rem 1.6rem;
+	font-size: 1.2rem;
+	/* cursor: pointer; */
+}
+
+main .date input[type="date"] {
+	background: transparent;
+	color: var(--color-dark);
+	/* cursor: pointer; */
+}
+
+main .profile-title {
+	background-color: var(--color-white);
+	border-radius: var(--border-radius-2);
+	padding: 5rem 2rem;
+	display: flex;
+	justify-content: space-between;
+}
+
+.user--name--column {
+	font-size: 2.4rem;
+	width: 60%;
+}
+
+.user--name {
+	display: block;
+	font-size: 6rem;
+}
+
+.user--details {
+	width: 40%;
+	display: flex;
+	padding-left: 1.2rem;
+}
+
+.user--email {
+	font-size: 1.6rem;
+	display: flex;
+}
+
+.mail--icon--user {
+	margin-right: 1.2rem;
+}
+.user--email span {
+	margin-left: 0.08rem;
+}
+
+main .profile-title > div {
+	background: var(--color-white);
+	border-radius: var(--card-border-radius);
+	margin-top: 1rem;
+	box-shadow: var(--box-shadow);
+	/* box-sizing: var(--border-radius-3); */
+	border-radius: 25px;
+	transition: all 300ms ease;
+}
+
+main .profile-title > div:hover {
+	box-shadow: none;
+}
+
+main .profile-title > div .middle {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+main .profile-title h3 {
+	margin: 1rem 0 0.6rem;
+	font-size: 1rem;
+}
+
+main .profile-title .progress {
+	position: relative;
+	width: 92px;
+	height: 92px;
+	border-radius: 50%;
+}
+
+main .profile-title svg {
+	width: 7rem;
+	height: 7rem;
+}
+main .profile-title svg circle {
+	fill: none;
+	stroke: var(--color-primary);
+	stroke-width: 14;
+	stroke-linecap: round;
+	transform: translate(5px, 5px);
+	stroke-dasharray: 110; /*remove both lines of stroke if giving individually*/
+	stroke-dashoffset: 92;
+}
+main .profile-title .sales1 svg circle {
+	stroke-dashoffset: -30;
+	stroke-dasharray: 250;
+}
+
+/* weather-price-div */
+main .weather-price-div {
+	margin-top: 2rem;
+	display: flex;
+	justify-content: space-between;
+}
+
+main .weather-price-div h2 {
+	margin-bottom: 0.8rem;
+}
+
+/* RIGHT */
+
+.right {
+	margin-top: 1.4rem;
+	width: 26%;
+}
+
+.right .top {
+	display: flex;
+	justify-content: end;
+	gap: 2rem;
+	/* background: gray; */
+}
+
+.right .top button {
+	display: none;
+}
+
+.right .theme-toggler {
+	background: var(--color-right);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 2rem;
+	width: 8rem;
+	cursor: pointer;
+	border-radius: var(--border-radius-1);
+}
+
+.right .theme-toggler span {
+	font-size: 1.2rem;
+	width: 50%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.right .theme-toggler span.active {
+	background: var(--color-primary);
+	color: white;
+	border-radius: var(--border-radius-1);
+}
+
+.right .top .profile {
+	display: flex;
+	gap: 2rem;
+	text-align: right;
+}
+
+.right .recent-updates {
+	margin-top: 1rem;
+}
+
+.right .recent-updates h2 {
+	margin-bottom: 0.8rem;
+}
+
+.right .recent-updates .updates {
+	/* height: 84vh; */
+	background: var(--color-white);
+	border-radius: var(--card-border-radius);
+	padding: var(--card-padding);
+	box-shadow: var(--box-shadow);
+	transition: all 300ms ease;
+}
+
+.right .recent-updates .updates:hover {
+	box-shadow: none;
+}
+
+.right .recent-updates .updates .update {
+	display: grid;
+	grid-template-columns: 2.6rem auto;
+	gap: 1rem;
+	margin-bottom: 1rem;
+}
+
+/* Reserved Analytics */
+
+.right .news--div {
+	margin-top: 10rem;
+}
+
+.right .news--div h2 {
+	margin-bottom: 2rem;
+}
+
+.news--sources {
+	font-size: 1.2rem;
+	font-weight: 800;
+	font-style: italic;
+}
+
+.news--source {
+	font-weight: 300;
+}
+
+.news--blocks--div {
+	overflow-y: scroll;
+	overflow-x: hidden;
+	height: 36rem;
+	margin-top: 1.2rem;
+}
+
+.news--details {
+	padding: 0.4rem 0;
+}
+
+.news-block {
+	background: var(--color-white);
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	margin-bottom: 1rem;
+	padding: 1rem 0.8rem;
+	border-radius: var(--border-radius-3);
+	box-shadow: var(--box-shadow);
+	transition: all 300ms ease;
+}
+
+.news--img {
+	width: 12rem;
+	height: 8rem;
+	object-fit: cover;
+	border-radius: var(--border-radius-2);
+}
+
+.news--heading {
+	font-size: 1.4rem;
+	font-weight: 600;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	max-width: 24rem;
+	margin-bottom: 1rem;
+}
+
+.news-description {
+	font-size: 1.2rem;
+	display: flex;
+	flex-wrap: wrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	height: 3.2rem;
+	max-width: 24rem;
+	margin-bottom: 1rem;
+}
+
+.news--date {
+	font-weight: 400;
+	font-size: 1.2rem;
+	margin-left: 0.8rem;
+}
+
+/* Media Queries  */
+
+@media screen and (max-width: 1200px) {
+	.container {
+		width: 94%;
+		grid-template-columns: 7rem auto 23rem;
+	}
+
+	aside .logo h2 {
+		display: none;
+	}
+
+	aside .sidebar h3 {
+		display: none;
+	}
+
+	aside .sidebar a {
+		width: 5.6rem;
+	}
+
+	aside .sidebar a:last-child {
+		position: fixed;
+		margin-top: 1.8rem;
+	}
+
+	main .profile-title {
+		grid-template-columns: 1fr;
+		gap: 0;
+	}
+	main .weather-price-div {
+		width: 94%;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		margin: 2rem 0 0 8.8rem;
+	}
+
+	main .weather-price-div table {
+		width: 83vw;
+	}
+	main table thead tr th:last-child,
+	main table thead tr th:first-child {
+		display: none;
+	}
+
+	main table tbody tr td:last-child,
+	main table tbody tr td:first-child {
+		display: none;
+	}
+}
+
+/* media queries */
+@media screen and (max-width: 768px) {
+	.container {
+		width: 100%;
+		grid-template-columns: 1fr;
+	}
+
+	aside {
+		position: fixed;
+		left: -100%;
+		background: var(--color-white);
+		width: 18rem;
+		z-index: 3;
+		box-shadow: 1rem 3rem 4rem var(--color-light);
+		height: 100vh;
+		padding-right: var(--card-padding);
+		display: none;
+		animation: showMenu 400ms ease forwards;
+	}
+
+	@keyframes showMenu {
+		to {
+			left: 0;
+		}
+	}
+	aside .logo {
+		margin-left: 1rem;
+	}
+	aside .logo h2 {
+		display: inline;
+	}
+	aside .sidebar h3 {
+		display: inline;
+	}
+	aside .sidebar a {
+		width: 100%;
+		height: 3.4rem;
+	}
+	aside .sidebar a:last-child {
+		position: absolute;
+		bottom: 5rem;
+	}
+	aside .close {
+		display: inline-block;
+		cursor: pointer;
+	}
+	main {
+		margin-top: 8rem;
+		padding: 0 1rem;
+	}
+	main .weather-price-div {
+		position: relative;
+		margin: 3rem 0 0 0;
+		width: 100%;
+	}
+	main .weather-price-div table {
+		width: 100%;
+		margin: 0;
+	}
+
+	.right {
+		width: 94%;
+		margin: 0 auto 4rem;
+	}
+	.right top {
+		position: fixed;
+		top: 0;
+		left: 0;
+		align-items: center;
+		padding: 0 0.8rem;
+		height: 4.6rem;
+		background: var(--color-white);
+		width: 100%;
+		margin: 0;
+		z-index: 2;
+		box-shadow: 0 1rem 1rem var(--color-light);
+	}
+	.right .top .theme-toggler {
+		width: 4.4rem;
+		position: absolute;
+		left: 66%;
+	}
+	.right .profile .info {
+		display: none;
+	}
+	.right .top button {
+		display: inline-block;
+		background: transparent;
+		cursor: pointer;
+		color: var(--color-dark);
+		position: absolute;
+		left: 1rem;
+	}
+	.right .top button span {
+		font-size: 2rem;
+	}
+}
+
+/* weather */
+
+.weather--container {
+	width: 40%;
+    padding: 1rem;
+    border-radius: var(--border-radius-2);
+}
+
+.weather{
+    	background-color: white;
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.location {
+	display: flex;
+	align-items: center;
+}
+
+.location--svg {
+	width: 2rem;
+	margin-right: 1rem;
+}
+
+.last-updated-div {
+	display: flex;
+	font-size: 1rem;
+}
+.weather-body {
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	margin-block: 1rem;
+	display: none;
+}
+.weather-body img {
+	width: 10rem;
+}
+
+.weather-box {
+	margin-block: 1rem;
+	text-align: center;
+}
+
+.weather-box .temperature {
+	font-size: 1.2rem;
+	font-weight: 800;
+	position: relative;
+}
+
+.weather-box .temperature sup {
+	font-size: 2rem;
+	position: absolute;
+	font-weight: 600;
+}
+
+.weather-box .description {
+	font-size: 2rem;
+	font-weight: 700;
+	text-transform: capitalize;
+}
+
+.weather-details {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	margin-top: 2rem;
+}
+
+.humidity,
+.wind {
+	display: flex;
+	align-items: center;
+}
+
+.humidity {
+	margin-left: 2rem;
+}
+
+.wind {
+	margin-right: 2rem;
+}
+
+.weather-details i {
+	font-size: 36px;
+}
+
+.weather-details .text {
+	margin-left: 10px;
+	font-size: 16px;
+}
+
+.text span {
+	font-size: 2rem;
+	font-weight: 700;
+}
+
+.location-not-found {
+	margin-top: 2rem;
+	display: none;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.location-not-found h1 {
+	font-size: 2rem;
+	color: #6b6b6b;
+	margin-block-end: 15px;
+}
+.location-not-found img {
+	width: 80%;
+}
+
+
+/* Crop pricing */
+
+
+
+ .crop--pricing
+{
+    margin-top: 2rem;
+    width: 40%;
+}
+
+ .crop--pricing h2{
+
+    margin-bottom: 0.8rem;
+}
+
+.crop--icons{
+    width: 2.4rem;
+}
+
+ .crop--pricing .item{
+    background: var(--color-white);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.7rem;
+    padding: 1.4rem var(--card-padding);
+    border-radius: var(--border-radius-3);
+    box-shadow: var(--box-shadow);
+    transition: all 300ms ease;
+}
+
+.crop--pricing--heading{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+ .crop--pricing .item:hover{
+    box-shadow: none;
+}
+ .crop--pricing .item .right{
+
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin: 0;
+    width: 100%;
+}
+
+ .crop--pricing .item .icon{
+        padding: 0.6rem;
+        color: var(--color-white);
+        border-radius: 50%;
+        background: var(--color-primary);
+        display: flex;
+}
+ .crop--pricing .item.rice .icon{
+            background: var(--color-danger);
+}
+
+ .crop--pricing .item.corn .icon{
+    background: var(--color-success);
+}
+
+.crop-unit{
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-right: 2rem;
+}
+
+
+aside .logo {
+	display: flex;
+}
+
+aside .logo img {
+	width: 20rem;
+	height: 4rem;
+	object-fit: contain;
+	margin-left: 2.4rem;
+}

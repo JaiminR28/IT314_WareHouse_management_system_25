@@ -1,4 +1,4 @@
-{% extends 'f-base-generic.html' %}
+{% comment %} {% extends 'f-base-generic.html' %}
 
 {% block content %}
 
@@ -17,11 +17,6 @@
         <input type="text" id="warehouseEmail" name="warehouseEmail"><br><br>
         <label for="itemName">Choose a item:</label>
         <select id="itemName" name="itemName">
-          {% comment %} <option value="volvo">Volvo</option>
-          <option value="saab">Saab</option>
-          <option value="fiat">Fiat</option>
-          <option value="audi">Audi</option> {% endcomment %}
-
         {% for item in items %}
             <option value={{ item.name }}>
                 <p>
@@ -44,5 +39,172 @@
         <input type="number" step="any" min=0 id="quantity" name="quantity"><br><br>
         <input type="submit" value="Submit" class="btn btn-primary">
     </form> 
-{% endblock %}
+{% endblock %} {% endcomment %}
 
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale-1.0" />
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap"
+			rel="stylesheet"
+		/>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+		<link rel="stylesheet" href="{% static 'styles/modify_registration.css' %}" />
+
+		<script defer src="{% static 'script/script.js' %}"></script>
+
+		<title>Modify Reservation</title>
+	</head>
+
+	<body>
+		<div class="container">
+			<aside>
+				<div class="top">
+					<div class="logo">
+						<img src="{% static 'Images/WarehouseWise.png' %}" />
+					</div>
+					<div class="close" id="close-btn">
+						<span class="material-symbols-outlined"> close </span>
+					</div>
+				</div>
+				<div class="sidebar">
+					<a href="{% url 'farmer:home' %}">
+						<img
+							src="{% static 'Images/navbar/house.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Home</h3>
+					</a>
+
+					<a
+						href="{% url 'farmer:makeReservation' %}"
+					>
+						<img
+							src="{% static 'Images/navbar/list-plus.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Add Reservation</h3>
+					</a>
+					<a href="{% url 'farmer:showReservations' %}">
+						<img
+							src="{% static 'Images/Navbar/report-text-svgrepo-com.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Show Reservations</h3>
+					</a>
+					<a href="{% url 'farmer:generateReport' %}">
+						<img
+							src="{% static 'Images/Navbar/file-arrow-down.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Generate Report</h3>
+					</a>
+					<a href="{% url 'farmer:videoCall' %}">
+						<img
+							src="{% static 'Images/Navbar/video-camera.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Video Call</h3>
+					</a>
+
+					<a href="{% url 'farmer:logout' %}">
+						<img
+							class="navbar--menu-icon"
+							src="{% static 'Images/navbar/logout-svgrepo-com.svg' %}"
+							alt=""
+						/>
+						<h3>Logout</h3>
+					</a>
+				</div>
+			</aside>
+			<main>
+                {% if messages %}
+                <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+                </ul>
+                {% endif %}
+				<h1 class="page--title">Modify Registration</h1>
+				<div class="content">
+					<form action="{% url 'farmer:modifyReservationEntry' reservation_id %}" method="post">
+                        {% csrf_token %}
+						<div class="user-details">
+							<div class="input-box">
+								<label class="details">Warehouse Email:</label>
+								<input
+									type="email"
+									name="warehouseEmail"
+									id="warehouseEmail"
+									placeholder="Enter the warehouse email"
+									required
+								/>
+							</div>
+                            <div class="input-box">
+								<label class="details">Item Name</label>
+								<select id="itemName" name="itemName">
+                                    {% for item in items %}
+                                        <option value={{ item.name }}>
+                                            <p>
+                                                Name: {{ item.name }}, 
+                                                Min Temperature: {{ item.min_temperature }}, 
+                                                Max Temperature: {{ item.max_temperature }}, 
+                                                Storage Life: {{ item.storage_life }}, 
+                                                Is a crop: {{ item.is_crop }}
+                                            </p>
+                                        </option>
+                                    {% endfor %}
+                                </select>
+							</div>
+							<div class="input-box">
+								<label class="details">Start Date</label>
+								<input
+									type="date"
+									name="startDate"
+									id="startDate"
+									required
+								/>
+							</div>
+							<div class="input-box">
+								<label class="details">End Date</label>
+								<input
+									type="date"
+									name="endDate"
+									id="endDate"
+									required
+								/>
+							</div>
+							<div class="input-box">
+								<label class="details">Quantity (in kgs)</label>
+								<input
+									type="number"
+									name="quantity"
+									id="quantity"
+									min="0"
+									required
+								/>
+							</div>
+						</div>
+						<div class="button">
+							<input type="submit" value="Modify Reservation" />
+						</div>
+					</form>
+				</div>
+			</main>
+		</div>
+	</body>
+</html>

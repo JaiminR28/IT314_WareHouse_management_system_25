@@ -1,4 +1,4 @@
-{% extends 'f-base-generic.html' %}
+{% comment %} {% extends 'f-base-generic.html' %}
 
 {% block content %}
 
@@ -29,5 +29,167 @@
         <br><br>
         <input type="submit" value="Submit" class="btn btn-primary">
     </form> 
-{% endblock %}
+{% endblock %} {% endcomment %}
 
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale-1.0" />
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap"
+			rel="stylesheet"
+		/>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+		<link rel="stylesheet" href="{% static 'styles/addItem.css' %}" />
+
+		<script defer src="{% static 'script/add-item.js' %}"></script>
+
+		<title>Add Items</title>
+	</head>
+
+	<body>
+		<div class="container">
+			<aside>
+				<div class="top">
+					<div class="logo">
+						<img src="{% static 'Images/WarehouseWise.png' %}" />
+					</div>
+					<div class="close" id="close-btn">
+						<span class="material-symbols-outlined"> close </span>
+					</div>
+				</div>
+				<div class="sidebar">
+					<a href="{% url 'farmer:home' %}">
+						<img
+							src="{% static 'Images/navbar/house.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Home</h3>
+					</a>
+
+					<a
+						href="{% url 'farmer:makeReservation' %}"
+					>
+						<img
+							src="{% static 'Images/navbar/list-plus.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Add Reservation</h3>
+					</a>
+					<a href="{% url 'farmer:showReservations' %}">
+						<img
+							src="{% static 'Images/Navbar/report-text-svgrepo-com.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Show Reservations</h3>
+					</a>
+					<a href="{% url 'farmer:generateReport' %}">
+						<img
+							src="{% static 'Images/Navbar/file-arrow-down.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Generate Report</h3>
+					</a>
+					<a href="{% url 'farmer:videoCall' %}">
+						<img
+							src="{% static 'Images/Navbar/video-camera.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Video Call</h3>
+					</a>
+
+					<a href="{% url 'farmer:logout' %}">
+						<img
+							class="navbar--menu-icon"
+							src="{% static 'Images/navbar/logout-svgrepo-com.svg' %}"
+							alt=""
+						/>
+						<h3>Logout</h3>
+					</a>
+				</div>
+			</aside>
+			<main>
+				<div class="title--heading">
+					<h1 class="page--title">Add items</h1>
+				</div>
+				<div class="content">
+					<form action="{% url 'farmer:itemEntry'%}" method="post">
+                        {% csrf_token %}
+						<div class="user-details">
+							<div class="input-box">
+								<label class="details">Item Name </label>
+								<input
+									type="text"
+									name="itemName"
+									id="fname"
+									placeholder="Enter item Name"
+									required
+								/>
+							</div>
+							<br />
+							<div class="input-box">
+								<label class="details">Min Temperature:</label>
+								<input
+									type="number"
+									name="minTemp"
+									id="minTemp"
+									placeholder="Enter min Temperature "
+									required
+								/>
+							</div>
+							<br />
+							<div class="input-box">
+								<label class="details">Max Temperature:</label>
+								<input
+									type="number"
+									name="maxTemp"
+									id="enter max Temperature"
+									placeholder="Enter max Days"
+									required
+								/>
+							</div>
+							<br />
+							<div class="input-box">
+								<label class="details"
+									>Max Storage Life in days:</label
+								>
+								<input
+									type="number"
+									name="storageLife"
+									placeholder="enter max storageLife in days"
+									required
+								/>
+							</div>
+							<br />
+							<div class="input-box">
+								<label class="details" for="isCrop"
+									>Is this item a crop?:</label
+								>
+								<select id="isCrop" name="isCrop">
+									<option value="True">Yes</option>
+									<option value="False">No</option>
+								</select>
+							</div>
+						</div>
+						<div class="button">
+							<input type="submit" value="submit" />
+						</div>
+					</form>
+				</div>
+			</main>
+		</div>
+	</body>
+</html>

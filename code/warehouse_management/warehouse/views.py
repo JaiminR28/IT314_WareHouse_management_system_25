@@ -514,9 +514,12 @@ def showReservations(request):
         }
         projection = {}
         items_stored_list = items_stored.find(query, projection)
-
+        data_list = []
+        print(items_stored_list)
+        for i in items_stored_list:
+            data_list.append(i)
         context = {
-            'items': items_stored_list,
+            'items': data_list,
         }
 
         return render(request, 'w-show-reservations.html', context=context)

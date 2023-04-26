@@ -29,6 +29,14 @@
     </form> 
 {% endblock %}
  -->
+
+ {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
 {% load static %}
 
 <!DOCTYPE html>
@@ -141,67 +149,67 @@
 					<h1 class="page--title">Add items</h1>
 				</div>
 				<div class="content">
-					<form action="{% url 'warehouse:itemEntry'%}">
-						<div class="user-details">
-							<div class="input-box">
-								<label class="details">Item Name </label>
-								<input
-									type="text"
-									name="fname"
-									id="fname"
-									placeholder="Enter item Name"
-									required
-								/>
-							</div>
-							<br />
-							<div class="input-box">
-								<label class="details">Min Temperature:</label>
-								<input
-									type="number"
-									name="number"
-									id="minTemp"
-									placeholder="Enter min Temperature "
-									required
-								/>
-							</div>
-							<br />
-							<div class="input-box">
-								<label class="details">Max Temperature:</label>
-								<input
-									type="number"
-									name="maxTemp"
-									id="enter max Temperature"
-									placeholder="Enter max Days"
-									required
-								/>
-							</div>
-							<br />
-							<div class="input-box">
-								<label class="details"
-									>Max Storage Life in days:</label
-								>
-								<input
-									type="number"
-									name="max storageLife"
-									placeholder="enter max storageLife in days"
-									required
-								/>
-							</div>
-							<br />
-							<div class="input-box">
-								<label class="details" for="isCrop"
-									>Is this item a crop?:</label
-								>
-								<select id="isCrop" name="isCrop">
-									<option value="True">Yes</option>
-									<option value="False">No</option>
-								</select>
-							</div>
-						</div>
-						<div class="button">
-							<input type="submit" value="submit" />
-						</div>
-					</form>
+					<form action="{% url 'warehouse:itemEntry'%}" method="POST">
+						{% csrf_token %}
+                         <div class="user-details">
+                             <div class="input-box">
+                                 <label class="details">Item Name</label>
+                                 <input
+                                     type="text"
+                                     name="itemName"
+                                     id="itemName"
+                                     placeholder="Enter item Name"
+                                     required
+                                 />
+                             </div>
+                             <br />
+                             <div class="input-box">
+                                 <label class="details">Min Temperature:</label>
+                                 <input
+                                     type="number"
+                                     name="minTemp"
+                                     id="minTemp"
+                                     placeholder="Enter min Temperature "
+                                     required
+                                 />
+                             </div>
+                             <br />
+                             <div class="input-box">
+                                 <label class="details">Max Temperature:</label>
+                                 <input
+                                     type="number"
+                                     name="maxTemp"
+                                     id="maxTemp"
+                                     placeholder="Enter max Days"
+                                     required
+                                 />
+                             </div>
+                             <br />
+                             <div class="input-box">
+                                 <label class="details"
+                                     >Max Storage Life in days:</label
+                                 >
+                                 <input
+                                     type="number"
+                                     name="storageLife"
+                                     id="storageLife"
+                                     placeholder="Enter max storage life in days"
+                                     required
+                                 />
+                             </div>
+                             <br />
+                             <div class="input-box">
+                                 <label class="details" for="isCrop">Is this item a crop?:</label>
+                                 <select id="isCrop" name="isCrop">
+                                     <option value="True" selected>Yes</option>
+                                     <option value="False">No</option>
+                                 </select>
+                             </div>
+                         </div>
+                         <div class="button">
+                             <input type="submit" value="submit" />
+                         </div>
+                     </form>
 				</div>
 			</main>
 		</div>

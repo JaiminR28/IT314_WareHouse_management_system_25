@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Admin Dashboard</title>
+		<link rel="stylesheet" href="styles.css" />
+
+		<!-- Icons -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap"
+			rel="stylesheet"
+		/>
+
+		<!-- Material Icons -->
+		<link
+			href="https://fonts.googleapis.com/icon?family=Material+Icons"
+			rel="stylesheet"
+		/>
+	</head>
+
+	<body>
+		<div class="container">
+			<aside>
+				<div class="top">
+					<div class="logo">
+						<img src="./Images/WarehouseWise.png" alt="">
+					</div>
+					<div class="close" id="close-btn">
+						<span class="material-symbols-outlined"> close </span>
+					</div>
+				</div>
+				<div class="sidebar">
+					<a href="#" class="active">
+						<img
+							src="./Images/navbar/house.svg"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Home</h3>
+					</a>
+
+					<a
+						href="../Reservation-page-for-farmers-main/farmer-reservation.html"
+					>
+						<img
+							src="./Images/navbar/list-plus.svg"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Add Registraion</h3>
+					</a>
+
+					<a href="#">
+						<img
+							src="./Images/Navbar/file-edit-svgrepo-com.svg"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Modify Registraion</h3>
+					</a>
+					<a href="#">
+						<img
+							src="./Images/Navbar/report-text-svgrepo-com.svg"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Show Registrations</h3>
+					</a>
+                    <a href="#" >
+						<img
+							src="./Images/Navbar/file-arrow-down.svg"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Generate Report</h3>
+					</a>
+					<a href="#">
+						<img
+							src="./Images/Navbar/add-to-queue-svgrepo-com.svg"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Add Item</h3>
+					</a>
+					<a href="#">
+						<img
+							src="./Images/Navbar/video-camera.svg"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Video Call</h3>
+					</a>
+
+
+					<a href="#">
+						<img
+							class="navbar--menu-icon"
+							src="./Images/navbar/logout-svgrepo-com.svg"
+							alt=""
+						/>
+						<h3>Logout</h3>
+					</a>
+				</div>
+			</aside>
+			<!-- END OF ASIDE -->
+			<main>
+				<h1 class="page--title">Dashboard</h1>
+				<div class="date">
+					<span class="date--span">28 / 06 /2023</span>
+				</div>
+				<div class="profile-title"></div>
+				<!-- End of insights -->
+				<div class="weather-price-div">
+					<div class="weather--container">
+						<h2>weather</h2>
+
+					<div class="crop--pricing">
+						<h2 class="crop--pricing--heading">
+							Crop pricings</h2>
+					</div>
+				</div>
+			</main>
+
+			<!-- end of main -->
+
+			<div class="right">
+				<div class="top">
+					<button id="menu-btn">
+						<span class="material-icons"> menu</span>
+					</button>
+					<div class="theme-toggler">
+						<span class="material-icons active"> light_mode </span>
+						<span class="material-icons"> dark_mode </span>
+					</div>
+				</div>
+				<!-- end of updates -->
+				<div class="news--div">
+					<h2>Recent News Updates</h2>
+					<p class="news--sources">
+						sources :
+						<span class="news--source">Times of india </span>
+					</p>
+					<div class="news--blocks--div"></div>
+				</div>
+			</div>
+		</div>
+		<script src="orders.js"></script>
+		<script src="index.js"></script>
+	</body>
+</html>

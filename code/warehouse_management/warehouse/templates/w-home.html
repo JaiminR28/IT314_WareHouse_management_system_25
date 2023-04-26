@@ -103,6 +103,14 @@
 	<body>
 		<nav>
 			<img class="company--logo" src="{% static '/Images/WarehouseWise.png' %}" alt="">
+				<a href="{% url 'warehouse:logout' %}">
+						<img
+							class="navbar--menu-icon"
+							src="{% static '/Images/navbar/logout-svgrepo-com.svg' %}"
+							alt=""
+						/>
+						<h3>Logout</h3>
+				</a>
 		</nav>
 
 			<!-- END OF ASIDE -->

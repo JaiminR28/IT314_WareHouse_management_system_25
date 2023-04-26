@@ -354,6 +354,12 @@ nav{
 	justify-content: space-between;
 	background-color: var(--color-white);
 }
+
+nav a{
+	display: flex;
+	align-items: center;
+	gap: 0.8rem;
+}
 .company--logo{
 	width: 20rem;
 }

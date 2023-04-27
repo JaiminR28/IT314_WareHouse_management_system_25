@@ -14,7 +14,7 @@
 	/>
 
 	<!-- Styles -->
-	<link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+	<link rel="stylesheet" href="{% static 'styles/styles.css' %}" />
 	<body>
 		<main class="container">
 			<div class="option--container">
@@ -23,12 +23,12 @@
 					<li class="option red--border-3px">
 						<a
 							class="option--link"
-							href="{% url 'warehouse:login' %}"
+							href="{% url 'warehouse:index' %}"
 							>Worker</a
 						>
 					</li>
 					<li class="option purple--border-3px">
-						<a class="option--link" href="{% url 'farmer:login' %}"
+						<a class="option--link" href="{% url 'farmer:index' %}"
 							>Farmer</a
 						>
 					</li>

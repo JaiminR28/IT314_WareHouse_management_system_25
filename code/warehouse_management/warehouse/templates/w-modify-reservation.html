@@ -43,7 +43,13 @@
     </form> 
 {% endblock %}
  -->
-
+ {% if messages %}
+ <ul class="messages">
+	 {% for message in messages %}
+	 <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+	 {% endfor %}
+ </ul>
+ {% endif %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -154,38 +160,35 @@
 				<h1 class="page--title">Modify Registration</h1>
 				<div class="content">
 					<form action="{% url 'warehouse:modifyReservationEntry' reservation_id %}" method="POST">
+						{% csrf_token %}
 						<div class="user-details">
 							<div class="input-box">
 								<label class="details">Farmer Email </label>
-								<input
-									type="email"
-									name="fname"
-									id="warehouseEmail"
-									name="warehouseEmail"
-									placeholder="Enter Your Email"
-									required
-								/>
+								<input type="email" id="farmerEmail" name="farmerEmail" placeholder="Enter Your Email" value="{{ farmer_mail }}" required />
 							</div>
+							<!-- <script>console.log(item)</script> -->
 							<div class="custom-select input-box">
 								<div class="choose--items">
 									<label class="details" >Choose a item:</label>
 									<select class="select" id="itemName" name="itemName" >
-										<option	class="item--option" value="{{ item.name }}">
+										{% for item in items %}
+										<option	class="item--option" value="{{ item.name }}" selected>
 											<p>
 												Name: {{ item.name }}, Min Temperature: {{ item.min_temperature }}, Max Temperature: {{ item.max_temperature }}, Storage Life: {{ item.storage_life }}, Is a crop: {{ item.is_crop }}
 											</p>
-										</option>										
+										</option>	
+										{% endfor %}									
 									</select>
 								</div>
                                 <a href="{% url 'warehouse:addItem' %}">
-								    <button class="add-item-btn">Add Item</button>
+								    <button class="add-item-btn" formnovalidate>Add Item</button>
                                 </a>
 							</div>
 							<div class="input-box">
 								<label class="details">Start Date</label>
 								<input
 									type="date"
-									name="date"
+									name="startDate"
 									id="startDate"
 									required
 								/>
@@ -194,7 +197,7 @@
 								<label class="details">End Date</label>
 								<input
 									type="date"
-									name="date"
+									name="endDate"
 									id="endDate"
 									required
 								/>
@@ -203,15 +206,16 @@
 								<label class="details">Quantity (in kgs)</label>
 								<input
 									type="number"
-									name="number"
-									id="number"
+									name="quantity"
+									id="quantity"
 									min="0"
+									value="{{quantity}}"
 									required
 								/>
 							</div>
 						</div>
 						<div class="button">
-							<input type="submit" value="Register" />
+							<input type="submit" value="Modify" />
 						</div>
 					</form>
 				</div>

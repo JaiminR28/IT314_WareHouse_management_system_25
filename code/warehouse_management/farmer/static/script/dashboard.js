@@ -21,7 +21,7 @@ const cornPriceEl = document.querySelector(".corn--price");
 // Urls
 
 const NEWS_API =
-	"https://newsapi.org/v2/everything?q=agriculture&from=2023-03-25&sortBy=publishedAt&apiKey=1713d3c967ed4defab26f9996b21716as";
+	"https://newsapi.org/v2/everything?q=bitcoin&apiKey=c8b40c41eccd4ad39f06c7155de42af2";
 
 const cropsToMonitor = ["wheat", "rice", "corn"];
 
@@ -205,41 +205,19 @@ const agriNews = [
 ];
 
 //show sidebar
-menuBtn.addEventListener("click", () => {
-	sideMenu.style.display = "block";
-});
 
 //close sidebar
 closeBtn.addEventListener("click", () => {
 	sideMenu.style.display = "none";
 });
 
-//change theme
-themeToggler.addEventListener("click", () => {
-	document.body.classList.toggle("dark-theme-variables");
-
-	themeToggler.querySelector("span:nth-child(1)").classList.toggle("active");
-	themeToggler.querySelector("span:nth-child(2)").classList.toggle("active");
-});
+//change
 
 // Set current Date :
 let date = new Date().toLocaleDateString();
 DateEl.innerHTML = `Date: ${date}`;
 
-// const displayNews = async () => {
-// 	let results;
-// 	try {
-// 		const response = await fetch(NEWS_API);
-// 		// console.log(response);
-// 		results = await response.json();
-// 	} catch (error) {
-// 		console.error(error);
-// 	}
-
-// 	console.log(results.articles);
-
-// };
-
+//
 const insertNewsArticles = (articles) => {
 	for (let i = 4; i <= 10; i++) {
 		const html = `
@@ -278,7 +256,6 @@ const location_not_found = document.querySelector(".location-not-found");
 const weather_body = document.querySelector(".weather-body");
 
 function getLocation() {
-	let longitude, latitude;
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition((location) => {
 			checkWeather(location.coords);
@@ -330,19 +307,19 @@ async function checkWeather(coords) {
 
 	switch (weather_data.current.condition.text) {
 		case "Overcast":
-			weather_img.src = "./Images/Weather/cloud.png";
+			weather_img.src = "/static/Images/Weather/cloud.png";
 			break;
 		case "Sunny":
-			weather_img.src = "./Images/Weather/clear.png";
+			weather_img.src = "/static/Images/Weather/clear.png";
 			break;
 		case "Rain":
-			weather_img.src = "./Images/Weather/rain.png";
+			weather_img.src = "/static/Images/Weather/rain.png";
 			break;
 		case "Mist":
-			weather_img.src = "./Images/Weather/mist.png";
+			weather_img.src = "/static/Images/Weather/mist.png";
 			break;
 		case "Snow":
-			weather_img.src = "./Images/Weather/snow.png";
+			weather_img.src = "/static/Images/Weather/snow.png";
 			break;
 	}
 }

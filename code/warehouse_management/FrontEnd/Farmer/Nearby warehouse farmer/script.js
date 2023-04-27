@@ -1,119 +1,119 @@
-'use strict';
+"use strict";
 
-const clearbtn = document.querySelector('.clear-btn');
-const containerEl = document.querySelector('.container');
-const addressEL = document.querySelector('.address');
-const warehouselocationsEl = document.querySelector('.Warehouse--locations');
-const areaLocationText = document.querySelector('.area--location-text');
+const clearbtn = document.querySelector(".clear-btn");
+const containerEl = document.querySelector(".container");
+const addressEL = document.querySelector(".address");
+const warehouselocationsEl = document.querySelector(".Warehouse--locations");
+const areaLocationText = document.querySelector(".area--location-text");
 
 async function getCurrentAdress() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(async position => {
-      const { latitude, longitude } = position.coords;
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(async (position) => {
+			const { latitude, longitude } = position.coords;
 
-      const response = await fetch(
-        `https://www.mapquestapi.com/geocoding/v1/reverse?key=7NUljeotQj6pdb8DXIKuyN62EXTbmAHi&location=${latitude},${longitude}&includeRoadMetadata=true&includeNearestIntersection=true`
-      );
-      const jsonData = await response.json();
-      const location = jsonData.results[0].locations[0];
-      const addressText = `${location.adminArea6}, ${location.adminArea5}, ${location.adminArea3} ${location.adminArea1}`;
+			const response = await fetch(
+				`https://www.mapquestapi.com/geocoding/v1/reverse?key=7NUljeotQj6pdb8DXIKuyN62EXTbmAHi&location=${latitude},${longitude}&includeRoadMetadata=true&includeNearestIntersection=true`
+			);
+			const jsonData = await response.json();
+			const location = jsonData.results[0].locations[0];
+			const addressText = `${location.adminArea6}, ${location.adminArea5}, ${location.adminArea3} ${location.adminArea1}`;
 
-      addressEL.innerHTML = addressText;
-      areaLocationText.innerHTML = `${location.adminArea6}, ${location.adminArea5}`;
-    });
-  }
+			addressEL.innerHTML = addressText;
+			areaLocationText.innerHTML = `${location.adminArea6}, ${location.adminArea5}`;
+		});
+	}
 }
 
 getCurrentAdress();
 
 let HomeIcon = L.icon({
-  iconUrl: 'Images/homeIcon.png',
-  iconSize: [50, 50], // size of the icon
-  iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
-  shadowAnchor: [4, 62], // the same for the shadow
-  popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
+	iconUrl: "Images/homeIcon.png",
+	iconSize: [50, 50], // size of the icon
+	iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+	shadowAnchor: [4, 62], // the same for the shadow
+	popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
 });
 
-let map = L.map('map').setView([23.1870706, 72.6268105], 15);
+let map = L.map("map").setView([23.1870706, 72.6268105], 15);
 
 L.marker([23.1870706, 72.6268105], { icon: HomeIcon }).addTo(map);
 
-L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
-  attribution:
-    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> <a target="_blank" href="https://icons8.com/icon/65839/home-address">Home Address</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a> contributors',
+L.tileLayer("https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
+	attribution:
+		'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> <a target="_blank" href="https://icons8.com/icon/65839/home-address">Home Address</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a> contributors',
 }).addTo(map);
 
 let locations = [
-  {
-    id: 1,
-    lat: 23.185675,
-    long: 72.629526,
-    title: '5-Star Thing Storage',
-    src: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
-    url: 'https://www.google.co.in/ ',
+	{
+		id: 1,
+		lat: 23.185675,
+		long: 72.629526,
+		title: "5-Star Thing Storage",
+		src: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
+		url: "https://www.google.co.in/ ",
 
-    rating: 3,
-  },
-  {
-    id: 2,
-    lat: 23.196996,
-    long: 72.631386,
-    title: 'hamofy',
-    src: 'https://images.unsplash.com/photo-1627309366653-2dedc084cdf1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1966&q=80',
-    url: 'https://www.google.co.in/ ',
+		rating: 3,
+	},
+	{
+		id: 2,
+		lat: 23.196996,
+		long: 72.631386,
+		title: "hamofy",
+		src: "https://images.unsplash.com/photo-1627309366653-2dedc084cdf1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1966&q=80",
+		url: "https://www.google.co.in/ ",
 
-    rating: 5,
-  },
-  {
-    id: 3,
-    lat: 23.185158,
-    long: 72.62724,
-    title: 'Anetly',
-    src: 'https://images.unsplash.com/photo-1557761469-f29c6e201784?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=849&q=80',
-    url: 'https://www.google.co.in/ ',
+		rating: 5,
+	},
+	{
+		id: 3,
+		lat: 23.185158,
+		long: 72.62724,
+		title: "Anetly",
+		src: "https://images.unsplash.com/photo-1557761469-f29c6e201784?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=849&q=80",
+		url: "https://www.google.co.in/ ",
 
-    rating: 4,
-  },
-  {
-    id: 4,
-    lat: 23.184634,
-    long: 72.628892,
-    title: 'Upright Storage Locker Co',
-    src: 'https://images.unsplash.com/photo-1599452390941-251da594d7e3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
-    url: 'https://www.google.co.in/ ',
-    rating: 3,
-  },
+		rating: 4,
+	},
+	{
+		id: 4,
+		lat: 23.184634,
+		long: 72.628892,
+		title: "Upright Storage Locker Co",
+		src: "https://images.unsplash.com/photo-1599452390941-251da594d7e3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
+		url: "https://www.google.co.in/ ",
+		rating: 3,
+	},
 ];
 
 let popupOption = {
-  closeButton: false,
+	closeButton: false,
 };
 
-locations.forEach(location => {
-  new L.marker([location.lat, location.long], {
-    icon: new L.DivIcon({
-      className: 'my-div-icon',
-      html: `<button class="pin--location"><p>${location.title}</p></button>`,
-    }),
-  })
-    .addTo(map)
-    .on('click', function () {
-      let marker = this;
-      // const popupEl = document.querySelectorAll('.popup');
+locations.forEach((location) => {
+	new L.marker([location.lat, location.long], {
+		icon: new L.DivIcon({
+			className: "my-div-icon",
+			html: `<button class="pin--location"><p>${location.title}</p></button>`,
+		}),
+	})
+		.addTo(map)
+		.on("click", function () {
+			let marker = this;
+			// const popupEl = document.querySelectorAll('.popup');
 
-      // popupEl.forEach(Element => {
-      //   Element.classList.add('hidden');
-      // });
+			// popupEl.forEach(Element => {
+			//   Element.classList.add('hidden');
+			// });
 
-      // if (event.target._popup) {
-      //   console.log(event.target._popup);
-      //   console.log(
-      //     (event.target._popup._contentNode.parentNode.parentNode.style.opacity = 1)
-      //   );
-      // }
+			// if (event.target._popup) {
+			//   console.log(event.target._popup);
+			//   console.log(
+			//     (event.target._popup._contentNode.parentNode.parentNode.style.opacity = 1)
+			//   );
+			// }
 
-      marker.bindPopup(
-        `      <div class="card">
+			marker.bindPopup(
+				`      <div class="card">
         <div class="card_image">
           <img src=${location.src} alt="mixed vegetable salad in a mason jar." />
         </div>
@@ -124,23 +124,23 @@ locations.forEach(location => {
         </div>
       </div>
           `,
-        {
-          maxWidth: 300,
-          minWidth: 250,
-          maxHeight: 160,
-          autoPan: true,
-          closeButton: true,
-          autoPanPadding: [5, 5],
-        }
-      );
+				{
+					maxWidth: 300,
+					minWidth: 250,
+					maxHeight: 160,
+					autoPan: true,
+					closeButton: true,
+					autoPanPadding: [5, 5],
+				}
+			);
 
-      marker.openPopup();
-    });
+			marker.openPopup();
+		});
 });
 
-const addWarehouseLocations = locations => {
-  locations.forEach(location => {
-    const html = `
+const addWarehouseLocations = (locations) => {
+	locations.forEach((location) => {
+		const html = `
     <div class="warehouse-location">
               <img
                 class="warehouse--image"
@@ -209,8 +209,8 @@ const addWarehouseLocations = locations => {
             <hr class="line-break" />
   `;
 
-    warehouselocationsEl.innerHTML += html;
-  });
+		warehouselocationsEl.innerHTML += html;
+	});
 };
 
 addWarehouseLocations(locations);
@@ -230,3 +230,48 @@ addWarehouseLocations(locations);
 //   .then(response => response.json())
 //   .then(response => console.log(response))
 //   .catch(err => console.error(err));
+
+//  Modal window
+
+// Get the modal
+const modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+const btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+const submitBtnEl = document.querySelector(".submit--btn");
+// When the user clicks on the button, open the modal
+
+const latitudeEl = document.getElementById("latitude");
+const longitudeEl = document.getElementById("longitude");
+const distanceEl = document.getElementById("Distance");
+
+const detectButton = document.querySelector(".button-8");
+
+detectButton.addEventListener("click", function () {
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition((position) => {
+			const { latitude, longitude } = position.coords;
+			latitudeEl.setAttribute("value", `${latitude}`);
+			longitudeEl.setAttribute("value", `${longitude}`);
+		});
+	}
+});
+
+// When the user clicks on <span> (x), close the modal
+
+const DetectLocation = () => {
+	modal.style.display = "block";
+};
+
+submitBtnEl.addEventListener("click", function (e) {
+	e.preventDefault();
+	if (distanceEl.value != "") {
+		modal.style.display = "none";
+	}
+});
+
+setTimeout(DetectLocation, 500);
+
+// When the user clicks anywhere outside of the modal, close it

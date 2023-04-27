@@ -68,10 +68,10 @@ body {
 }
 
 .container {
-	padding: 0 2rem;
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
+  padding-right: 2rem;
 }
 
 a {
@@ -316,12 +316,14 @@ main {
 .map--div {
   width: 50%;
   background-color: var(--color-dark);
+  margin-right: 2rem;
 }
 
 #map {
   flex: 3;
   height: 100%;
   background-color: var(--color-white);
+  z-index: 1;
 }
 
 .popup-img {
@@ -568,4 +570,262 @@ hr {
 
 .card_text p:last-child {
   margin: 0;
+}
+
+
+/* Modal Window */
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 200; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+    height: 100vh;
+  overflow: hidden;
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 8rem auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 70%; /* Could be more or less, depending on screen size */
+  height: 52rem;
+  border-radius: 8px;
+} 
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+/* Form  */
+
+
+ .user-details {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	margin: 20px 0 12px 0;
+}
+
+form .user-details .input-box {
+	margin-bottom: 1.8rem;
+	width: 48rem;
+}
+form .input-box label.details {
+	font-size: 1.4rem;
+	display: flex ;
+	font-weight: 600;
+	margin: 0 0 0.2rem 1rem ;
+	color: #555;
+	letter-spacing: 0.05rem;
+}
+label::after { 
+    content: "*";
+    color: red;
+	margin-left: 0.1rem;
+}
+
+#warehouseEmail{
+    display: block;
+    width: 100%;
+}
+
+.Detect-location{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-details .input-box input {
+	height: 6rem;
+	width: 100%;
+	outline: none;
+	font-size: 16px;
+	border-radius: 10px;
+	padding-left: 1.5rem;
+	border: 1px solid #ccc;
+	border-bottom-width: 2px;
+	transition: all 0.3s ease;
+}
+.user-details .input-box input:focus,
+.user-details .input-box input:valid {
+	border-color: #ec546f;
+}
+form .gender-details .gender-title {
+	font-size: 20px;
+	font-weight: 500;
+}
+form .category {
+	display: flex;
+	width: 80%;
+	margin: 14px 0;
+	justify-content: space-between;
+}
+form .category label {
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+}
+form .category label .dot {
+	height: 18px;
+	width: 18px;
+	border-radius: 50%;
+	margin-right: 10px;
+	background: #d9d9d9;
+	border: 5px solid transparent;
+	transition: all 0.3s ease;
+}
+
+form .button {
+	height: 45px;
+
+}
+form .button input {
+	width: 48rem;
+	height: 100%;
+
+	margin: 4rem 0 0 0.8rem;
+
+	border-radius: 8px;
+	border: none;
+	color: #fff;
+	font-size: 18px;
+	font-weight: 500;
+	letter-spacing: 1px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	background-color: #e40b31;
+}
+form .button input:hover {
+	/* transform: scale(0.99); */
+	background-color: #e40b31;
+}
+
+.custom-select{
+    display: flex;
+}
+
+
+
+.select{
+    width: 80%;
+    height: 5rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding-left: 5px;
+    padding: 10px;
+    font-size: 18px;
+
+    color: #555;
+    background-color: rgb(255, 255, 255);
+    background-image: none;
+}
+
+.select:hover{
+        border: 2px solid #ec546f;
+            border-bottom-width: 3px;
+}
+.select option {
+    font-size: 18px;
+    color: #555;
+    background-color: rgb(247, 247, 247);
+    background-image: none;
+    font-size: 18px;
+    height: 50px;
+    padding: 15px;
+    border: 1px solid rgb(41, 18, 18);
+}
+
+/* Button */
+.add-item-btn{
+    display: inline-block;
+    outline: 0;
+    cursor: pointer;
+    border-radius: 8px;
+    border: 0.2rem solid var(--color-primary);
+    color: #fff;
+    background-color: var(--color-primary);
+    /* padding: 0 0.4rem; */
+    text-align: center;
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 2px 4px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1.5px 0px;
+    font-weight: 800;
+    font-size: 16px;
+    height: 4rem;
+    width: 48rem;
+    margin-top: 2rem;
+}
+    .add-item-btn:hover{
+        background: 0 0;
+        color: var(--color-primary);
+    }
+                
+
+
+/* CSS */
+.button-8 {
+  background-color: #f3bfbf;
+  border-radius: 8px;
+  border: 1px solid #f3bfbf;
+  box-shadow: rgba(255, 255, 255, .7) 0 1px 0 0 inset;
+  box-sizing: border-box;
+  color: #c12424;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 1.15385;
+  margin-top: 1rem;
+  outline: none;
+  padding: 2rem 16rem;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  white-space: nowrap;
+
+
+}
+
+.button-8:hover,
+.button-8:focus {
+  background-color: #fbeaea;
+  color: #d62828;
+}
+
+
+.button-8 span svg{
+  margin-right: 1rem;
+}
+
+.button-8:focus {
+  box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+}
+
+.button-8:active {
+  background-color: #fbeaea;
+  box-shadow: none;
+  color: #d62828;
 }

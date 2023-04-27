@@ -18,12 +18,15 @@ body {
 	background-position: center;
 	background-repeat: no-repeat;
 }
-
 .banner {
 	width: 100%;
 }
 .logo {
 	color: white;
+}
+
+.logo-img {
+	width: 32rem;
 }
 
 .navbar {

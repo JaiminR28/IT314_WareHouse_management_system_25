@@ -501,7 +501,14 @@ def mailPDF(request):
         send_email.attach('report.pdf', pdf.getvalue(), 'application/pdf')
         send_email.send()
         messages.success(request, "Email sent successfully")
-        return redirect('warehouse:home')
+        query = {'email': email}
+        projection = {'name': 1}
+        result = warehouse.find(query, projection)
+        context = {
+            'name': result[0]['name'],
+            'user': email
+        }
+        return render(request, 'w-home.html', context=context)
     else:
         # return render(request, 'w-login.html')
         messages.error(request, 'Log in First!')
@@ -615,7 +622,7 @@ def itemEntry(request):
                 })
 
                 messages.success(request, 'Item entered successfully')
-                return redirect('warehouse:makeReservation')
+                return redirect('warehouse:showReservation')
             else:
                 messages.error(request, "Enter details in all the fields")
                 return render(request, 'w-add-item.html')
@@ -628,11 +635,19 @@ def modifyReservation(request, reservation_id):
         query = {}
         projection = {}
 
-        items_list = items.find(query, projection)
-
+        items_list = items.find(query, projection)        
+        data_list = []
+        for i in items_list:
+            data_list.append(i)
+        query = {'reservation_id': reservation_id}
+        projection = {'farmer_email': 1, 'quantity': 1}
+        farmer_mail = items_stored.find(query, projection)
+        # print(data_list)
         context = {
             'reservation_id': reservation_id,
-            'items': items_list,
+            'items': data_list,
+            'farmer_mail': farmer_mail[0]['farmer_email'],
+            'quantity': farmer_mail[0]['quantity']
         }
         return render(request, 'w-modify-reservation.html', context=context)
     else:
@@ -733,6 +748,7 @@ def modifyReservationEntry(request, reservation_id):
                             'quantity': quantity
                         }
                     }
+
                     query = {'email': farmer_email}
                     projection = {'email': 1, 'first_name': 1}
                     result = farmer.find(query, projection)
@@ -742,8 +758,20 @@ def modifyReservationEntry(request, reservation_id):
                     from_email = settings.EMAIL_HOST_USER
                     to_list = [farmer_email]
                     send_mail(subject, message, from_email, to_list, fail_silently=False)  
+
                     items_stored.update_one(query, newvalues)
-                    return redirect('warehouse:home')
+
+
+                    query = {'email': request.session['warehouseEmail']}
+                    projection = {'name': 1}
+                    result = warehouse.find(query, projection)
+                    
+                    context = {
+                        'user': request.session['warehouseEmail'],
+                        'name': result[0]['name']
+                    }
+
+                    return render(request, 'w-home.html', context=context)
                 else:
                     messages.error(request, 'Quantity exceeds the warehouse limit')
                     return redirect('warehouse:modifyReservation', reservation_id=reservation_id)

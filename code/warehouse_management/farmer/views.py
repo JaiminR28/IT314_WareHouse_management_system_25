@@ -26,7 +26,7 @@ from io import BytesIO
 EMAIL = ""
 # client = MongoClient()
 client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.net/?retryWrites=true&w=majority')
-db = client['test']
+db = client['demo']
 farmer = db['Farmer']
 warehouse = db['Warehouse']
 items_stored = db['Items_Stored']
@@ -39,7 +39,7 @@ def index(request):
     return render(request, 'f-index.html')
 
 def home(request):
-    if request.session['isLoggedIn'] == True:
+    if request.session.get('isLoggedIn', False) == True:
         return render(request, 'f-home.html')
     else:
         messages.error(request, 'You need to login first!')
@@ -204,7 +204,7 @@ def sortFunc(e):
     return e['distance']
 
 def showNearbyWarehouses(request):
-    if request.session['isLoggedIn'] == True:
+    if request.session.get('isLoggedIn', False) == True:
         if request.method == 'POST':
             if request.POST.get('latitude') and request.POST.get('longitude') and request.POST.get('distance'):
                 latitude = float(request.POST.get('latitude'))
@@ -239,7 +239,7 @@ def showNearbyWarehouses(request):
         return render(request, 'f-login.html')
 
 def searchNearbyWarehouses(request):
-    if request.session['isLoggedIn'] == True:
+    if request.session.get('isLoggedIn', False) == True:
         return render(request, 'f-search-nearby-warehouses.html')
     else:
         messages.error(request, 'You need to login first!')
@@ -269,7 +269,7 @@ def searchNearbyWarehouses(request):
 
 
 def makeReservation(request):
-    if request.session['isLoggedIn'] == True:
+    if request.session.get('isLoggedIn', False) == True:
         query = {}
         projection = {}
 
@@ -285,7 +285,7 @@ def makeReservation(request):
 
 
 def reservationEntry(request):
-    if request.session['isLoggedIn'] == True:
+    if request.session.get('isLoggedIn', False) == True:
         if request.method == 'POST':
             if request.POST.get('warehouseEmail') and request.POST.get('itemName') and request.POST.get('startDate') and request.POST.get('endDate') and request.POST.get('quantity'):
                 warehouse_email = request.POST.get('warehouseEmail')
@@ -369,7 +369,7 @@ def reservationEntry(request):
 
 
 def showReservations(request):
-    if request.session['isLoggedIn'] == True:
+    if request.session.get('isLoggedIn', False) == True:
         query = {
             'farmer_email': request.session.get('farmerEmail')
         }
@@ -386,14 +386,14 @@ def showReservations(request):
         return render(request, 'f-login.html')
 
 def addItem(request):
-    if request.session['isLoggedIn'] == True:
+    if request.session.get('isLoggedIn', False) == True:
         return render(request, 'f-add-item.html')
     else:
         messages.error(request, 'You need to Login first!')
         return render(request, 'f-login.html')
 
 def itemEntry(request):
-    if request.session['isLoggedIn'] == True:
+    if request.session.get('isLoggedIn', False) == True:
         if request.method == 'POST':
             if request.POST.get('itemName') and request.POST.get('minTemp') and request.POST.get('maxTemp') and request.POST.get('storageLife') and request.POST.get('isCrop'):
                 item_name = request.POST.get('itemName')
@@ -438,7 +438,7 @@ def itemEntry(request):
 
 
 def modifyReservation(request, reservation_id):
-    if request.session['isLoggedIn'] == True:
+    if request.session.get('isLoggedIn', False) == True:
 
         query = {'reservation_id': reservation_id}
         projection = {}
@@ -464,7 +464,7 @@ def modifyReservation(request, reservation_id):
         return render(request, 'f-login.html')
 
 def deleteReservation(request, reservation_id):
-    if request.session['isLoggedIn'] == True:
+    if request.session.get('isLoggedIn', False) == True:
         query = {}
         projection = {}
 
@@ -497,7 +497,7 @@ def deleteReservation(request, reservation_id):
         return render(request, 'f-login.html')
 
 def modifyReservationEntry(request, reservation_id):
-    if request.session['isLoggedIn'] == True:
+    if request.session.get('isLoggedIn', False) == True:
         if request.method == 'POST':
             if request.POST.get('warehouseEmail') and request.POST.get('itemName') and request.POST.get('startDate') and request.POST.get('endDate') and request.POST.get('quantity'):
                 warehouse_email = request.POST.get('warehouseEmail')
@@ -594,7 +594,7 @@ def modifyReservationEntry(request, reservation_id):
         return render(request, 'f-login.html')
 
 def showCropSuggestions(request):
-    if request.session['isLoggedIn'] == True:
+    if request.session.get('isLoggedIn', False) == True:
         items_list = items_stored.aggregate([
 			{
 				'$lookup':
@@ -637,7 +637,7 @@ def showCropSuggestions(request):
         return render(request, 'f-login.html')
 
 def generateReport(request):
-    if request.session['isLoggedIn']:
+    if request.session.get('isLoggedIn', False):
         if True:         
             email = request.session['farmerEmail']
             query = {'farmer_email': email}

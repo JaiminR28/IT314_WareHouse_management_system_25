@@ -540,11 +540,11 @@ def addJustItem(request):
         return render(request, 'w-add-just-item.html')
     return render(request, 'w-login.html')
     
-def addItem(request):
-    if request.session['isLoggedIn'] == True:
-        return render(request, 'w-add-item.html')
-    else:
-        return render(request, 'w-login.html')
+# def addItem(request):
+#     if request.session['isLoggedIn'] == True:
+#         return render(request, 'w-add-item.html')
+#     else:
+#         return render(request, 'w-login.html')
 
 def itemJustEntry(request):
     if request.session['isLoggedIn'] == True:
@@ -580,7 +580,16 @@ def itemJustEntry(request):
                 })
 
                 messages.success(request, 'Item entered successfully')
-                return redirect('warehouse:home')
+                query = {'email': request.session['warehouseEmail']}
+                projection = {'name': 1}
+                
+                result = warehouse.find(query, projection)
+
+                context = {
+                    'name': result[0]['name'],
+                    'user': request.session['warehouseEmail']
+                }
+                return render(request, 'w-home.html', context=context)
             else:
                 messages.error(request, "Enter details in all the fields")
                 return render(request, 'w-add-item.html')
@@ -588,47 +597,47 @@ def itemJustEntry(request):
         messages.error(request, 'You need to Login first!')
         return render(request, 'w-login.html')
 
-def itemEntry(request):
-    if request.session['isLoggedIn'] == True:
-        if request.method == 'POST':
-            if request.POST.get('itemName') and request.POST.get('minTemp') and request.POST.get('maxTemp') and request.POST.get('storageLife') and request.POST.get('isCrop'):
-                item_name = request.POST.get('itemName')
-                min_temp = request.POST.get('minTemp')
-                max_temp = request.POST.get('maxTemp')
-                storage_life = int(request.POST.get('storageLife'))
-                is_crop = request.POST.get('isCrop') 
+# def itemEntry(request):
+#     if request.session['isLoggedIn'] == True:
+#         if request.method == 'POST':
+#             if request.POST.get('itemName') and request.POST.get('minTemp') and request.POST.get('maxTemp') and request.POST.get('storageLife') and request.POST.get('isCrop'):
+#                 item_name = request.POST.get('itemName')
+#                 min_temp = request.POST.get('minTemp')
+#                 max_temp = request.POST.get('maxTemp')
+#                 storage_life = int(request.POST.get('storageLife'))
+#                 is_crop = request.POST.get('isCrop') 
 
-                query = {'name': item_name}
-                projection = {}
+#                 query = {'name': item_name}
+#                 projection = {}
 
-                items_list = items.find(query, projection)
+#                 items_list = items.find(query, projection)
 
-                if len(list(items_list.clone())) != 0:
-                    messages.error(request, 'Item Name already present in the system')
-                    return render(request, 'w-add-item.html')
+#                 if len(list(items_list.clone())) != 0:
+#                     messages.error(request, 'Item Name already present in the system')
+#                     return render(request, 'w-add-item.html')
                 
-                if is_crop == 'True':
-                    is_crop_bool = True
-                else:
-                    is_crop_bool = False
+#                 if is_crop == 'True':
+#                     is_crop_bool = True
+#                 else:
+#                     is_crop_bool = False
 
                 
-                items.insert_one({
-                    'name': item_name,
-                    'min_temperature': min_temp,
-                    'max_temperature': max_temp,
-                    'storage_life': storage_life,
-                    'is_crop': is_crop_bool
-                })
+#                 items.insert_one({
+#                     'name': item_name,
+#                     'min_temperature': min_temp,
+#                     'max_temperature': max_temp,
+#                     'storage_life': storage_life,
+#                     'is_crop': is_crop_bool
+#                 })
 
-                messages.success(request, 'Item entered successfully')
-                return redirect('warehouse:showReservation')
-            else:
-                messages.error(request, "Enter details in all the fields")
-                return render(request, 'w-add-item.html')
-    else:
-        messages.error(request, 'You need to Login first!')
-        return render(request, 'w-login.html')
+#                 messages.success(request, 'Item entered successfully')
+#                 return render(request, 'w-home.html')
+#             else:
+#                 messages.error(request, "Enter details in all the fields")
+#                 return render(request, 'w-add-item.html')
+#     else:
+#         messages.error(request, 'You need to Login first!')
+#         return render(request, 'w-login.html')
     
 def modifyReservation(request, reservation_id):
     if request.session['isLoggedIn'] == True:

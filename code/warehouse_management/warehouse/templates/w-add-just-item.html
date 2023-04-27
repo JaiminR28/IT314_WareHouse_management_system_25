@@ -9,7 +9,7 @@
     </ul>
     {% endif %}
 
-    <form action="{% url 'warehouse:itemEntry'%}" method="post">
+    <form action="{% url 'warehouse:itemJustEntry'%}" method="post">
     {% csrf_token %}
         <label for="itemName">Item Name:</label><br>
         <input type="text" id="itemName" name="itemName"><br><br>
@@ -117,7 +117,7 @@
 						/>
 						<h3>Generate Report</h3>
 					</a>
-					<a href="{% url 'warehouse:addItem' %}" class="active">
+					<a href="{% url 'warehouse:addJustItem' %}" class="active">
 						<img
 							src="{% static '/Images/Navbar/add-to-queue-svgrepo-com.svg' %}"
 							alt=""

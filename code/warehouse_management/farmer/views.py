@@ -26,7 +26,7 @@ from io import BytesIO
 EMAIL = ""
 # client = MongoClient()
 client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.net/?retryWrites=true&w=majority')
-db = client['demo']
+db = client['test']
 farmer = db['Farmer']
 warehouse = db['Warehouse']
 items_stored = db['Items_Stored']
@@ -361,6 +361,8 @@ def reservationEntry(request):
             else:
                 messages.error(request, "Enter details in all the fields")
                 return redirect('farmer:makeReservation')
+        else:
+            return render(request, 'f-error.html')
     else:
         messages.error(request, 'You need to Login first!')
         return render(request, 'f-login.html')
@@ -387,6 +389,7 @@ def addItem(request):
     if request.session['isLoggedIn'] == True:
         return render(request, 'f-add-item.html')
     else:
+        messages.error(request, 'You need to Login first!')
         return render(request, 'f-login.html')
 
 def itemEntry(request):
@@ -425,8 +428,10 @@ def itemEntry(request):
                 messages.success(request, 'Item entered successfully')
                 return redirect('farmer:makeReservation')
             else:
-                messages.error(request, "Enter details in all the fields")
+                messages.error(request, 'Enter details in all the fields')
                 return render(request, 'f-add-item.html')
+        else:
+            return render(request, 'f-error.html')
     else:
         messages.error(request, 'You need to Login first!')
         return render(request, 'f-login.html')
@@ -434,6 +439,16 @@ def itemEntry(request):
 
 def modifyReservation(request, reservation_id):
     if request.session['isLoggedIn'] == True:
+
+        query = {'reservation_id': reservation_id}
+        projection = {}
+
+        reservation_check = items_stored.find(query, projection)
+        
+        if len(list(reservation_check.clone())) == 0:
+            messages.error(request, 'Reservation not found!')
+            return redirect('farmer:showReservations')
+
         query = {}
         projection = {}
 
@@ -491,6 +506,17 @@ def modifyReservationEntry(request, reservation_id):
                 end_date = request.POST.get('endDate')  
                 quantity = float(request.POST.get('quantity'))
 
+
+                query = {'reservation_id': reservation_id}
+                projection = {}
+
+                reservation_check = items_stored.find(query, projection)
+                
+
+                if len(list(reservation_check.clone())) == 0:
+                    messages.error(request, 'Reservation not found!')
+                    return redirect('farmer:showReservations')
+                    
                 # print(start_date)
                 # print(end_date)
 
@@ -561,6 +587,8 @@ def modifyReservationEntry(request, reservation_id):
                 messages.error(request, "Enter details in all the fields")
                 # return render(request, 'f-modify-reservation.html')
                 return redirect('farmer:modifyReservation', reservation_id=reservation_id)
+        else:
+            return render(request, 'f-error.html')
     else:
         messages.error(request, 'You need to Login first!')
         return render(request, 'f-login.html')

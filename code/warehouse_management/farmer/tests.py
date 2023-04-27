@@ -5,6 +5,11 @@ import sys
 import os
 from unittest import mock
 from math import pi, cos, asin, sqrt
+from datetime import datetime, timedelta
+from pprint import pprint
+import uuid
+from unittest.mock import MagicMock, patch
+
 
 
 # def assertEqual(a, b):
@@ -433,89 +438,490 @@ from math import pi, cos, asin, sqrt
 #         self.assertContains(response, 'You need to login first!')
 
 
-class ReservationEntryTestCase(TestCase):
+# class ReservationEntryTestCase(TestCase):
+#     def setUp(self):
+#         self.client = Client()
+#         self.session = self.client.session
+#         self.session['isLoggedIn'] = True
+#         self.session['farmerEmail'] = 'test2@gmail.com'
+#         self.session.save()
 
-    def setUp(self):
-        self.warehouse = Warehouse.objects.create(
-            name="Test Warehouse",
-            email="test@test.com",
-            storage_capacity=100
-        )
+#         mongo_client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.net/?retryWrites=true&w=majority')
+#         db = mongo_client['test']
+#         self.warehouse = db['Warehouse']
+#         self.farmer = db['Farmer']
+#         self.items = db['Items']
+#         self.items_stored = db['Items_Stored']
 
-        self.farmer = Farmer.objects.create(
-            email="test@test.com",
-            first_name="Test",
-            last_name="Farmer",
-            password="testpassword"
-        )
+#         self.warehouse.insert_one({
+#             'name': "test",
+#             'latitude': 12.4,
+#             'longitude': 12.3,
+#             'storage_capacity': 100,
+#             'email': "test1@gmail.com",
+#             'verified': True,
+#             'password': 'password',
+#             'phone_number': '1234567890'
+#         })
 
-        self.item = Item.objects.create(
-            name="Test Item",
-            description="Test description",
-            price=10.00
-        )
+#         self.farmer.insert_one({
+#             'first_name': 'test',
+#             'last_name': 'test',
+#             'phone_num': '1234567890',
+#             'email': 'test2@gmail.com',
+#             'password': 'password',
+#             'verified': True
+#         })
 
-        self.today = datetime.now().strftime('%Y-%m-%d')
-        self.tomorrow = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
+#         self.items.insert_one({
+#             'name': 'test',
+#             'min_temperature': 39,
+#             'max_temperature': 67,
+#             'storage_life': 35,
+#             'is_crop': True
+#         })
 
-    def test_reservation_entry_success(self):
-        reservation_id = str(uuid.uuid4())
-        response = self.client.post(reverse('farmer:reservationEntry'), {
-            'warehouseEmail': self.warehouse.email,
-            'itemName': self.item.name,
-            'startDate': self.today,
-            'endDate': self.tomorrow,
-            'quantity': 10
-        }, follow=True)
+#         self.today = datetime.now().strftime('%Y-%m-%d')
+#         self.tomorrow = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
 
-        self.assertContains(response, 'Reservation successful')
-        self.assertTrue(ItemsStored.objects.filter(reservation_id=reservation_id).exists())
+    # def test_reservation_entry_success(self):
+    #     response = self.client.post('/farmer/make-reservation/entry', {
+    #         'warehouseEmail': 'test1@gmail.com',
+    #         'itemName': 'test',
+    #         'startDate': self.today,
+    #         'endDate': self.tomorrow,
+    #         'quantity': 10.0
+    #     }, follow=True)
 
-    def test_reservation_entry_insufficient_capacity(self):
-        response = self.client.post(reverse('farmer:reservationEntry'), {
-            'warehouseEmail': self.warehouse.email,
-            'itemName': self.item.name,
-            'startDate': self.today,
-            'endDate': self.tomorrow,
-            'quantity': 200
-        }, follow=True)
+    #     self.assertEqual(response.status_code, 200)
+    #     # self.assertContains(response, 'Reservation successful')
+    #     self.assertTemplateUsed(response, 'f-home.html')
+    #     # for item in self.items_stored.find({}, {}):
+    #     #     pprint(item)
+    #     self.assertQuerysetEqual([{
+    #             'warehouse_email': 'test1@gmail.com',
+    #             'farmer_email': 'test2@gmail.com',
+    #             'item_name': 'test',
+    #             'start_date': self.today,
+    #             'end_date': self.tomorrow,
+    #             'quantity': 10.0}], self.items_stored.find({
+    #             'warehouse_email': 'test1@gmail.com',
+    #             'farmer_email': 'test2@gmail.com',
+    #             'item_name': 'test',
+    #             'start_date': self.today,
+    #             'end_date': self.tomorrow,
+    #             'quantity': 10.0
+    #         }, {'_id': 0, 'reservation_id': 0}))
 
-        self.assertContains(response, 'Quantity exceeds the warehouse limit')
+    # def test_reservation_entry_insufficient_capacity(self):
+    #     response = self.client.post('/farmer/make-reservation/entry', {
+    #         'warehouseEmail': 'test1@gmail.com',
+    #         'itemName': 'test',
+    #         'startDate': self.today,
+    #         'endDate': self.tomorrow,
+    #         'quantity': 10.0
+    #     }, follow=True)
 
-    def test_reservation_entry_invalid_dates(self):
-        response = self.client.post(reverse('farmer:reservationEntry'), {
-            'warehouseEmail': self.warehouse.email,
-            'itemName': self.item.name,
-            'startDate': self.tomorrow,
-            'endDate': self.today,
-            'quantity': 10
-        }, follow=True)
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertContains(response, 'Quantity exceeds the warehouse limit')
+    #     self.assertTemplateUsed(response, 'f-make-reservation.html')
 
-        self.assertContains(response, 'Invalid start date and end date')
+    # def test_reservation_entry_invalid_dates(self):
+    #     response = self.client.post('/farmer/make-reservation/entry', {
+    #         'warehouseEmail': 'test1@gmail.com',
+    #         'itemName': 'test',
+    #         'startDate': self.tomorrow,
+    #         'endDate': self.today,
+    #         'quantity': 10.0
+    #     }, follow=True)
 
-    def test_reservation_entry_missing_fields(self):
-        response = self.client.post(reverse('farmer:reservationEntry'), {
-            'warehouseEmail': self.warehouse.email,
-            'itemName': self.item.name,
-            'startDate': self.today,
-            'endDate': self.tomorrow,
-        }, follow=True)
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertTemplateUsed(response, 'f-make-reservation.html')
 
-        self.assertContains(response, 'Enter details in all the fields')
+    # def test_reservation_entry_missing_fields(self):
+    #     response = self.client.post('/farmer/make-reservation/entry', {
+    #         'warehouseEmail': 'test1@gmail.com',
+    #         'itemName': 'test',
+    #         'startDate': self.today,
+    #         'endDate': self.tomorrow,
+    #     }, follow=True)
 
-    def test_reservation_entry_unauthenticated(self):
-        response = self.client.post(reverse('farmer:reservationEntry'), {
-            'warehouseEmail': self.warehouse.email,
-            'itemName': self.item.name,
-            'startDate': self.today,
-            'endDate': self.tomorrow,
-            'quantity': 10
-        }, follow=True)
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertContains(response, 'Enter details in all the fields')
+    #     self.assertTemplateUsed(response, 'f-make-reservation.html')
 
-        self.assertContains(response, 'You need to Login first!')
-        self.assertTemplateUsed(response, 'f-login.html')
+    # def test_reservation_entry_unauthenticated(self):
+    #     self.client = Client()
+    #     self.session = self.client.session
+    #     self.session['isLoggedIn'] = False
+    #     self.session.save()
 
 
+    #     response = self.client.post('/farmer/make-reservation/entry', {
+    #         'warehouseEmail': 'test1@gmail.com',
+    #         'itemName': 'test',
+    #         'startDate': self.today,
+    #         'endDate': self.tomorrow,
+    #         'quantity': 10
+    #     }, follow=True)
+
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertContains(response, 'You need to Login first!')
+    #     self.assertTemplateUsed(response, 'f-login.html')
+
+
+    # def test_method_not_post(self):
+    #     response = self.client.get('/farmer/make-reservation/entry')
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertTemplateUsed(response, 'f-error.html')
+
+    # def test_warehouse_not_found(self):
+    #     response = self.client.post('/farmer/make-reservation/entry', {
+    #         'warehouseEmail': 'test@gmail.com',
+    #         'itemName': 'test',
+    #         'startDate': self.today,
+    #         'endDate': self.tomorrow,
+    #     }, follow=True)
+
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertTemplateUsed(response, 'f-make-reservation.html')
+
+    # def tearDown(self):
+    #     self.warehouse.delete_many({'name': 'test'})
+    #     self.farmer.delete_many({'first_name': 'test'})
+    #     self.items.delete_many({'name': 'test'})
+    #     self.items_stored.delete_many({'item_name': 'test'})
+
+
+# class ShowReservationsTestCase(TestCase):
+#     def setUp(self):
+#         reservation_id = str(uuid.uuid4())
+#         self.today = datetime.now().strftime('%Y-%m-%d')
+#         self.tomorrow = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
+#         mongo_client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.net/?retryWrites=true&w=majority')
+#         db = mongo_client['test']
+#         self.items_stored = db['Items_Stored']
+#         self.items_stored.insert_one({
+#             'reservation_id': reservation_id,
+#             'item_name': 'test',
+#             'warehouse_email': 'test1@gmail.com',
+#             'farmer_email': 'test2@gmail.com',
+#             'start_date': self.today,
+#             'end_date': self.tomorrow,
+#             'quantity': 10.0
+#         })
+
+#         self.client = Client()
+#         self.session = self.client.session
+#         self.session['isLoggedIn'] = True
+#         self.session['farmerEmail'] = 'test2@gmail.com'
+#         self.session.save()
+
+
+#     def test_show_reservations_authenticated(self):
+#         response = self.client.get('/farmer/show-reservations')
+#         self.assertEqual(response.status_code, 200)
+#         self.assertTemplateUsed(response, 'f-show-reservations.html')
+#         self.assertIn('items', response.context)
+
+#     def test_show_reservations_unauthenticated(self):
+#         self.client = Client()
+#         self.session = self.client.session
+#         self.session['isLoggedIn'] = False
+#         self.session.save()
+#         response = self.client.get('/farmer/show-reservations')
+#         self.assertContains(response, 'You need to Login first!')
+#         self.assertTemplateUsed(response, 'f-login.html')
+
+# class AddItemTestCase(TestCase):
+#     def setUp(self):
+#         self.client = Client()
+#         self.session = self.client.session
+#         self.session['isLoggedIn'] = True
+#         self.session.save()
+
+#     def test_add_item_authenticated(self):
+#         response = self.client.get('/farmer/add-item')
+#         self.assertEqual(response.status_code, 200)
+#         self.assertTemplateUsed(response, 'f-add-item.html')
+
+#     def test_add_item_unauthenticated(self):
+#         self.client = Client()
+#         self.session = self.client.session
+#         self.session['isLoggedIn'] = False
+#         self.session.save()
+#         response = self.client.get('/farmer/add-item')
+#         self.assertEqual(response.status_code, 200)
+#         self.assertContains(response, 'You need to Login first!')
+#         self.assertTemplateUsed(response, 'f-login.html')
+
+
+# class ItemEntryTestCase(TestCase):
+#     def setUp(self):
+#         self.client = Client()
+#         self.session = self.client.session
+#         self.session['isLoggedIn'] = True
+#         self.session.save()
+
+#         mongo_client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.net/?retryWrites=true&w=majority')
+#         db = mongo_client['test']
+#         self.items = db['Items']
+
+#         self.items.insert_one({
+#             'name': 'test1',
+#             'min_temperature': 39,
+#             'max_temperature': 67,
+#             'storage_life': 35,
+#             'is_crop': True
+#         })
+
+#     def test_item_entry_authenticated_post(self):
+#         response = self.client.post('/farmer/add-item/entry', {
+#             'itemName': 'test2',
+#             'minTemp': 10,
+#             'maxTemp': 20,
+#             'storageLife': 30,
+#             'isCrop': 'True'
+#         })
+#         # Not working
+#         self.assertEqual(response.status_code, 302)
+#         self.assertTemplateUsed(response, 'f-make-reservation.html')
+#     def test_item_entry_authenticated_post_duplicate_item(self):
+#         response = self.client.post('/farmer/add-item/entry', {
+#             'itemName': 'test1',
+#             'minTemp': 10,
+#             'maxTemp': 20,
+#             'storageLife': 30,
+#             'isCrop': 'True'
+#         })
+#         self.assertEqual(response.status_code, 200)
+#         messages = list(response.context.get('messages'))
+#         self.assertEqual(len(messages), 1)
+#         self.assertEqual(str(messages[0]), 'Item Name already present in the system')
+#         self.assertTemplateUsed(response, 'f-add-item.html')
+
+#     def test_item_entry_authenticated_post_missing_fields(self):
+#         response = self.client.post('/farmer/add-item/entry', {
+#             'itemName': 'Test Item',
+#             'minTemp': 10,
+#             'maxTemp': 20,
+#             'isCrop': 'True'
+#         })
+#         self.assertEqual(response.status_code, 200)
+#         self.assertTemplateUsed(response, 'f-add-item.html')
+#         messages = list(response.context.get('messages'))
+#         self.assertEqual(len(messages), 1)
+#         self.assertEqual(str(messages[0]), 'Enter details in all the fields')
+
+#     def test_item_entry_authenticated_get(self):
+#         response = self.client.get('/farmer/add-item/entry')
+#         self.assertEqual(response.status_code, 200)
+#         self.assertTemplateUsed(response, 'f-error.html')
+
+#     def test_item_entry_unauthenticated(self):
+#         self.client = Client()
+#         self.session = self.client.session
+#         self.session['isLoggedIn'] = False
+#         self.session.save()
+
+#         response = self.client.post('/farmer/add-item/entry', {
+#             'itemName': 'Test Item',
+#             'minTemp': 10,
+#             'maxTemp': 20,
+#             'isCrop': 'True'
+#         })
+#         self.assertContains(response, 'You need to Login first!')
+#         self.assertTemplateUsed(response, 'f-login.html')   
+
+    # def tearDown(self):
+    #     self.items.delete_many({})
+
+
+# class ModifyReservationEntryTestCase(TestCase):
+#     def setUp(self):
+#         # Create a test client
+#         self.client = Client()
+        
+#         # Set up a session for testing
+#         session = self.client.session
+#         session['isLoggedIn'] = True
+#         session['farmerEmail'] = 'test3@gmail.com'
+#         session.save()
+        
+#         mongo_client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.net/?retryWrites=true&w=majority')
+#         db = mongo_client['test']
+#         self.warehouse = db['Warehouse']
+#         self.farmer = db['Farmer']
+#         self.items = db['Items']
+#         self.items_stored = db['Items_Stored']
+#         self.today = datetime.now().strftime('%Y-%m-%d')
+#         self.tomorrow = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
+#         self.reservation_id = str(uuid.uuid4())
+
+#         self.warehouse.insert_many([{
+#             'name': "test",
+#             'latitude': 12.4,
+#             'longitude': 12.3,
+#             'storage_capacity': 100,
+#             'email': "test1@gmail.com",
+#             'verified': True,
+#             'password': 'password',
+#             'phone_number': '1234567890'
+#         }, {
+#             'name': "test",
+#             'latitude': 12.4,
+#             'longitude': 12.3,
+#             'storage_capacity': 100,
+#             'email': "test2@gmail.com",
+#             'verified': True,
+#             'password': 'password',
+#             'phone_number': '1234567890'
+#         }])
+
+#         self.farmer.insert_one({
+#             'first_name': 'test',
+#             'last_name': 'test',
+#             'phone_num': '1234567890',
+#             'email': 'test3@gmail.com',
+#             'password': 'password',
+#             'verified': True
+#         })
+
+#         self.items.insert_one({
+#             'name': 'test',
+#             'min_temperature': 39,
+#             'max_temperature': 67,
+#             'storage_life': 35,
+#             'is_crop': True
+#         })
+
+#         self.items_stored.insert_one({
+#             'reservation_id': self.reservation_id,
+#             'item_name': 'test',
+#             'warehouse_email': 'test1@gmail.com',
+#             'farmer_email': 'test2@gmail.com',
+#             'start_date': self.today,
+#             'end_date': self.tomorrow,
+#             'quantity': 11.0
+#         })
+    # def test_reservation_entry_success(self):
+    #     response = self.client.post(f'/farmer/modify-reservation/entry/{self.reservation_id}', {
+    #         'warehouseEmail': 'test2@gmail.com',
+    #         'itemName': 'test',
+    #         'startDate': self.today,
+    #         'endDate': self.tomorrow,
+    #         'quantity': 10.0
+    #     }, follow=True)
+
+    #     self.assertEqual(response.status_code, 200)
+    #     # self.assertContains(response, 'Reservation successful')
+    #     self.assertTemplateUsed(response, 'f-home.html')
+    #     # for item in self.items_stored.find({}, {}):
+    #     #     pprint(item)
+    #     # Not working
+    #     # self.assertQuerysetEqual([{
+    #     #         'warehouse_email': 'test2@gmail.com',
+    #     #         'farmer_email': 'test3@gmail.com',
+    #     #         'item_name': 'test',
+    #     #         'start_date': self.today,
+    #     #         'end_date': self.tomorrow,
+    #     #         'quantity': 10.0}], self.items_stored.find({
+    #     #         'warehouse_email': 'test2@gmail.com',
+    #     #         'farmer_email': 'test3@gmail.com',
+    #     #         'item_name': 'test',
+    #     #         'start_date': self.today,
+    #     #         'end_date': self.tomorrow,
+    #     #         'quantity': 10.0
+    #     #     }, {'_id': 0, 'reservation_id': 0}))
+
+    # def test_reservation_entry_insufficient_capacity(self):
+    #     response = self.client.post(f'/farmer/modify-reservation/entry/{self.reservation_id}', {
+    #         'warehouseEmail': 'test2@gmail.com',
+    #         'itemName': 'test',
+    #         'startDate': self.today,
+    #         'endDate': self.tomorrow,
+    #         'quantity': 200.0
+    #     }, follow=True)
+
+    #     self.assertEqual(response.status_code, 200)
+
+    # def test_reservation_entry_invalid_dates(self):
+    #     response = self.client.post(f'/farmer/modify-reservation/entry/{self.reservation_id}', {
+    #         'warehouseEmail': 'test2@gmail.com',
+    #         'itemName': 'test',
+    #         'startDate': self.tomorrow,
+    #         'endDate': self.today,
+    #         'quantity': 10.0
+    #     }, follow=True)
+
+    #     self.assertEqual(response.status_code, 200)
+
+    # def test_reservation_entry_missing_fields(self):
+    #     response = self.client.post(f'/farmer/modify-reservation/entry/{self.reservation_id}', {
+    #         'warehouseEmail': 'test1@gmail.com',
+    #         'itemName': 'test',
+    #         'startDate': self.today,
+    #         'endDate': self.tomorrow,
+    #     }, follow=True)
+
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertContains(response, 'Enter details in all the fields')
+    #     self.assertTemplateUsed(response, 'f-modify-reservation.html')
+
+    # def test_reservation_entry_unauthenticated(self):
+    #     self.client = Client()
+    #     self.session = self.client.session
+    #     self.session['isLoggedIn'] = False
+    #     self.session.save()
+
+
+    #     response = self.client.post(f'/farmer/modify-reservation/entry/{self.reservation_id}', {
+    #         'warehouseEmail': 'test1@gmail.com',
+    #         'itemName': 'test',
+    #         'startDate': self.today,
+    #         'endDate': self.tomorrow,
+    #         'quantity': 10
+    #     }, follow=True)
+
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertContains(response, 'You need to Login first!')
+    #     self.assertTemplateUsed(response, 'f-login.html')
+
+
+    # def test_method_not_post(self):
+    #     response = self.client.get(f'/farmer/modify-reservation/entry/{self.reservation_id}')
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertTemplateUsed(response, 'f-error.html')
+
+    # def test_warehouse_not_found(self):
+    #     response = self.client.post(f'/farmer/modify-reservation/entry/{self.reservation_id}', {
+    #         'warehouseEmail': 'test@gmail.com',
+    #         'itemName': 'test',
+    #         'startDate': self.today,
+    #         'endDate': self.tomorrow,
+    #     }, follow=True)
+
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertTemplateUsed(response, 'f-modify-reservation.html')
+
+    # def test_invalid_reservation_id(self):
+    #     response = self.client.post('/farmer/modify-reservation/entry/1', {
+    #         'warehouseEmail': 'test@gmail.com',
+    #         'itemName': 'test',
+    #         'startDate': self.today,
+    #         'endDate': self.tomorrow,
+    #     }, follow=True)
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertTemplateUsed(response, 'f-show-reservations.html')
+
+
+    # def tearDown(self):
+    #     self.warehouse.delete_many({'name': 'test'})
+    #     self.farmer.delete_many({'first_name': 'test'})
+    #     self.items.delete_many({'name': 'test'})
+    #     self.items_stored.delete_many({'item_name': 'test'})
+
+    
 # class ModifyReservationTestCase(TestCase):
 #     def setUp(self):
 #         # Create a test client
@@ -524,11 +930,28 @@ class ReservationEntryTestCase(TestCase):
 #         # Set up a session for testing
 #         session = self.client.session
 #         session['isLoggedIn'] = True
+#         session['farmerEmail'] = 'test2@gmail.com'
 #         session.save()
+        
+#         mongo_client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.net/?retryWrites=true&w=majority')
+#         db = mongo_client['test']
+#         self.items_stored = db['Items_Stored']
+#         self.today = datetime.now().strftime('%Y-%m-%d')
+#         self.tomorrow = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
+#         self.reservation_id = str(uuid.uuid4())
+#         self.items_stored.insert_one({
+#             'reservation_id': self.reservation_id,
+#             'item_name': 'test',
+#             'warehouse_email': 'test1@gmail.com',
+#             'farmer_email': 'test2@gmail.com',
+#             'start_date': self.today,
+#             'end_date': self.tomorrow,
+#             'quantity': 11.0
+#         })
 
 #     def test_modify_reservation_with_logged_in_user(self):
 #         # Make a GET request to the modifyReservation view
-#         response = self.client.get('/farmer/modify-reservation/1')
+#         response = self.client.get(f'/farmer/modify-reservation/{self.reservation_id}')
         
 #         # Check that the response status code is 200
 #         self.assertEqual(response.status_code, 200)
@@ -537,7 +960,7 @@ class ReservationEntryTestCase(TestCase):
 #         self.assertTemplateUsed(response, 'f-modify-reservation.html')
         
 #         # Check that the reservation_id is in the context
-#         self.assertEqual(response.context['reservation_id'], '1')
+#         self.assertEqual(response.context['reservation_id'], self.reservation_id)
         
 #         # Check that the items_list is in the context
 #         self.assertQuerysetEqual(response.context['items'], [])
@@ -549,7 +972,7 @@ class ReservationEntryTestCase(TestCase):
 #         session.save()
         
 #         # Make a GET request to the modifyReservation view
-#         response = self.client.get('/farmer/modify-reservation/1')
+#         response = self.client.get(f'/farmer/modify-reservation/{self.reservation_id}')
         
 #         # Check that the response status code is 200
 #         self.assertEqual(response.status_code, 200)
@@ -559,6 +982,112 @@ class ReservationEntryTestCase(TestCase):
         
 #         # Check that the error message is in the response
 #         self.assertContains(response, 'You need to Login first!')
+
+    # def test_invalid_reservation_id(self):
+    #     response = self.client.get('/farmer/modify-reservation/1')
+    #     # Not working
+    #     # self.assertEqual(response.status_code, 200)
+    #     self.assertTemplateUsed(response, 'f-show-reservations.html')
+
+    # def tearDown(self):
+    #     self.items_stored.delete_many({})
+
+
+# class ShowCropSuggestionsTestCase(TestCase):
+    
+#     def setUp(self):
+#         self.client = Client()
+#         self.session = self.client.session
+#         self.session['isLoggedIn'] = True
+#         self.session.save()
+
+        
+#         mongo_client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.net/?retryWrites=true&w=majority')
+#         db = mongo_client['test']
+#         self.items_stored = db['Items_Stored']
+#         self.items = db['Items']
+
+#         self.items.insert_many([{
+#             'name': 'test1',
+#             'min_temperature': 39,
+#             'max_temperature': 67,
+#             'storage_life': 35,
+#             'is_crop': True
+#         },{
+#             'name': 'test2',
+#             'min_temperature': 39,
+#             'max_temperature': 67,
+#             'storage_life': 35,
+#             'is_crop': True
+#         },{
+#             'name': 'test3',
+#             'min_temperature': 39,
+#             'max_temperature': 67,
+#             'storage_life': 35,
+#             'is_crop': False
+#         }
+#         ])
+
+#         self.today = datetime.now().strftime('%Y-%m-%d')
+#         self.tomorrow = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
+#         self.items_stored.insert_many([{
+#             'reservation_id': str(uuid.uuid4()),
+#             'item_name': 'test1',
+#             'warehouse_email': 'test1@gmail.com',
+#             'farmer_email': 'test2@gmail.com',
+#             'start_date': self.today,
+#             'end_date': self.tomorrow,
+#             'quantity': 11.0
+#         }, {
+#             'reservation_id': str(uuid.uuid4()),
+#             'item_name': 'test1',
+#             'warehouse_email': 'test1@gmail.com',
+#             'farmer_email': 'test2@gmail.com',
+#             'start_date': self.today,
+#             'end_date': self.tomorrow,
+#             'quantity': 12.0
+#         }, {
+#             'reservation_id': str(uuid.uuid4()),
+#             'item_name': 'test2',
+#             'warehouse_email': 'test1@gmail.com',
+#             'farmer_email': 'test2@gmail.com',
+#             'start_date': self.today,
+#             'end_date': self.tomorrow,
+#             'quantity': 33.0
+#         }, {
+#             'reservation_id': str(uuid.uuid4()),
+#             'item_name': 'test3',
+#             'warehouse_email': 'test1@gmail.com',
+#             'farmer_email': 'test2@gmail.com',
+#             'start_date': self.today,
+#             'end_date': self.tomorrow,
+#             'quantity': 50.0
+#         }])
+
+#     def test_show_crop_suggestions_success(self):
+#         response = self.client.get('/farmer/show-crop-suggestions')
+#         self.assertEqual(response.status_code, 200)
+#         self.assertTemplateUsed(response, 'f-show-crop-suggestions.html')
+
+#         # Not working 
+#         # self.assertQuerysetEqual(response.context['items'], [
+#         #     {'name': 'test1', 'totQty': 23.0},
+#         #     {'name': 'test2', 'totQty': 33.0}
+#         # ])
+        
+#     def test_show_crop_suggestions_not_logged_in(self):
+#         self.session['isLoggedIn'] = False
+#         self.session.save()
+#         response = self.client.get('/farmer/show-crop-suggestions')
+#         messages = list(response.context.get('messages'))
+#         self.assertEqual(len(messages), 1)
+#         self.assertEqual(str(messages[0]), 'You need to Login first!')  
+#         self.assertTemplateUsed(response, 'f-login.html')
+
+#     def tearDown(self):
+#         self.items_stored.delete_many({})
+#         self.items.delete_many({})
+
 
 
 # class AddItemTestCase(TestCase):

@@ -31,6 +31,17 @@ body {
 	width: 20rem;
 }
 
+.home--logIn {
+	display: flex;
+	flex-direction: row;
+}
+
+.to-home {
+	margin-right: 3rem;
+	text-decoration: none;
+	color: #e40b31;
+}
+
 .container {
 	/* max-width: 700px; */
 	width: 100%;

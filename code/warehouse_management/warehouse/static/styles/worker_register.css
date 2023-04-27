@@ -23,6 +23,9 @@ body {
 
 	overflow-y: hidden;
 }
+.logo-img {
+	width: 16rem;
+}
 
 .registration--form--block {
 	max-width: 56rem;

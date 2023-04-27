@@ -42,7 +42,10 @@
 			<div class="registration--form--block">
 				<div class="navbar">
 					<img class="logo-img" src = "{% static './Images/WarehouseWise.png' %}" />
-					<p>Already Have an Account ? <a class="LogIn--option" href="{% url 'farmer:login'%}">LogIn</a></p>
+						<div class="home--logIn">
+                        	<a class="to-home" href="{% url 'farmer:index' %}">Home</a>
+					    	<p>Already Have an Account ? <a class="LogIn--option" href="{% url 'farmer:login'%}">LogIn</a></p>
+                    </div>
 				</div>
 				<div class="registration--form">
 					<div class="title"><span>Farmer's</span> Registration</div>

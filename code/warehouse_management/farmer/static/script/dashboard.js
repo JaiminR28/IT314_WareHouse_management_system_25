@@ -205,22 +205,13 @@ const agriNews = [
 ];
 
 //show sidebar
-menuBtn.addEventListener("click", () => {
-	sideMenu.style.display = "block";
-});
 
 //close sidebar
 closeBtn.addEventListener("click", () => {
 	sideMenu.style.display = "none";
 });
 
-//change theme
-themeToggler.addEventListener("click", () => {
-	document.body.classList.toggle("dark-theme-variables");
-
-	themeToggler.querySelector("span:nth-child(1)").classList.toggle("active");
-	themeToggler.querySelector("span:nth-child(2)").classList.toggle("active");
-});
+//change
 
 // Set current Date :
 let date = new Date().toLocaleDateString();

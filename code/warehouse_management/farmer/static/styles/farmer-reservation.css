@@ -165,10 +165,10 @@ aside .logo {
 	display: flex;
 	gap: 2rem;
 }
-
 aside .logo img {
-	width: 2rem;
-	height: 2rem;
+	width: 20rem;
+	height: 4rem;
+	margin-left: 2rem;
 }
 
 aside .close {
@@ -181,11 +181,6 @@ aside .sidebar {
 	height: 86vh;
 	position: relative;
 	top: 3rem;
-}
-
-aside .logo img {
-	width: 2rem;
-	height: 2rem;
 }
 
 aside h3 {

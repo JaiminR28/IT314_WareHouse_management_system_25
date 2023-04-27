@@ -167,8 +167,9 @@ aside .logo {
 }
 
 aside .logo img {
-	width: 2rem;
-	height: 2rem;
+	width: 20rem;
+	height: 4rem;
+	margin-left: 2rem;
 }
 
 aside .close {
@@ -183,10 +184,7 @@ aside .sidebar {
 	top: 3rem;
 }
 
-aside .logo img {
-	width: 2rem;
-	height: 2rem;
-}
+
 
 aside h3 {
 	font-size: 1.6rem;
@@ -458,7 +456,7 @@ main .weather-price-div h2 {
 /* Reserved Analytics */
 
 .right .news--div {
-	margin-top: 10rem;
+	margin-top: 12rem;
 }
 
 .right .news--div h2 {

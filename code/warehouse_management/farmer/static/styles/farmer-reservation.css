@@ -397,7 +397,19 @@ form .button input:hover {
 .important--mark{
 	color: #e40b31;
 }
-	
+
+#itemName{
+	padding: 1.4rem 1rem;
+	border: 2px solid #ccc;
+	border-radius: 8px;
+	border-bottom-width: 2px;
+	font-size: 14px;
+}
+
+#itemName:hover, #itemName:valid{
+	border-color: #ec546f;
+}
+
 
 /* Alert */
 .alert {

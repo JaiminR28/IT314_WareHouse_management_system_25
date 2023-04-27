@@ -21,7 +21,7 @@ const cornPriceEl = document.querySelector(".corn--price");
 // Urls
 
 const NEWS_API =
-	"https://newsapi.org/v2/everything?q=agriculture&from=2023-03-25&sortBy=publishedAt&apiKey=1713d3c967ed4defab26f9996b21716as";
+	"https://newsapi.org/v2/everything?q=bitcoin&apiKey=c8b40c41eccd4ad39f06c7155de42af2";
 
 const cropsToMonitor = ["wheat", "rice", "corn"];
 
@@ -217,20 +217,7 @@ closeBtn.addEventListener("click", () => {
 let date = new Date().toLocaleDateString();
 DateEl.innerHTML = `Date: ${date}`;
 
-// const displayNews = async () => {
-// 	let results;
-// 	try {
-// 		const response = await fetch(NEWS_API);
-// 		// console.log(response);
-// 		results = await response.json();
-// 	} catch (error) {
-// 		console.error(error);
-// 	}
-
-// 	console.log(results.articles);
-
-// };
-
+//
 const insertNewsArticles = (articles) => {
 	for (let i = 4; i <= 10; i++) {
 		const html = `

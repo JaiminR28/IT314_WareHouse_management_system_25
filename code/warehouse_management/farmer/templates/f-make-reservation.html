@@ -159,7 +159,7 @@
 								<label class="details">Item Name</label>
 								<select id="itemName" name="itemName">
                                     {% for item in items %}
-                                        <option value={{ item.name }}>
+                                        <option id="crop-item" value={{ item.name }}>
                                             <p>
                                                 Name: {{ item.name }}, 
                                                 Min Temperature: {{ item.min_temperature }}, 

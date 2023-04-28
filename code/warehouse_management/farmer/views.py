@@ -54,6 +54,12 @@ def home(request):
         messages.error(request, 'You need to login first!')
         return render(request, 'f-login.html')
 
+def contact(request):
+    return render(request, 'contact.html')
+
+def aboutus(request):
+    return render(request, 'aboutUs.html')
+
 def login(request):
     if request.session.get('isLoggedIn', False) == True:
         query = {'email': request.session.get('farmerEmail')}
@@ -756,7 +762,7 @@ def generateReport(request):
 
             # Header
             space = Spacer(1, 0.2*inch)
-            header = Table([[Image('C:/Users/Tom/Desktop/IT314_WareHouse_management_system_25/code/warehouse_management/warehouse/static/Images/dalogo.png', width=1*inch, height=1*inch)], [Paragraph('<strong>DA Warehouse</strong>', center_style)]], colWidths=[7.5*inch])
+            header = Table([[Image('warehouse/static/Images/dalogo.png', width=1*inch, height=1*inch)], [Paragraph('<strong>DA Warehouse</strong>', center_style)]], colWidths=[7.5*inch])
             header.setStyle(TableStyle([
                 ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
                 ('BACKGROUND', (0, 0), (-1, -1), colors.lightskyblue),

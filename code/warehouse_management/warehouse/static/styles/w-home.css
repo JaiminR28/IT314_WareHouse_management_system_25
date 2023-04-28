@@ -11,24 +11,24 @@ html {
 body {
 	font-family: "Montserrat", sans-serif;
 	background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
-		url("/static/Images/warehouse_background.png");
+		url("/static/Images/w-warehouse.png");
 	background-size: 100% auto;
 	background-size: cover;
 	height: 100vh;
 	background-position: center;
 	background-repeat: no-repeat;
 }
-
 .banner {
 	width: 100%;
 }
 .logo {
 	color: white;
 }
+
 .logo-img {
-	width: 6rem;
-	height: 3rem;
+	width: 32rem;
 }
+
 .navbar {
 	width: 60%;
 	margin: auto;
@@ -60,6 +60,7 @@ body {
 	transition: 0.5s;
 }
 .center {
+	width: 48rem;
 	margin: 0;
 	position: absolute;
 	top: 50%;
@@ -67,6 +68,7 @@ body {
 	-ms-transform: translateY(-50%);
 	transform: translateY(-50%);
 	display: flex;
+	list-style-type: none;
 }
 .button:hover {
 	background-color: aquamarine;
@@ -92,8 +94,6 @@ body {
 .hr {
 	border-left: 3px solid white;
 	height: 100px;
-	position: absolute;
-	margin-left: 50%;
 	margin-top: -40px;
 	/* left: 50%; */
 }
@@ -140,7 +140,6 @@ body {
 	margin-bottom: 30px;
 	/* transform: translateY(-%); */
 }
-
 .heading span {
 	display: inline-block;
 }

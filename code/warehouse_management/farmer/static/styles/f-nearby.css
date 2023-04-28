@@ -253,7 +253,7 @@ aside .sidebar .message-count {
 
 /* Main */
 main {
-  width: 75%;
+  width: 100%;
 }
 
 /* Heading */
@@ -301,38 +301,15 @@ main {
 
 /* Map Container */
 
-.map--container {
-  /* width: 80%; */
-  height: 64vh;
-  display: flex;
-  margin: 0 auto;
-  margin-top: 4rem;
-  border-radius: 5px;
-  overflow: hidden;
-
-  display: flex;
-  justify-content: space-between;
-}
-.map--div {
-  width: 50%;
-  background-color: var(--color-dark);
-  margin-right: 2rem;
-}
-
-#map {
-  flex: 3;
-  height: 100%;
-  background-color: var(--color-white);
-  z-index: 1;
-}
-
-.popup-img {
-  width: 150px;
-  height: 150px;
-  object-fit: cover;
-}
 
 /* Warehouse locations */
+
+.page--title {
+	font-size: 4.2rem;
+	margin: 1.6rem 0 0 2rem;
+	display: block;
+}
+
 
 .warehouse--locations--div {
   padding: 2rem 4rem;
@@ -342,10 +319,6 @@ main {
   background-color: var(--color-white);
 }
 
-.area--location {
-  font-size: 1.2rem;
-  font-weight: 400;
-}
 
 .Warehouse--locations {
   overflow-y: scroll;
@@ -595,7 +568,7 @@ hr {
   margin: 8rem auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
-  width: 70%; /* Could be more or less, depending on screen size */
+  width: 90%; /* Could be more or less, depending on screen size */
   height: 52rem;
   border-radius: 8px;
 } 
@@ -828,4 +801,10 @@ form .button input:hover {
   background-color: #fbeaea;
   box-shadow: none;
   color: #d62828;
+}
+
+aside  .logo img{
+        width: 20rem;
+    height: 4rem;
+    margin-left: 2rem;
 }

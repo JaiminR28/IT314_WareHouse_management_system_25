@@ -40,14 +40,32 @@ def index(request):
 
 def home(request):
     if request.session.get('isLoggedIn', False) == True:
-        return render(request, 'f-home.html')
+        query = {'email': request.session.get('farmerEmail')}
+        projection = {'first_name': 1, 'verified': 1, 'email': 1}
+
+        users = farmer.find(query, projection)
+
+        context = {
+            'first_name': users[0]['first_name'],
+            'email': users[0]['email']
+        }
+        return render(request, 'f-home.html', context=context)
     else:
         messages.error(request, 'You need to login first!')
         return render(request, 'f-login.html')
 
 def login(request):
     if request.session.get('isLoggedIn', False) == True:
-        return render(request, 'f-home.html')
+        query = {'email': request.session.get('farmerEmail')}
+        projection = {'first_name': 1, 'verified': 1, 'email': 1}
+
+        users = farmer.find(query, projection)
+        
+        context = {
+            'first_name': users[0]['first_name'],
+            'email': users[0]['email']
+        }
+        return render(request, 'f-home.html', context=context)
     else:
         return render(request, 'f-login.html')
 
@@ -78,13 +96,13 @@ def loginValidate(request):
             query = {'email': email, 'password': password}
             projection = {'first_name': 1, 'verified': 1}
 
-            # print(request)
             users = farmer.find(query, projection)
             if len(list(users.clone())) == 1 and users[0]['verified']:
                 request.session['isLoggedIn'] = True
                 request.session['farmerEmail'] = email
                 context = {
-                    'user' : users[0]['first_name']
+                    'first_name' : users[0]['first_name'],
+                    'email': email
                 }
                 return render(request, 'f-home.html', context=context)
             elif len(list(users.clone())) == 1 and not users[0]['verified']:
@@ -217,6 +235,7 @@ def showNearbyWarehouses(request):
                 longitude = float(request.POST.get('longitude'))
                 target_distance = float(request.POST.get('distance'))
 
+                print("Reached here")
                 if target_distance < 0:
                     messages.error(request, 'Distance value invalid')
                     return render(request, 'f-search-nearby-warehouses.html')

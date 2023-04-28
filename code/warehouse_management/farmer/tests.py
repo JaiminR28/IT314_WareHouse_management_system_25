@@ -12,16 +12,16 @@ from unittest.mock import MagicMock, patch
 
 
 
-# def assertEqual(a, b):
-#     if a != b:
-#         print('Response: FAIL')
-#     else:
-#         print("Response: PASS")
-# def assertTemplateUsed(response, template):
-#     if template not in response.templates[0].name:
-#         print('Template: FAIL')
-#     else:
-#         print("Template: PASS")
+def assertEqual(a, b):
+    if a != b:
+        print('Response: FAIL')
+    else:
+        print("Response: PASS")
+def assertTemplateUsed(response, template):
+    if template not in response.templates[0].name:
+        print('Template: FAIL')
+    else:
+        print("Template: PASS")
 
 # class IndexTestCase(TestCase):
 #     def setUp(self):

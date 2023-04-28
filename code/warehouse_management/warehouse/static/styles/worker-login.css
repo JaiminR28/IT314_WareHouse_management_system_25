@@ -70,6 +70,10 @@ body {
 	justify-content: space-between;
 }
 
+.Logo .logo-img {
+	width: 32rem;
+}
+
 li {
 	display: table-cell;
 	position: relative;

@@ -32,7 +32,7 @@
         {% endfor %}
         </select>
         <br><br>
-        <a href="{% url 'warehouse:addItem' %}" class="btn btn-primary">Add Item</a><br>
+        <a href="{% url 'warehouse:addJustItem' %}" class="btn btn-primary">Add Item</a><br>
         <label for="startDate">Start Date:</label><br>
         <input type="date" id="startDate" name="startDate"><br><br>
         <label for="endDate">End Date:</label><br>
@@ -129,7 +129,7 @@
 						/>
 						<h3>Generate Report</h3>
 					</a>
-					<a href="{% url 'warehouse:addItem' %}">
+					<a href="{% url 'warehouse:addJustItem' %}">
 						<img
 							src="{% static '/Images/Navbar/add-to-queue-svgrepo-com.svg' %}"
 							alt=""
@@ -164,7 +164,7 @@
 						<div class="user-details">
 							<div class="input-box">
 								<label class="details">Farmer Email </label>
-								<input type="email" id="farmerEmail" name="farmerEmail" placeholder="Enter Your Email" value="{{ farmer_mail }}" required />
+								<input readonly type="email" id="farmerEmail" name="farmerEmail" placeholder="Enter Your Email" value="{{ farmer_mail }}" required />
 							</div>
 							<!-- <script>console.log(item)</script> -->
 							<div class="custom-select input-box">
@@ -180,9 +180,9 @@
 										{% endfor %}									
 									</select>
 								</div>
-                                <a href="{% url 'warehouse:addItem' %}">
+                                <!-- <a href="{% url 'warehouse:addJustItem' %}">
 								    <button class="add-item-btn" formnovalidate>Add Item</button>
-                                </a>
+                                </a> -->
 							</div>
 							<div class="input-box">
 								<label class="details">Start Date</label>

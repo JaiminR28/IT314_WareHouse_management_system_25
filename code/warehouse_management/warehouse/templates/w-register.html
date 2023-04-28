@@ -5,6 +5,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<title>Responsive Registration Form | Warehouse manegment</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<!-- Font -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -13,9 +14,11 @@
 			href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600&display=swap"
 			rel="stylesheet"
 		/>
+		<script src="https://kit.fontawesome.com/cd6d96a6c5.js" crossorigin="anonymous"></script>
+		<script defer src="{% static 'script/signup.js' %}"></script>
 
-			<link rel="stylesheet" href="{% static 'styles/worker_register.css' %}">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="{% static 'styles/worker_register.css' %}">
+		
 	</head>
 	<body>
         {% if messages %}
@@ -41,8 +44,7 @@
 			</div>
             <div class="registration--form--block">
 				<div class="navbar">
-					<h2>Logo</h2>
-
+				        <img class="logo-img" src = "{% static './Images/WarehouseWise.png' %}" />
                     <div class="home--logIn">
                         <a class="to-home" href="{% url 'warehouse:index' %}">Home</a>
 					    <p>Already Have an Account ? <a class="LogIn--option" href="{% url 'warehouse:login'%}">LogIn</a></p>
@@ -50,7 +52,7 @@
 				</div>
                 <div class="registration--form">
 				    <div class="title">Worker's Registration</div>
-                    <form action="{% url 'warehouse:registerEntry'%}" method="post">
+                	<form action="{% url 'warehouse:registerEntry'%}" method="post">
                     {% csrf_token %}
                         <div class="user-details">
 							<div class="input-box">
@@ -71,7 +73,7 @@
 									type="text"
                                     id="phoneNum"
                                     name="phoneNum"
-									placeholder="Enter your first name"
+									placeholder="Enter your mobile No."
 									required
 								/>
                             </div>
@@ -82,7 +84,7 @@
 									type="text"
                                     id="latitude"
                                     name="latitude"
-									placeholder="Enter your first name"
+									placeholder="Enter your latitude"
 									required
 								/>
                             </div>
@@ -93,7 +95,7 @@
 									type="text"
                                     id="longitude"
                                     name="longitude"
-									placeholder="Enter your first name"
+									placeholder="Enter your longitude"
 									required
 								/>
                             </div>
@@ -104,7 +106,7 @@
 									type="number"
                                     id="storage_capacity"
                                     name="storage_capacity"
-									placeholder="Enter your first name"
+									placeholder="Enter the storage capacity"
 									required
 								/>
                             </div>
@@ -116,25 +118,50 @@
 									type="text"
                                     id="email"
                                     name="email"
-									placeholder="Enter your first name"
+									placeholder="Enter your email ID"
 									required
 								/>
                             </div>
 							<div class="input-box">
-								<span class="details">Password</span>
-								<input
-                                class="text--input-box"
-									type="text"
-                                    id="password"
-                                    name="password"
-									placeholder="Enter your first name"
-									required
-								/>
-                            </div>
+								<div class="password-input--box">
+									<span class="details">Password</span>
+									<input class="text--input-box" type="password" id="password" name="password"
+									placeholder="Enter your Password" required />
+									<i class="fa-solid fa-eye"></i>
+								</div>
+							</div>
+							<div class="input-box">
+								<div class="content">
+									<p>Password must contain:</p>
+									<ul class="requirement-list">
+										<li>
+											<i class="fa-solid fa-circle"></i>
+											<span>At least 8 to 12 characters length</span>
+										</li>
+										<li>
+											<i class="fa-solid fa-circle"></i>
+											<span>At least 1 number (0...9)</span>
+										</li>
+										<li>
+											<i class="fa-solid fa-circle"></i>
+											<span>At least 1 lowercase letter (a...z)</span>
+										</li>
+										<li>
+											<i class="fa-solid fa-circle"></i>
+											<span>At least 1 special symbol (!...$)</span>
+										</li>
+										<li>
+											<i class="fa-solid fa-circle"></i>
+											<span>At least 1 uppercase letter (A...Z)</span>
+										</li>
+									</ul>
+								</div>
+							</div>
                         </div>
                         <div class="submit--button">
 							<input type="submit" value="Registration" />
 						</div>
+					</form>
                 </div>
             </div>
         </div>

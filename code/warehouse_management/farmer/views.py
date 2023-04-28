@@ -183,7 +183,7 @@ def registerEntry(request):
                 )
                 email_temp.fail_silently = False
                 email_temp.send()
-                messages.success(request, 'Registration successful')
+                messages.success(request, 'Registration successfull !! please check your email for verification.')
                 return render(request, 'f-login.html')
 
         else:

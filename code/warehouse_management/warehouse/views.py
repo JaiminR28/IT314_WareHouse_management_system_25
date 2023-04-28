@@ -191,7 +191,7 @@ def registerEntry(request):
                     'phone_number': phoneNum,
                 })
                 EMAIL = email
-                messages.success(request, 'Registration successful')
+                messages.success(request, 'Registration successfull !! please check your email for verification.')
                 # Welcome Email
                 subject = "Welcome to Warehouse Manager!!"
                 message = "Hello " + name + "!! \n" + "Welcome to DAIICT Warehouse Manager!! \nThank you for visiting our website.\n We have also sent you a confirmation email, please confirm your email address. \n\nThanking You\nArth Detroja"        

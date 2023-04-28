@@ -154,23 +154,16 @@
 									required
 								/>
 							</div>
-                            <div class="input-box">
-								<label class="details">Item Name</label>
-								<select id="itemName" name="itemName">
-                                    {% for item in items %}
-                                        <option value={{ item.name }}>
-                                            <p>
-                                                Name: {{ item.name }}, 
-                                                Min Temperature: {{ item.min_temperature }}, 
-                                                Max Temperature: {{ item.max_temperature }}, 
-                                                Storage Life: {{ item.storage_life }}, 
-                                                Is a crop: {{ item.is_crop }}
-                                            </p>
-                                        </option>
-                                    {% endfor %}
-                                </select>
+							<div class="input-box">
+								<label class="details">Quantity (in kgs)</label>
+								<input
+									type="number"
+									name="quantity"
+									id="quantity"
+									min="0"
+									required
+								/>
 							</div>
-							<a href="{% url 'farmer:addItem' %}"> Add Item </a>
 							<div class="input-box">
 								<label class="details">Start Date</label>
 								<input
@@ -189,15 +182,22 @@
 									required
 								/>
 							</div>
-							<div class="input-box">
-								<label class="details">Quantity (in kgs)</label>
-								<input
-									type="number"
-									name="quantity"
-									id="quantity"
-									min="0"
-									required
-								/>
+							<div class="input-box addItem--div">
+								<label class="details">Item Name</label>
+								<select id="itemName" name="itemName">
+									{% for item in items %}
+										<option value={{ item.name }}>
+										<p>
+											Name: {{ item.name }}, 
+											Min Temperature: {{ item.min_temperature }}, 
+											Max Temperature: {{ item.max_temperature }}, 
+											Storage Life: {{ item.storage_life }}, 
+											Is a crop: {{ item.is_crop }}
+										</p>
+										</option>
+									{% endfor %}
+								</select>
+								<a class="add-item-btn" href="{% url 'farmer:addItem' %}"> Add Item </a>
 							</div>
 						</div>
 						<div class="button">

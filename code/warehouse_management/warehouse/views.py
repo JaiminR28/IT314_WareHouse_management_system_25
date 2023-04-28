@@ -523,7 +523,7 @@ def showReservations(request):
         projection = {}
         items_stored_list = items_stored.find(query, projection)
         data_list = []
-        print(items_stored_list)
+        # print(items_stored_list)
         for i in items_stored_list:
             data_list.append(i)
         context = {
@@ -538,6 +538,7 @@ def showReservations(request):
 def addJustItem(request):
     if request.session['isLoggedIn'] == True:
         return render(request, 'w-add-just-item.html')
+    messages.error(request, 'You need to Login first!')
     return render(request, 'w-login.html')
     
 # def addItem(request):
@@ -563,7 +564,7 @@ def itemJustEntry(request):
 
                 if len(list(items_list.clone())) != 0:
                     messages.error(request, 'Item Name already present in the system')
-                    return render(request, 'w-add-item.html')
+                    return render(request, 'w-add-just-item.html')
                 
                 if is_crop == 'True':
                     is_crop_bool = True
@@ -592,7 +593,8 @@ def itemJustEntry(request):
                 return render(request, 'w-home.html', context=context)
             else:
                 messages.error(request, "Enter details in all the fields")
-                return render(request, 'w-add-item.html')
+                return render(request, 'w-add-just-item.html')
+        return render(request, 'w-error.html')
     else:
         messages.error(request, 'You need to Login first!')
         return render(request, 'w-login.html')
@@ -651,6 +653,7 @@ def modifyReservation(request, reservation_id):
         query = {'reservation_id': reservation_id}
         projection = {'farmer_email': 1, 'quantity': 1}
         farmer_mail = items_stored.find(query, projection)
+        # print(farmer_mail[0])
         # print(data_list)
         context = {
             'reservation_id': reservation_id,
@@ -705,25 +708,27 @@ def modifyReservationEntry(request, reservation_id):
                 end_date = request.POST.get('endDate')  
                 quantity = float(request.POST.get('quantity'))
 
-                # print(start_date)
-                # print(end_date)
+                # print(farmer_email, item_name, start_date, end_date, quantity)
 
-                query = {}
+                query = {'reservation_id': reservation_id}
                 projection = {}
                 items_stored_list = items_stored.find(query, projection)
 
-                query = {
-                    'email': request.session['warehouseEmail']
-                }
-                
-                projection = {}
+                # print("1")
 
-                warehouse_details = warehouse.find(query, projection)
+                if len(list(items_stored_list.clone())) == 0:
+                    messages.error(request, 'Reservation not found!')
+                    return render(request, 'w-show-reservation.html')   
+
+                query = {'email': request.session['warehouseEmail']}                
+                projection = {}
+                warehouse_details = warehouse.find(query, projection)   
+
+                # print("2")                          
 
                 if len(list(warehouse_details.clone())) == 0:
-                    messages.error(request, 'Farmer not found!')
+                    messages.error(request, 'Warehouse not found!')
                     return redirect('warehouse:modifyReservation', reservation_id=reservation_id)
-
                 
                 quantity_stored = 0
                 format = '%Y-%m-%d'
@@ -731,8 +736,7 @@ def modifyReservationEntry(request, reservation_id):
                 start_date_obj = datetime.strptime(start_date, format) 
                 end_date_obj = datetime.strptime(end_date, format) 
 
-                # print(start_date_obj)
-                # print(end_date_obj)
+                # print("3")
 
                 if start_date_obj > end_date_obj:
                     messages.error(request, 'Invalid start date and end date')
@@ -770,7 +774,6 @@ def modifyReservationEntry(request, reservation_id):
 
                     items_stored.update_one(query, newvalues)
 
-
                     query = {'email': request.session['warehouseEmail']}
                     projection = {'name': 1}
                     result = warehouse.find(query, projection)
@@ -779,7 +782,7 @@ def modifyReservationEntry(request, reservation_id):
                         'user': request.session['warehouseEmail'],
                         'name': result[0]['name']
                     }
-
+                    # print("4")
                     return render(request, 'w-home.html', context=context)
                 else:
                     messages.error(request, 'Quantity exceeds the warehouse limit')
@@ -788,6 +791,8 @@ def modifyReservationEntry(request, reservation_id):
                 messages.error(request, "Enter details in all the fields")
                 # return render(request, 'w-modify-reservation.html')
                 return redirect('warehouse:modifyReservation', reservation_id=reservation_id)
+        else:
+            return render(request, 'w-error.html')
     else:
         messages.error(request, 'You need to Login first!')
         return render(request, 'w-login.html')

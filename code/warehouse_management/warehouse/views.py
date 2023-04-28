@@ -168,7 +168,7 @@ def registerEntry(request):
 
             users = warehouse.find(query, projection)
 
-            pattern = re.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$")
+            pattern = re.compile("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,20}$")
 
             if len(list(users.clone())) != 0:
                 messages.error(request, 'Email already registered!')

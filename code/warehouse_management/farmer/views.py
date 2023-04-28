@@ -427,8 +427,8 @@ def itemEntry(request):
         if request.method == 'POST':
             if request.POST.get('itemName') and request.POST.get('minTemp') and request.POST.get('maxTemp') and request.POST.get('storageLife') and request.POST.get('isCrop'):
                 item_name = request.POST.get('itemName')
-                min_temp = request.POST.get('minTemp')
-                max_temp = request.POST.get('maxTemp')
+                min_temp = float(request.POST.get('minTemp'))
+                max_temp = float(request.POST.get('maxTemp'))
                 storage_life = int(request.POST.get('storageLife'))
                 is_crop = request.POST.get('isCrop') 
 
@@ -441,6 +441,12 @@ def itemEntry(request):
                     messages.error(request, 'Item Name already present in the system')
                     return render(request, 'f-add-item.html')
                 
+                # Storage life should be positive and greater than zero
+
+                if storage_life <= 0:
+                    messages.error(request, 'Storage should be positive and greater than zero')
+                    return render(request, 'f-add-item.html')
+                    
                 if is_crop == 'True':
                     is_crop_bool = True
                 else:

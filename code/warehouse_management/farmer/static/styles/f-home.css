@@ -60,6 +60,7 @@ body {
 	transition: 0.5s;
 }
 .center {
+	width: 48rem;
 	margin: 0;
 	position: absolute;
 	top: 50%;
@@ -93,8 +94,6 @@ body {
 .hr {
 	border-left: 3px solid white;
 	height: 100px;
-	position: absolute;
-	margin-left: 50%;
 	margin-top: -40px;
 	/* left: 50%; */
 }

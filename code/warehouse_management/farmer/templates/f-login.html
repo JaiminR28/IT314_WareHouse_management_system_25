@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600&display=swap"
         rel="stylesheet">
     <!-- Style link -->
-    	<link rel="stylesheet" href="{% static 'styles/farmer-login.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/worker-login.css' %}" />
 
     <title>Login Form</title>
 </head>
@@ -24,9 +24,9 @@
         </div>
             <ul class="nav--items">
                 <li><a class="nav--item black--text" href="{% url 'farmer:index' %}">Home</a></li>
-                <li><a class="nav--item" href="#">Contacts</a></li>
-                <li><a class="nav--item" href="#">About US</a></li>
-                <li><a class="nav--item Service--button" href="#">Services</a></li>
+                <li><a class="nav--item" href="{% url 'farmer:contact' %}">Contacts</a></li>
+                <li><a class="nav--item" href="{% url 'farmer:aboutus' %}">About US</a></li>
+                <li><a class="nav--item Service--button" href="{% url 'home:home' %}">Services</a></li>
             </ul>
 
     </nav>

@@ -17,8 +17,6 @@
             
 
 		<!-- Style link -->
-		<link rel="stylesheet" href="{% static 'styles/aboutUS.css' %}" />
-        <link rel="stylesheet" href="{% static 'styles/contact.css' %}" />
         <link rel="stylesheet" href="{% static 'styles/worker-login.css' %}" />
 		<title>Login Form</title>
 	</head>
@@ -33,7 +31,7 @@
 				<li><a class="nav--item" href="{% url 'warehouse:contact' %}">Contacts</a></li>
 				<li><a class="nav--item" href="{% url 'warehouse:aboutus' %}">About US</a></li>
 				<li>
-					<a class="nav--item Service--button" href="{% url 'warehouse:home' %}">Services</a>
+					<a class="nav--item Service--button" href="{% url 'home:home' %}">Services</a>
 				</li>
 			</ul>
         </nav>

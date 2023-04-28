@@ -45,6 +45,12 @@ def home(request):
         messages.error(request, 'You need to login first!')
         return render(request, 'f-login.html')
 
+def contact(request):
+    return render(request, 'contact.html')
+
+def aboutus(request):
+    return render(request, 'aboutUs.html')
+
 def login(request):
     if request.session.get('isLoggedIn', False) == True:
         return render(request, 'f-home.html')

@@ -27,10 +27,10 @@
 						src="{% static './Images/WarehouseWisepng.png' %}"
 					/>
 					<ul>
-						<li><a href="{% url 'home:home' %}">Back</a></li>
-						<li><a href="#">Contacts</a></li>
-						<li><a href="#">About Us</a></li>
-						<li><a href="#" class="button">Services</a></li>
+						<li><a class="nav--item black--text" href="{% url 'farmer:index' %}">Home</a></li>
+						<li><a class="nav--item" href="{% url 'farmer:contact' %}">Contacts</a></li>
+						<li><a class="nav--item" href="{% url 'farmer:aboutus' %}">About US</a></li>
+						<li><a class="nav--item Service--button" href="{% url 'home:home' %}">Services</a></li>
 					</ul>
 				</div>
 			</div>

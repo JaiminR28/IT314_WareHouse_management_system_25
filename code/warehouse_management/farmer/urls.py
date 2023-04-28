@@ -28,5 +28,6 @@ urlpatterns = [
     path('show-crop-suggestions', views.showCropSuggestions, name='showCropSuggestions'),
     path('videoCall', views.videoCall, name='videoCall'),
     path('generateReport', views.generateReport, name='generateReport'),
+    path('returnhome', views.returnhome, name='returnhome'),
     re_path(r'^delete-reservation/(?P<reservation_id>[-\w\d]+)$', views.deleteReservation, name='deleteReservation'),
 ]

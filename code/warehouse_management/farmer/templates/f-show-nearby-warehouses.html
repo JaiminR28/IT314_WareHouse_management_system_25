@@ -1,3 +1,27 @@
+<<<<<<< HEAD
+{% extends 'f-base-generic.html' %} {% block content %}
+<div>
+	Warehouses in {{ distance }} km radius are:
+	<br /><br />
+	{% for warehouse in warehouse_list %}
+	<div>
+		Name: {{ warehouse.name }} <br />
+		Email: {{ warehouse.email }} <br />
+		Phone Number: {{ warehouse.phone_number }} <br />
+		Storage Capacity: {{ warehouse.storage_capacity }} <br />
+		Distance: {{ warehouse.distance }} km <br />
+	</div>
+	<br /><br />
+	<hr />
+	{% endfor %} {% load js %}
+
+	<script type="text/javascript">
+		var someVar = {{ distance | js }};
+		console.log(someVar);
+	</script>
+</div>
+{% endblock %}
+=======
 {% comment %} {% extends 'f-base-generic.html' %}
 
 {% block content %}
@@ -438,3 +462,4 @@
         </script>
 	</body>
 </html>
+>>>>>>> b745a4ba37fb7c40d867a708be694aacf106c738

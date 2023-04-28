@@ -67,6 +67,7 @@ body {
 	-ms-transform: translateY(-50%);
 	transform: translateY(-50%);
 	display: flex;
+	list-style-type: none;
 }
 .button:hover {
 	background-color: aquamarine;

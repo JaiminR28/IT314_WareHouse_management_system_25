@@ -144,10 +144,16 @@ form .user-details .input-box {
 }
 
 .requirement-list li i {
-	font-size: 0.6rem;
-	color: #444;
-	width: 20px;
+	font-size: 0.5rem;
+	color: #555;
+	width: 14px;
+	margin-right: 0.2rem;
 }
+.requirement-list li {
+	display: flex;
+	align-items: center;
+}
+
 .requirement-list li.valid i {
 	font-size: 0.8rem;
 	color: green;

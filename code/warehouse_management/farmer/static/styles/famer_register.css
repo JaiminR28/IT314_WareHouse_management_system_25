@@ -11,37 +11,6 @@ body {
 
 	font-family: "Montserrat", sans-serif;
 }
-
-/* .messages {
-	position: fixed;
-	top: 0;
-	left: 50%;
-	list-style: none;
-	margin: 20px 0;
-	padding: 15px;
-	border: 2px solid #4caf50;
-	border-radius: 5px;
-	background-color: #fff;
-	color: #4caf50;
-	font-size: 16px;
-	font-weight: bold;
-} */
-
-.logo-img {
-	width: 20rem;
-}
-
-.home--logIn {
-	display: flex;
-	flex-direction: row;
-}
-
-.to-home {
-	margin-right: 3rem;
-	text-decoration: none;
-	color: #e40b31;
-}
-
 .container {
 	/* max-width: 700px; */
 	width: 100%;
@@ -53,6 +22,9 @@ body {
 	border-radius: 5px;
 
 	overflow-y: hidden;
+}
+.logo-img {
+	width: 16rem;
 }
 
 .registration--form--block {
@@ -70,9 +42,6 @@ body {
 }
 
 .LogIn--option {
-	color: #e40b31;
-}
-.title span {
 	color: #e40b31;
 }
 
@@ -100,11 +69,31 @@ body {
 	justify-content: space-between;
 }
 
+.home--logIn {
+	display: flex;
+	flex-direction: row;
+}
+
+.to-home {
+	margin-right: 3rem;
+	text-decoration: none;
+	color: #e40b31;
+}
+
+.to-home:hover {
+	color: #89071d;
+}
+
+.to-home:active {
+	color: #89071d;
+	text-decoration: underline;
+}
+
 .details {
 	color: #444;
 }
 form .user-details .input-box {
-	margin: 2.4rem 0 12px 0;
+	margin: 1rem 0 12px 0;
 	width: calc(100% / 2 - 2rem);
 }
 .user-details .input-box .details {
@@ -129,6 +118,51 @@ form .user-details .input-box {
 	border-color: #e40b31;
 }
 
+.password-input--box {
+	position: relative;
+}
+
+.password-input--box i {
+	position: absolute;
+	top: 55%;
+	right: 20px;
+	color: #999;
+	font-size: 1rem;
+	cursor: pointer;
+}
+
+.content {
+	margin-left: 2rem;
+}
+
+.requirement-list {
+	list-style: none;
+}
+.content p {
+	font-weight: 500;
+	margin-bottom: 5px;
+}
+
+.requirement-list li i {
+	font-size: 0.5rem;
+	color: #555;
+	width: 14px;
+	margin-right: 0.2rem;
+}
+.requirement-list li {
+	display: flex;
+	align-items: center;
+}
+.requirement-list li.valid i {
+	font-size: 0.8rem;
+	color: green;
+	width: 20px;
+}
+
+.valid {
+	color: #555;
+}
+
 form .submit--button input {
 	padding: 0.8rem 5rem;
 	background-color: #e40b31;
@@ -139,7 +173,7 @@ form .submit--button input {
 	font-weight: 400;
 	letter-spacing: 0.1rem;
 	font-size: 1rem;
-	margin-top: 2rem;
+	margin-top: -1rem;
 }
 .submit--button input:hover {
 	background-color: hsla(349, 91%, 47%, 0.7);
@@ -194,12 +228,14 @@ form .submit--button input {
 
 .warning--message {
 	position: fixed;
-	top: 0;
+	top: 2rem;
+	left: 40%;
 }
 
 .messages {
 	color: white;
 	list-style: none;
+	font-size: 0.8rem;
 	margin-left: 4rem;
 }
 

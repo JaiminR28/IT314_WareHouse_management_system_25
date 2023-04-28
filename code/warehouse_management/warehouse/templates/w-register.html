@@ -52,7 +52,7 @@
 				</div>
                 <div class="registration--form">
 				    <div class="title">Worker's Registration</div>
-                    <form action="{% url 'warehouse:registerEntry'%}" method="post">
+                	<form action="{% url 'warehouse:registerEntry'%}" method="post">
                     {% csrf_token %}
                         <div class="user-details">
 							<div class="input-box">
@@ -73,11 +73,7 @@
 									type="text"
                                     id="phoneNum"
                                     name="phoneNum"
-<<<<<<< HEAD
 									placeholder="Enter your mobile No."
-=======
-									placeholder="Enter your phone number"
->>>>>>> 1d1c06c9240393dc09226b08b68e00263cc6bd9b
 									required
 								/>
                             </div>
@@ -88,11 +84,7 @@
 									type="text"
                                     id="latitude"
                                     name="latitude"
-<<<<<<< HEAD
 									placeholder="Enter your latitude"
-=======
-									placeholder="Enter the value of latitude"
->>>>>>> 1d1c06c9240393dc09226b08b68e00263cc6bd9b
 									required
 								/>
                             </div>
@@ -103,11 +95,7 @@
 									type="text"
                                     id="longitude"
                                     name="longitude"
-<<<<<<< HEAD
 									placeholder="Enter your longitude"
-=======
-									placeholder="Enter the value of longitude"
->>>>>>> 1d1c06c9240393dc09226b08b68e00263cc6bd9b
 									required
 								/>
                             </div>
@@ -118,11 +106,7 @@
 									type="number"
                                     id="storage_capacity"
                                     name="storage_capacity"
-<<<<<<< HEAD
-									placeholder="Enter your storage capacity"
-=======
 									placeholder="Enter the storage capacity"
->>>>>>> 1d1c06c9240393dc09226b08b68e00263cc6bd9b
 									required
 								/>
                             </div>
@@ -134,16 +118,11 @@
 									type="text"
                                     id="email"
                                     name="email"
-<<<<<<< HEAD
-									placeholder="Enter your email"
-=======
 									placeholder="Enter your email ID"
->>>>>>> 1d1c06c9240393dc09226b08b68e00263cc6bd9b
 									required
 								/>
                             </div>
 							<div class="input-box">
-<<<<<<< HEAD
 								<div class="password-input--box">
 									<span class="details">Password</span>
 									<input class="text--input-box" type="password" id="password" name="password"
@@ -178,22 +157,11 @@
 									</ul>
 								</div>
 							</div>
-=======
-								<span class="details">Password</span>
-								<input
-                                class="text--input-box"
-									type="text"
-                                    id="password"
-                                    name="password"
-									placeholder="Enter your password"
-									required
-								/>
-                            </div>
->>>>>>> 1d1c06c9240393dc09226b08b68e00263cc6bd9b
                         </div>
                         <div class="submit--button">
 							<input type="submit" value="Registration" />
 						</div>
+					</form>
                 </div>
             </div>
         </div>

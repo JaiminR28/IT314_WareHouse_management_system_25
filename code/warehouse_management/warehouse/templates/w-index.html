@@ -23,6 +23,8 @@
 		/>
 		<!-- Style link -->
 		<link rel="stylesheet" href="{% static 'styles/f-home.css' %}" />
+		<link rel="stylesheet" href="{% static 'styles/aboutUS.css' %}" />
+        <link rel="stylesheet" href="{% static 'styles/contact.css' %}" />
 
 		<title>Warehouse</title>
 	</head>
@@ -34,9 +36,9 @@
 					<img class="logo-img" src = "{% static './Images/WarehouseWisepng.png' %}" />
 					<ul>
 						<li><a href="{% url 'home:home' %}">Back</a></li>
-						<li><a href="#">Contacts</a></li>
-						<li><a href="#">About Us</a></li>
-						<li><a href="#" class="button">Services</a></li>
+						<li><a href="{% url 'warehouse:contact' %}">Contacts</a></li>
+						<li><a href="{% url 'warehouse:aboutus' %}">About Us</a></li>
+						<li><a href="{%  %}" class="button">Services</a></li>
 					</ul>
 				</div>
 			</div>

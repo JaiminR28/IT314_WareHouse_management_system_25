@@ -50,6 +50,12 @@ def home(request):
 def login(request):
     return render(request, 'w-login.html')
 
+def contact(request):
+    return render(request, 'contact.html')
+
+def aboutus(request):
+    return render(request, 'aboutUs.html')
+
 def email_confirmation(request):
     return render("w-email_confirmation.html")
 

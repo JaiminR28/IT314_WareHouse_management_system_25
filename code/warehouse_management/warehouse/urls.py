@@ -5,7 +5,8 @@ app_name = 'warehouse'
 
 urlpatterns = [
     path('', views.index, name='default'),  
-    path('home', views.home, name='home'),  
+    path('home', views.home, name='home'), 
+    path('home', views.returnhome, name='returnhome'), 
     path('login', views.login, name='login'),
     path('aboutus', views.aboutus, name='aboutus'),
     path('contact', views.contact, name='contact'),

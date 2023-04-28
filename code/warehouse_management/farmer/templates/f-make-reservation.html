@@ -113,6 +113,14 @@
 						/>
 						<h3>Generate Report</h3>
 					</a>
+					<a href="{% url 'farmer:searchNearbyWarehouses' %}">
+						<img
+							src="{% static 'Images/Navbar/warehouse-svgrepo-com.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Nearby warehouses</h3>
+					</a>
 					<a href="{% url 'farmer:videoCall' %}">
 						<img
 							src="{% static 'Images/Navbar/video-camera.svg' %}"
@@ -155,23 +163,16 @@
 									required
 								/>
 							</div>
-                            <div class="input-box">
-								<label class="details">Item Name</label>
-								<select id="itemName" name="itemName">
-                                    {% for item in items %}
-                                        <option id="crop-item" value={{ item.name }}>
-                                            <p>
-                                                Name: {{ item.name }}, 
-                                                Min Temperature: {{ item.min_temperature }}, 
-                                                Max Temperature: {{ item.max_temperature }}, 
-                                                Storage Life: {{ item.storage_life }}, 
-                                                Is a crop: {{ item.is_crop }}
-                                            </p>
-                                        </option>
-                                    {% endfor %}
-                                </select>
+							<div class="input-box">
+								<label class="details">Quantity (in kgs)</label>
+								<input
+									type="number"
+									name="quantity"
+									id="quantity"
+									min="0"
+									required
+								/>
 							</div>
-							<a href="{% url 'farmer:addItem' %}"> Add Item </a>
 							<div class="input-box">
 								<label class="details">Start Date</label>
 								<input
@@ -190,17 +191,26 @@
 									required
 								/>
 							</div>
-							<div class="input-box">
-								<label class="details">Quantity (in kgs)</label>
-								<input
-									type="number"
-									name="quantity"
-									id="quantity"
-									min="0"
-									required
-								/>
-							</div>
 						</div>
+							<div class="input-box addItem--div">
+								<div>
+									<label class="details addItem--label">Item Name</label>
+									<select id="itemName" name="itemName">
+										{% for item in items %}
+											<option value={{ item.name }}>
+											<p>
+												Name: {{ item.name }}, 
+												Min Temperature: {{ item.min_temperature }}, 
+												Max Temperature: {{ item.max_temperature }}, 
+												Storage Life: {{ item.storage_life }}, 
+												Is a crop: {{ item.is_crop }}
+											</p>
+											</option>
+										{% endfor %}
+									</select>
+								</div>
+								<a href="{% url 'farmer:addItem' %}" class="add-item-btn" > Add Item </a>
+							</div>
 						<div class="button">
 							<input type="submit" value="Make Reservation" />
 						</div>

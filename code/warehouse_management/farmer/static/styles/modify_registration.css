@@ -479,3 +479,8 @@ aside .logo img {
 	object-fit: contain;
 	margin-left: 2.4rem;
 }
+
+
+.addItem--div{
+	display: flex;
+}

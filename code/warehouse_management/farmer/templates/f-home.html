@@ -37,7 +37,7 @@
 		rel="stylesheet"
 		/>
 		
-		<link rel="stylesheet" href="{% static "styles/f-dashboard.css" %}" />
+		<link rel="stylesheet" href="{% static 'styles\f-dashboard.css' %}" />
 		<!-- Material Icons -->
 		<link
 			href="https://fonts.googleapis.com/icon?family=Material+Icons"
@@ -92,6 +92,14 @@
 						/>
 						<h3>Generate Report</h3>
 					</a>
+					<a href="{% url 'farmer:searchNearbyWarehouses' %}">
+						<img
+							src="{% static 'Images/Navbar/file-arrow-down.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Nearby warehouses</h3>
+					</a>
 					<a href="{% url 'farmer:videoCall' %}">
 						<img
 							src="{% static 'Images/Navbar/video-camera.svg' %}"
@@ -119,14 +127,14 @@
 				</div>
 				<div class="profile-title">
 					<h1 class="user--name--column">
-						Welcome, <span class="user--name">Jaimin Rathwa </span>
+						Welcome, <span class="user--name">{{ first_name }}</span>
 					</h1>
 					<div class="user--details">
 						<span class="material-icons mail--icon--user"
 							>mail</span
 						>
 						<p class="user--email">
-							Email: <span>Jaiminrathwa28@gmail.com</span>
+							Email: <span>{{ email }}</span>
 						</p>
 					</div>
 				</div>

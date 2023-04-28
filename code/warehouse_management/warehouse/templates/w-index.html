@@ -34,9 +34,9 @@
 					<img class="logo-img" src = "{% static './Images/WarehouseWisepng.png' %}" />
 					<ul>
 						<li><a href="{% url 'home:home' %}">Back</a></li>
-						<li><a href="#">Contacts</a></li>
-						<li><a href="#">About Us</a></li>
-						<li><a href="#" class="button">Services</a></li>
+						<li><a href="{% url 'warehouse:contact' %}">Contacts</a></li>
+						<li><a href="{% url 'warehouse:aboutus' %}">About Us</a></li>
+						<li><a href="{% url 'home:home' %}" class="button">Services</a></li>
 					</ul>
 				</div>
 			</div>

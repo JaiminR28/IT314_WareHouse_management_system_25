@@ -60,6 +60,16 @@ def contact(request):
 def aboutus(request):
     return render(request, 'aboutUs.html')
 
+def returnhome(request):
+    query = {'email': request.session['farmerEmail']}
+    projection = {'email': 1, 'verified': 1, 'name': 1}
+    users = warehouse.find(query, projection)
+    context = {
+        'user' : users[0]['email'],
+        'name' : users[0]['name']
+    }
+    return render(request, 'f-home.html', context=context)
+
 def login(request):
     if request.session.get('isLoggedIn', False) == True:
         query = {'email': request.session.get('farmerEmail')}

@@ -637,3 +637,81 @@ def assertTemplateUsed(response, template):
 
 #     def tearDown(self):
 #         self.items_stored.delete_many({'reservation_id': self.reservation_id})
+
+from django.urls import reverse
+
+class DeleteReservationTestCase(TestCase):
+    
+    def setUp(self):
+        # Create a test client
+        self.client = Client()
+        
+        # Set up a session for testing
+        session = self.client.session
+        session['isLoggedIn'] = True
+        session.save()
+        
+        # Set up MongoDB for testing
+        mongo_client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.net/?retryWrites=true&w=majority')
+        self.db = mongo_client['test']
+        self.items_stored = self.db['Items_Stored']
+        self.farmer = self.db['Farmer']
+        self.today = datetime.now().strftime('%Y-%m-%d')
+        self.tomorrow = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
+        self.reservation_id = str(uuid.uuid4())
+        self.items_stored.insert_one({
+            'reservation_id': self.reservation_id,
+            'item_name': 'test',
+            'farmer_email': 'test@gmail.com',
+            'start_date': self.today,
+            'end_date': self.tomorrow,
+            'quantity': 11.0
+        })
+
+    def test_delete_reservation_with_logged_in_user(self):
+        # Make a GET request to the deleteReservation view
+        response = self.client.get(reverse('delete-reservation', kwargs={'reservation_id': self.reservation_id}))
+        
+        # Check that the response status code is 200
+        self.assertEqual(response.status_code, 200)
+        
+        # Check that the correct template is used
+        self.assertTemplateUsed(response, 'w-home.html')
+        
+        # Check that the item is deleted from the database
+        self.assertEqual(self.items_stored.count_documents({'reservation_id': self.reservation_id}), 0)
+        
+        # Check that the success message is in the response
+        self.assertContains(response, 'Item deleted successfully')
+        
+
+    def test_delete_reservation_with_logged_out_user(self):
+        # Remove isLoggedIn from the session
+        session = self.client.session
+        session['isLoggedIn'] = False
+        session.save()
+        
+        # Make a GET request to the deleteReservation view
+        response = self.client.get(reverse('delete-reservation', kwargs={'reservation_id': self.reservation_id}))
+        
+        # Check that the response status code is 200
+        self.assertEqual(response.status_code, 200)
+        
+        # Check that the correct template is used
+        self.assertTemplateUsed(response, 'w-login.html')
+        
+        # Check that the error message is in the response
+        self.assertContains(response, 'You need to Login first!')
+        
+        # Check that the item is not deleted from the database
+        self.assertEqual(self.items_stored.count_documents({'reservation_id': self.reservation_id}), 1)
+
+    def tearDown(self):
+        self.items_stored.delete_many({'reservation_id': self.reservation_id})
+        
+        # Check that the item has been deleted from the database
+        item = self.items_stored.find_one({'reservation_id': self.reservation_id})
+        self.assertIsNone(item)
+
+
+

@@ -63,7 +63,7 @@ def aboutus(request):
 def returnhome(request):
     query = {'email': request.session['farmerEmail']}
     projection = {'email': 1, 'verified': 1, 'name': 1}
-    users = warehouse.find(query, projection)
+    users = farmer.find(query, projection)
     context = {
         'user' : users[0]['email'],
         'name' : users[0]['name']

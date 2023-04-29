@@ -60,6 +60,9 @@ def contact(request):
 def aboutus(request):
     return render(request, 'aboutUs.html')
 
+def generateReportPage(request):
+    return render(request, 'aboutUs.html')
+
 def returnhome(request):
     query = {'email': request.session['farmerEmail']}
     projection = {'email': 1, 'verified': 1, 'name': 1}

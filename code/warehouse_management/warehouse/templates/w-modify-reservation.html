@@ -43,14 +43,16 @@
     </form> 
 {% endblock %}
  -->
- {% if messages %}
- <ul class="messages">
-	 {% for message in messages %}
-	 <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-	 {% endfor %}
- </ul>
- {% endif %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -66,7 +68,10 @@
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
-		<link rel="stylesheet" href="{% static 'styles/modify_registration.css' %}" />
+		<link
+			rel="stylesheet"
+			href="{% static 'styles/modify_registration.css' %}"
+		/>
 
 		<script defer src="{% static 'script/script.js' %}"></script>
 
@@ -94,9 +99,7 @@
 						<h3>Home</h3>
 					</a>
 
-					<a
-						href="{% url 'warehouse:mailPDF' %}"
-					>
+					<a href="{% url 'warehouse:mailPDF' %}">
 						<img
 							src="{% static '/Images/navbar/list-plus.svg' %}"
 							alt=""
@@ -105,7 +108,10 @@
 						<h3>Mail PDF</h3>
 					</a>
 
-					<a href="{% url 'warehouse:showReservations' %}" class="active">
+					<a
+						href="{% url 'warehouse:showReservations' %}"
+						class="active"
+					>
 						<img
 							src="{% static '/Images/navbar/file-edit-svgrepo-com.svg' %}"
 							alt=""
@@ -159,28 +165,55 @@
 			<main>
 				<h1 class="page--title">Modify Registration</h1>
 				<div class="content">
-					<form action="{% url 'warehouse:modifyReservationEntry' reservation_id %}" method="POST">
+					<form
+						action="{% url 'warehouse:modifyReservationEntry' reservation_id %}"
+						method="POST"
+					>
 						{% csrf_token %}
 						<div class="user-details">
 							<div class="input-box">
 								<label class="details">Farmer Email </label>
-								<input readonly type="email" id="farmerEmail" name="farmerEmail" placeholder="Enter Your Email" value="{{ farmer_mail }}" required />
+								<input
+									readonly
+									type="email"
+									id="farmerEmail"
+									name="farmerEmail"
+									placeholder="Enter Your Email"
+									value="{{ farmer_mail }}"
+									required
+								/>
 							</div>
 							<!-- <script>console.log(item)</script> -->
 							<div class="custom-select input-box">
 								<div class="choose--items">
-									<label class="details" >Choose a item:</label>
-									<select class="select" id="itemName" name="itemName" >
+									<label class="details"
+										>Choose a item:</label
+									>
+									<select
+										class="select"
+										id="itemName"
+										name="itemName"
+									>
 										{% for item in items %}
-										<option	class="item--option" value="{{ item.name }}" selected>
+										<option
+											class="item--option"
+											value="{{ item.name }}"
+											selected
+										>
 											<p>
-												Name: {{ item.name }}, Min Temperature: {{ item.min_temperature }}, Max Temperature: {{ item.max_temperature }}, Storage Life: {{ item.storage_life }}, Is a crop: {{ item.is_crop }}
+												Name: {{ item.name }}, Min
+												Temperature: {{
+												item.min_temperature }}, Max
+												Temperature: {{
+												item.max_temperature }}, Storage
+												Life: {{ item.storage_life }},
+												Is a crop: {{ item.is_crop }}
 											</p>
-										</option>	
-										{% endfor %}									
+										</option>
+										{% endfor %}
 									</select>
 								</div>
-                                <!-- <a href="{% url 'warehouse:addJustItem' %}">
+								<!-- <a href="{% url 'warehouse:addJustItem' %}">
 								    <button class="add-item-btn" formnovalidate>Add Item</button>
                                 </a> -->
 							</div>

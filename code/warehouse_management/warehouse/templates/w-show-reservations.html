@@ -56,15 +56,7 @@
 	</head>
 
 	<body>
-
-        <!-- <script>console.log(items)</script> -->
-        <!-- <script>
-            var res = {};
-            for(item of "{{items}}") {
-                console.log(item);
-            }
-            // return Object.keys(res);
-        </script> -->
+		
 		<div class="container">
 			<aside>
 				<div class="top">
@@ -119,6 +111,14 @@
 							class="navbar--menu-icon"
 						/>
 						<h3>Generate Report</h3>
+					</a>
+					<a href="{% url 'farmer:searchNearbyWarehouses' %}">
+						<img
+							src="{% static 'Images/Navbar/warehouse-svgrepo-com.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Nearby warehouses</h3>
 					</a>
 					<a href="{% url 'warehouse:addJustItem' %}">
 						<img

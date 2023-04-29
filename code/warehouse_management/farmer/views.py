@@ -515,7 +515,10 @@ def itemEntry(request):
 def modifyReservation(request, reservation_id):
     if request.session.get('isLoggedIn', False) == True:
 
-        query = {'reservation_id': reservation_id}
+        query = {
+            'reservation_id': reservation_id,
+            'farmer_email': request.session.get('farmerEmail')
+        }
         projection = {}
 
         reservation_check = items_stored.find(query, projection)
@@ -549,21 +552,26 @@ def modifyReservation(request, reservation_id):
 
 def deleteReservation(request, reservation_id):
     if request.session.get('isLoggedIn', False) == True:
-        query = {}
-        projection = {}
-
-        items_list = items.find(query, projection)
-
-        context = {
+        query = {
             'reservation_id': reservation_id,
-            'items': items_list,
+            'farmer_email': request.session.get('farmerEmail')
         }
-        
-
-        query = {'reservation_id': reservation_id}
         projection = {'reservation_id': 1, 'warehouse_email': 1, 'start_date': 1, 'end_date': 1, 'quantity': 1, 'item_name': 1}
         stores = items_stored.find(query, projection)
-        # print(items_list.item_name)
+
+        if len(list(stores.clone())) == 0:
+            query = {
+                'farmer_email': request.session.get('farmerEmail')
+            }
+            projection = {}
+            items_stored_list = items_stored.find(query, projection)
+
+            context = {
+                'items': items_stored_list,
+            }
+            messages.error(request, 'Reservation not found!')
+            return render(request, 'f-show-reservations.html', context=context)
+
         query = {'email': request.session['farmerEmail']}
         projection = {'email': 1, 'first_name': 1}
         result = farmer.find(query, projection)
@@ -574,8 +582,17 @@ def deleteReservation(request, reservation_id):
         to_list = [request.session['farmerEmail']]
         send_mail(subject, message, from_email, to_list, fail_silently=False) 
         items_stored.delete_one({'reservation_id': reservation_id})
+        query = {
+            'farmer_email': request.session.get('farmerEmail')
+        }
+        projection = {}
+        items_stored_list = items_stored.find(query, projection)
+
+        context = {
+            'items': items_stored_list,
+        }
         messages.success(request, 'Item deleted successfully')
-        return render(request, 'f-home.html', context=context)
+        return render(request, 'f-show-reservations.html', context=context)
     else:
         messages.error(request, 'You need to Login first!')
         return render(request, 'f-login.html')
@@ -595,7 +612,10 @@ def modifyReservationEntry(request, reservation_id):
                 quantity = float(request.POST.get('quantity'))
 
 
-                query = {'reservation_id': reservation_id}
+                query = {
+                    'reservation_id': reservation_id,
+                    'farmer_email': request.session.get('farmerEmail')
+                }
                 projection = {}
 
                 reservation_check = items_stored.find(query, projection)
@@ -685,17 +705,17 @@ def modifyReservationEntry(request, reservation_id):
                     from_email = settings.EMAIL_HOST_USER
                     to_list = [request.session['farmerEmail']]
                     send_mail(subject, message, from_email, to_list, fail_silently=False) 
-                    query = {'email': request.session.get('farmerEmail')}
-                    projection = {'first_name': 1, 'verified': 1, 'email': 1}
-
-                    users = farmer.find(query, projection)
+                    query = {
+                        'farmer_email': request.session.get('farmerEmail')
+                    }
+                    projection = {}
+                    items_stored_list = items_stored.find(query, projection)
 
                     context = {
-                        'first_name': users[0]['first_name'],
-                        'email': users[0]['email']
+                        'items': items_stored_list,
                     }
                     messages.success(request, 'Modify Reservation successful')
-                    return render(request, 'f-home.html')
+                    return render(request, 'f-show-reservations.html', context=context)
                 else:
                     context = {
                         'reservation_id': reservation_id,
@@ -888,6 +908,6 @@ def generateReport(request):
         else:
             return render(request, 'f-login.html')
     else:
-        messages.error(request, 'Log in First!')
+        messages.error(request, 'You need to log in First!')
         return render(request, 'f-login.html')
     

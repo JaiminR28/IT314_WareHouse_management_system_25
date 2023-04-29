@@ -71,19 +71,19 @@ def returnhome(request):
     return render(request, 'f-home.html', context=context)
 
 def login(request):
-    if request.session.get('isLoggedIn', False) == True:
-        query = {'email': request.session.get('farmerEmail')}
-        projection = {'first_name': 1, 'verified': 1, 'email': 1}
+    # if request.session.get('isLoggedIn', False) == True:
+    #     query = {'email': request.session.get('farmerEmail')}
+    #     projection = {'first_name': 1, 'verified': 1, 'email': 1}
 
-        users = farmer.find(query, projection)
+    #     users = farmer.find(query, projection)
         
-        context = {
-            'first_name': users[0]['first_name'],
-            'email': users[0]['email']
-        }
-        return render(request, 'f-home.html', context=context)
-    else:
-        return render(request, 'f-login.html')
+    #     context = {
+    #         'first_name': users[0]['first_name'],
+    #         'email': users[0]['email']
+    #     }
+    #     return render(request, 'f-home.html', context=context)
+    # else:
+    return render(request, 'f-login.html')
 
 def videoCall(request):
     # print(email)

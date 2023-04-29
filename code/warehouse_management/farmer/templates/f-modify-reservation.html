@@ -58,9 +58,9 @@
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
-		<link rel="stylesheet" href="{% static 'styles/modify_registration.css' %}" />
+		<link rel="stylesheet" href="{% static 'styles/f-modify_registration.css' %}" />
 
-		<script defer src="{% static 'script/script.js' %}"></script>
+		<script defer src="{% static 'script/farmer-registration.js' %}"></script>
 
 		<title>Modify Reservation</title>
 	</head>
@@ -112,6 +112,14 @@
 						/>
 						<h3>Generate Report</h3>
 					</a>
+					<a href="{% url 'farmer:searchNearbyWarehouses' %}">
+						<img
+							src="{% static 'Images/Navbar/warehouse-svgrepo-com.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Nearby warehouses</h3>
+					</a>					
 					<a href="{% url 'farmer:videoCall' %}">
 						<img
 							src="{% static 'Images/Navbar/video-camera.svg' %}"
@@ -183,21 +191,23 @@
 									required
 								/>
 							</div>
-							<div class="input-box addItem--div">
-								<label class="details">Item Name</label>
-								<select id="itemName" name="itemName">
-									{% for item in items %}
-										<option value={{ item.name }}>
-										<p>
-											Name: {{ item.name }}, 
-											Min Temperature: {{ item.min_temperature }}, 
-											Max Temperature: {{ item.max_temperature }}, 
-											Storage Life: {{ item.storage_life }}, 
-											Is a crop: {{ item.is_crop }}
-										</p>
-										</option>
-									{% endfor %}
-								</select>
+							<div class=" addItem--div">
+								<div>
+									<label class="details">Item Name</label>
+										<select id="itemName" name="itemName">
+											{% for item in items %}
+												<option value={{ item.name }} class="item--option">
+												<p>
+													Name: {{ item.name }}, 
+													Min Temperature: {{ item.min_temperature }}, 
+													Max Temperature: {{ item.max_temperature }}, 
+													Storage Life: {{ item.storage_life }}, 
+													Is a crop: {{ item.is_crop }}
+												</p>
+												</option>
+											{% endfor %}
+										</select>
+								</div>
 								<a class="add-item-btn" href="{% url 'farmer:addItem' %}"> Add Item </a>
 							</div>
 						</div>

@@ -200,12 +200,10 @@
 											value="{{ item.name }}"
 											selected
 										>
-											<p>
+											<p class="item--option">
 												Name: {{ item.name }}, Min
-												Temperature: {{
-												item.min_temperature }}, Max
-												Temperature: {{
-												item.max_temperature }}, Storage
+												Temperature: {{item.min_temperature }}, Max
+												Temperature: {{item.max_temperature }}, Storage
 												Life: {{ item.storage_life }},
 												Is a crop: {{ item.is_crop }}
 											</p>

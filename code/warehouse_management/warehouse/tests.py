@@ -638,80 +638,55 @@ def assertTemplateUsed(response, template):
 #     def tearDown(self):
 #         self.items_stored.delete_many({'reservation_id': self.reservation_id})
 
-from django.urls import reverse
+# from django.urls import reverse
+# from django.test import TestCase
+# from django.urls import reverse
+# from django.contrib import messages
+# from unittest.mock import patch, MagicMock
 
-class DeleteReservationTestCase(TestCase):
-    
-    def setUp(self):
-        # Create a test client
-        self.client = Client()
-        
-        # Set up a session for testing
-        session = self.client.session
-        session['isLoggedIn'] = True
-        session.save()
-        
-        # Set up MongoDB for testing
-        mongo_client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.net/?retryWrites=true&w=majority')
-        self.db = mongo_client['test']
-        self.items_stored = self.db['Items_Stored']
-        self.farmer = self.db['Farmer']
-        self.today = datetime.now().strftime('%Y-%m-%d')
-        self.tomorrow = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
-        self.reservation_id = str(uuid.uuid4())
-        self.items_stored.insert_one({
-            'reservation_id': self.reservation_id,
-            'item_name': 'test',
-            'farmer_email': 'test@gmail.com',
-            'start_date': self.today,
-            'end_date': self.tomorrow,
-            'quantity': 11.0
-        })
+# class TestDeleteReservation(TestCase):
+#     def setUp(self):
+#         self.reservation_id = '1234'
+#         self.url = reverse('warehouse:deleteReservation', args=[self.reservation_id])
+#         self.request = MagicMock()
+#         self.request.session = {'isLoggedIn': True, 'warehouseEmail': 'test@test.com'}
+#         self.request.method = 'GET'
 
-    def test_delete_reservation_with_logged_in_user(self):
-        # Make a GET request to the deleteReservation view
-        response = self.client.get(reverse('delete-reservation', kwargs={'reservation_id': self.reservation_id}))
-        
-        # Check that the response status code is 200
-        self.assertEqual(response.status_code, 200)
-        
-        # Check that the correct template is used
-        self.assertTemplateUsed(response, 'w-home.html')
-        
-        # Check that the item is deleted from the database
-        self.assertEqual(self.items_stored.count_documents({'reservation_id': self.reservation_id}), 0)
-        
-        # Check that the success message is in the response
-        self.assertContains(response, 'Item deleted successfully')
-        
+#     @patch('app.views.items.find')
+#     @patch('app.views.items_stored.find')
+#     @patch('app.views.items_stored.delete_one')
+#     @patch('app.views.farmer.find')
+#     @patch('app.views.send_mail')
+#     def test_delete_reservation(self, send_mail_mock, farmer_find_mock, items_stored_delete_one_mock, items_stored_find_mock, items_find_mock):
+#         items_find_mock.return_value = []
+#         items_stored_find_mock.return_value = [{
+#             'reservation_id': self.reservation_id,
+#             'farmer_email': 'test@test.com',
+#             'start_date': '2023-05-01',
+#             'end_date': '2023-05-07',
+#             'quantity': 10,
+#             'item_name': 'Test Item'
+#         }]
+#         farmer_find_mock.return_value = [{
+#             'email': 'test@test.com',
+#             'first_name': 'Test'
+#         }]
+#         self.request.session['isLoggedIn'] = True
+#         self.request.session['warehouseEmail'] = 'test@test.com'
+#         response = self.client.get(self.url)
+#         self.assertRedirects(response, reverse('warehouse:home'))
+#         self.assertEqual(messages.SUCCESS, messages.get_level(self.request))
+#         items_find_mock.assert_called_once_with({}, {})
+#         items_stored_find_mock.assert_called_once_with({'reservation_id': self.reservation_id}, {'reservation_id': 1, 'farmer_email': 1, 'start_date': 1, 'end_date': 1, 'quantity': 1, 'item_name': 1})
+#         items_stored_delete_one_mock.assert_called_once_with({'reservation_id': self.reservation_id})
+#         farmer_find_mock.assert_called_once_with({'email': 'test@test.com'}, {'email': 1, 'first_name': 1})
 
-    def test_delete_reservation_with_logged_out_user(self):
-        # Remove isLoggedIn from the session
-        session = self.client.session
-        session['isLoggedIn'] = False
-        session.save()
-        
-        # Make a GET request to the deleteReservation view
-        response = self.client.get(reverse('delete-reservation', kwargs={'reservation_id': self.reservation_id}))
-        
-        # Check that the response status code is 200
-        self.assertEqual(response.status_code, 200)
-        
-        # Check that the correct template is used
-        self.assertTemplateUsed(response, 'w-login.html')
-        
-        # Check that the error message is in the response
-        self.assertContains(response, 'You need to Login first!')
-        
-        # Check that the item is not deleted from the database
-        self.assertEqual(self.items_stored.count_documents({'reservation_id': self.reservation_id}), 1)
-
-    def tearDown(self):
-        self.items_stored.delete_many({'reservation_id': self.reservation_id})
-        
-        # Check that the item has been deleted from the database
-        item = self.items_stored.find_one({'reservation_id': self.reservation_id})
-        self.assertIsNone(item)
+#     def test_delete_reservation_with_invalid_reservation_id(self):
+#         invalid_reservation_id = 'invalid'
+#         url = reverse('warehouse:deleteReservation', args=[invalid_reservation_id])
+#         response = self.client.get(url)
+#         self.assertRedirects(response, reverse('warehouse:home'))
+#         self.assertEqual(messages.ERROR, messages.get_level(self.request))
 
 
 

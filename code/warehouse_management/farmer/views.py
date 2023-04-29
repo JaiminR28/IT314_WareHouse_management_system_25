@@ -26,7 +26,7 @@ from io import BytesIO
 EMAIL = ""
 # client = MongoClient()
 client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.net/?retryWrites=true&w=majority')
-db = client['test']
+db = client['demo']
 farmer = db['Farmer']
 warehouse = db['Warehouse']
 items_stored = db['Items_Stored']
@@ -63,7 +63,7 @@ def aboutus(request):
 def returnhome(request):
     query = {'email': request.session['farmerEmail']}
     projection = {'email': 1, 'verified': 1, 'name': 1}
-    users = warehouse.find(query, projection)
+    users = farmer.find(query, projection)
     context = {
         'user' : users[0]['email'],
         'name' : users[0]['name']

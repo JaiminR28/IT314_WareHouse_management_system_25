@@ -10,18 +10,23 @@ from pprint import pprint
 import uuid
 from unittest.mock import MagicMock, patch
 
+client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.net/?retryWrites=true&w=majority')
+db = client['test']
+farmer = db['Farmer']
+warehouse = db['Warehouse']
+items_stored = db['Items_Stored']
+items = db['Items']
 
-
-def assertEqual(a, b):
-    if a != b:
-        print('Response: FAIL')
-    else:
-        print("Response: PASS")
-def assertTemplateUsed(response, template):
-    if template not in response.templates[0].name:
-        print('Template: FAIL')
-    else:
-        print("Template: PASS")
+# def assertEqual(a, b):
+#     if a != b:
+#         print('Response: FAIL')
+#     else:
+#         print("Response: PASS")
+# def assertTemplateUsed(response, template):
+#     if template not in response.templates[0].name:
+#         print('Template: FAIL')
+#     else:
+#         print("Template: PASS")
 
 # class IndexTestCase(TestCase):
 #     def setUp(self):
@@ -198,18 +203,11 @@ def assertTemplateUsed(response, template):
 #         # Check that the correct template is used
 #         self.assertTemplateUsed(response, 'f-register.html')
 
-
 # class RegistrationTestCase(TestCase):
 #     def setUp(self):
 #         # Create a test client
 #         self.client = Client()
-
-#         # Connect to MongoDB
-#         mongo_client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.net/?retryWrites=true&w=majority')
-#         db = mongo_client['test']
-#         self.farmer = db['farmer']
-
-#         new_user1 = {
+#         self.new_user1 = {
 #             'first_name': 'test',
 #             'last_name': 'test',
 #             'email': 'test1@gmail.com',
@@ -217,8 +215,7 @@ def assertTemplateUsed(response, template):
 #             'phone_num': '8488887253',
 #             'verified': True   
 #         }
-
-#         self.farmer.insert_one(new_user1)
+#         farmer.insert_one(self.new_user1)
 
 #     def test_valid_registration(self):
 #         # Make a POST request to the view
@@ -232,14 +229,14 @@ def assertTemplateUsed(response, template):
 
 #         # Check that the response status code is 200
 #         self.assertEqual(response.status_code, 200)
-
+        
 #         # Check that the correct template is used
 #         self.assertTemplateUsed(response, 'f-login.html')
 
 #         # Check that the correct message is used
 #         messages = list(response.context.get('messages'))
 #         self.assertEqual(len(messages), 1)
-#         self.assertEqual(str(messages[0]), 'Registration successful')
+#         self.assertEqual(str(messages[0]), 'Registration successfull !! please check your email for verification')
 
 #     # Length less than 8
 #     def test_invalid_password1(self):
@@ -248,15 +245,15 @@ def assertTemplateUsed(response, template):
 #             'firstName': 'test',
 #             'lastName': 'test',
 #             'email': 'test2@gmail.com',
-#             'password': 'tP123@#456',
+#             'password': 'tP1#345',
 #             'phoneNum': '8488887253'      
 #         })
 
 #         # Check that the response status code is 200
-#         assertEqual(response.status_code, 200)
+#         self.assertEqual(response.status_code, 200)
 
 #         # Check that the correct template is used
-#         assertTemplateUsed(response, 'f-register.html')
+#         self.assertTemplateUsed(response, 'f-register.html')
 
 #         # Check that the correct message is used
 #         messages = list(response.context.get('messages'))
@@ -270,20 +267,20 @@ def assertTemplateUsed(response, template):
 #             'firstName': 'test',
 #             'lastName': 'test',
 #             'email': 'test2@gmail.com',
-#             'password': 'tP123@#456',
+#             'password': '',
 #             'phoneNum': '8488887253'      
 #         })
 
 #         # Check that the response status code is 200
-#         assertEqual(response.status_code, 200)
+#         self.assertEqual(response.status_code, 200)
 
 #         # Check that the correct template is used
-#         assertTemplateUsed(response, 'f-register.html')
+#         self.assertTemplateUsed(response, 'f-register.html')
 
 #         # Check that the correct message is used
 #         messages = list(response.context.get('messages'))
 #         self.assertEqual(len(messages), 1)
-#         self.assertEqual(str(messages[0]), 'Your password should be of length between 8 and 20 including atleast one uppercase, one lowercase, one number and one special character (@$!%*?&)')
+#         self.assertEqual(str(messages[0]), 'Enter details in all the fields')
 
 #     # Length greater than 20
 #     def test_invalid_password3(self):
@@ -292,7 +289,7 @@ def assertTemplateUsed(response, template):
 #             'firstName': 'test',
 #             'lastName': 'test',
 #             'email': 'test2@gmail.com',
-#             'password': 'tP123@#456',
+#             'password': 'FOO123bar@#!FOO123bar',
 #             'phoneNum': '8488887253'      
 #         })
 
@@ -315,7 +312,7 @@ def assertTemplateUsed(response, template):
 #             'firstName': 'test',
 #             'lastName': 'test',
 #             'email': 'test2@gmail.com',
-#             'password': 'tP123@#456',
+#             'password': 'foobarfoobar',
 #             'phoneNum': '8488887253'      
 #         })
 
@@ -337,7 +334,7 @@ def assertTemplateUsed(response, template):
 #             'firstName': 'test',
 #             'lastName': 'test',
 #             'email': 'test2@gmail.com',
-#             'password': 'tP123@#456',
+#             'password': 'FOOBARFOOBAR',
 #             'phoneNum': '8488887253'      
 #         })
 
@@ -360,7 +357,7 @@ def assertTemplateUsed(response, template):
 #             'firstName': 'test',
 #             'lastName': 'test',
 #             'email': 'test2@gmail.com',
-#             'password': 'tP123@#456',
+#             'password': '12345678',
 #             'phoneNum': '8488887253'    
 #         })
 
@@ -382,7 +379,7 @@ def assertTemplateUsed(response, template):
 #             'firstName': 'test',
 #             'lastName': 'test',
 #             'email': 'test2@gmail.com',
-#             'password': 'tP123@#456',
+#             'password': '@#@#@#@#!!!&&',
 #             'phoneNum': '8488887253'      
 #         })
 
@@ -397,14 +394,13 @@ def assertTemplateUsed(response, template):
 #         self.assertEqual(len(messages), 1)
 #         self.assertEqual(str(messages[0]), 'Your password should be of length between 8 and 20 including atleast one uppercase, one lowercase, one number and one special character (@$!%*?&)')
 
-
 #     def test_email_present(self):
 #         # Make a POST request to the view
 #         response = self.client.post('/farmer/register/entry', {
 #             'firstName': 'test',
 #             'lastName': 'test',
 #             'email': 'test1@gmail.com',
-#             'password': 'tP123@#456',
+#             'password': '@#456',
 #             'phoneNum': '8488887253'      
 #         })
 
@@ -422,7 +418,7 @@ def assertTemplateUsed(response, template):
 
 
 #     def tearDown(self):
-#         self.farmer.delete_many({})
+#         farmer.delete_many({})
 
 
 
@@ -575,11 +571,7 @@ def assertTemplateUsed(response, template):
 #         session['isLoggedIn'] = True
 #         session.save()
 
-#         mongo_client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.net/?retryWrites=true&w=majority')
-#         db = mongo_client['test']
-#         self.warehouse = db['Warehouse']
-
-#         self.warehouse.insert_many([
+#         warehouse.insert_many([
 #             {
 #                 'name': 'test1',
 #                 'latitude': 40.7128,
@@ -700,7 +692,7 @@ def assertTemplateUsed(response, template):
 #         self.assertEqual(str(messages[0]), 'You need to Login first!')
 
 #     def tearDown(self):
-#         self.warehouse.delete_many({})
+#         warehouse.delete_many({})
 
 
 # class MakeReservationTestCase(TestCase):

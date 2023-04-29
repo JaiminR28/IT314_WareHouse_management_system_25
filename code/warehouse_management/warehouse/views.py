@@ -171,9 +171,9 @@ def registerEntry(request):
             email = request.POST.get('email')
             password = request.POST.get('password')
             name = request.POST.get('name')
-            latitude = request.POST.get('latitude')
-            longitude = request.POST.get('longitude')
-            storage_capacity = request.POST.get('storage_capacity')
+            latitude = float(request.POST.get('latitude'))
+            longitude = float(request.POST.get('longitude'))
+            storage_capacity = float(request.POST.get('storage_capacity'))
 
             # if(not check(email)):
             #     messages.error(request, "Invalid E-mail address")
@@ -568,9 +568,9 @@ def itemJustEntry(request):
         if request.method == 'POST':
             if request.POST.get('itemName') and request.POST.get('minTemp') and request.POST.get('maxTemp') and request.POST.get('storageLife') and request.POST.get('isCrop'):
                 item_name = request.POST.get('itemName')
-                min_temp = request.POST.get('minTemp')
-                max_temp = request.POST.get('maxTemp')
-                storage_life = int(request.POST.get('storageLife'))
+                min_temp = float(request.POST.get('minTemp'))
+                max_temp = float(request.POST.get('maxTemp'))
+                storage_life = float(request.POST.get('storageLife'))
                 is_crop = request.POST.get('isCrop') 
 
                 query = {'name': item_name}
@@ -709,6 +709,16 @@ def deleteReservation(request, reservation_id):
         send_mail(subject, message, from_email, to_list, fail_silently=False) 
         items_stored.delete_one({'reservation_id': reservation_id})
         messages.success(request, 'Item deleted successfully')
+
+        query = {'email': request.session['warehouseEmail']}
+        projection = {'email': 1, 'name': 1}
+        result = warehouse.find(query, projection)
+
+        context = {
+            'user': request.session['warehouseEmail'],
+            'name': result[0]['name']
+        }
+
         return render(request, 'w-home.html', context=context)
     else:
         messages.error(request, 'You need to Login first!')

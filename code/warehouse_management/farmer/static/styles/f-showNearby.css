@@ -472,40 +472,6 @@ main {
 
 /* popup */
 
-.leaflet-popup-scrolled {
-  overflow: hidden;
-}
-
-.cards_item {
-  display: flex;
-  padding: 1rem;
-}
-
-.card_image {
-  position: relative;
-  max-height: 250px;
-}
-
-.card_image img {
-  width: 100%;
-  height: 12rem;
-  object-fit: cover;
-}
-
-.card_price {
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 45px;
-  height: 45px;
-  border-radius: 0.25rem;
-  background-color: #c89b3f;
-  font-size: 18px;
-  font-weight: 700;
-}
 
 @media (min-width: 40rem) {
   .cards_item {
@@ -589,45 +555,6 @@ hr {
 
 /* Modal Window */
 
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 200; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-    height: 100vh;
-  overflow: hidden;
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-/* Modal Content/Box */
-.modal-content {
-  background-color: #fefefe;
-  margin: 8rem auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 70%; /* Could be more or less, depending on screen size */
-  height: 52rem;
-  border-radius: 8px;
-} 
-
-/* The Close Button */
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
 
 
 /* Form  */
@@ -848,4 +775,71 @@ aside  .logo img{
         width: 20rem;
     height: 4rem;
     margin-left: 2rem;
+}
+
+
+/* Alert */
+.alert {
+	min-height: 67px;
+	width: 560px;
+	max-width: 90%;
+	border-radius: 12px;
+	padding: 16px 22px 17px 20px;
+	display: flex;
+	align-items: center;
+}
+
+.warning--message {
+	position: fixed;
+	top: 2rem;
+	left: 15%;
+}
+
+.messages {
+	color: white;
+	list-style: none;
+	font-size: 1.6rem;
+	margin-left: 4rem;
+}
+
+.alert-error {
+	background: #e41749;
+}
+.icon__wrapper {
+	height: 34px;
+	width: 34px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.253);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.icon__wrapper span {
+	font-size: 21px;
+	color: #fff;
+}
+.alert p {
+	color: #fff;
+	font-family: Verdana;
+	margin-left: 10px;
+}
+.alert p a,
+.alert p a:visited,
+.alert p a:active {
+	color: #fff;
+}
+.alert .open {
+	margin-left: auto;
+	margin-right: 5px;
+}
+.alert .close,
+.alert .open {
+	color: #fff;
+	transition: transform 0.5s;
+	font-size: 18px;
+	cursor: pointer;
+}
+.alert .close:hover,
+.alert .open:hover {
+	transform: scale(1.3);
 }

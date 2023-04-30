@@ -251,24 +251,7 @@ aside .sidebar .message-count {
 }
 
 
-
-/* Container */
-.container .title {
-	font-size: 3.6rem;
-	font-weight: 600;
-	position: relative;
-	color: #2e020a;
-	display: block;
-	margin-left: 13rem;
-}
-
-
 /* Main */
-.page--title {
-	font-size: 4.2rem;
-	margin: 1.6rem 0 0 2rem;
-	display: block;
-}
 
 .content {
 	margin-top: 2rem;
@@ -279,6 +262,20 @@ aside .sidebar .message-count {
 
 	border-radius: 6px;
 }
+main {
+	margin: 4rem 2.4rem 0 2.4rem;
+	width: 100%;
+}
+
+
+/* Container */
+.page--title {
+	font-size: 4.2rem;
+	margin: 1.6rem 0 0 2rem;
+	display: block;
+}
+
+
 main {
 	margin: 4rem 2.4rem 0 2.4rem;
 	width: 100%;
@@ -308,6 +305,11 @@ label::after {
     content: "*";
     color: red;
 	margin-left: 0.1rem;
+}
+
+#warehouseEmail{
+    display: block;
+    width: 100%;
 }
 
 .user-details .input-box input {
@@ -355,7 +357,7 @@ form .button {
 
 }
 form .button input {
-	width: 48rem;
+	width: 32rem;
 	height: 100%;
 
 	margin: 4rem 0 0 0.8rem;
@@ -370,9 +372,19 @@ form .button input {
 	transition: all 0.3s ease;
 	background-color: #e40b31;
 }
+form .button input:hover {
+	/* transform: scale(0.99); */
+	background-color: #e40b31;
+}
 
-#isCrop{
-	    width: 80%;
+.custom-select{
+    display: flex;
+}
+
+
+
+.select{
+    width: 80%;
     height: 5rem;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -385,13 +397,12 @@ form .button input {
     background-image: none;
 }
 
-
-#isCrop:hover{
+.select:hover{
         border: 2px solid #ec546f;
             border-bottom-width: 3px;
 }
-#isCrop option{
-	    font-size: 18px;
+.select option {
+    font-size: 18px;
     color: #555;
     background-color: rgb(247, 247, 247);
     background-image: none;
@@ -401,10 +412,33 @@ form .button input {
     border: 1px solid rgb(41, 18, 18);
 }
 
-form .button input:hover {
-	/* transform: scale(0.99); */
-	background-color: #e40b31;
+/* Button */
+.add-item-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: 0;
+    cursor: pointer;
+    border-radius: 8px;
+    border: 0.2rem solid var(--color-primary);
+    color: #fff;
+    background-color: var(--color-primary);
+    /* padding: 0 0.4rem; */
+    text-align: center;
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 2px 4px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1.5px 0px;
+    font-weight: 800;
+    font-size: 16px;
+    height: 4rem;
+    width: 30rem;
+    margin-top: 2rem;
 }
+    .add-item-btn:hover{
+        background: 0 0;
+        color: var(--color-primary);
+    }
+                
+
+/* Media queries */
 @media (max-width: 584px) {
 	.container {
 		max-width: 100%;
@@ -424,6 +458,8 @@ form .button input:hover {
 		width: 5px;
 	}
 }
+
+
 @media (max-width: 459px) {
 	.container .content .category {
 		flex-direction: column;
@@ -444,4 +480,100 @@ aside .logo img {
 	height: 4rem;
 	object-fit: contain;
 	margin-left: 2.4rem;
+}
+
+
+
+/* Alert */
+.alert {
+	min-height: 67px;
+	width: 560px;
+	max-width: 90%;
+	border-radius: 12px;
+	padding: 16px 22px 17px 20px;
+	display: flex;
+	align-items: center;
+}
+
+.warning--message {
+	position: fixed;
+	top: 2rem;
+	left: 15%;
+}
+
+.messages {
+	color: white;
+	list-style: none;
+	font-size: 1.6rem;
+	margin-left: 4rem;
+}
+
+.alert-error {
+	background: #e41749;
+}
+.icon__wrapper {
+	height: 34px;
+	width: 34px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.253);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.icon__wrapper span {
+	font-size: 21px;
+	color: #fff;
+}
+.alert p {
+	color: #fff;
+	font-family: Verdana;
+	margin-left: 10px;
+}
+.alert p a,
+.alert p a:visited,
+.alert p a:active {
+	color: #fff;
+}
+.alert .open {
+	margin-left: auto;
+	margin-right: 5px;
+}
+.alert .close,
+.alert .open {
+	color: #fff;
+	transition: transform 0.5s;
+	font-size: 18px;
+	cursor: pointer;
+}
+.alert .close:hover,
+.alert .open:hover {
+	transform: scale(1.3);
+}
+	
+
+
+/* Add item div */
+.addItem--div{
+	display: flex;
+	align-items: center;
+	width: 78rem;
+}
+
+#itemName{
+	padding: 1rem 1.2rem;
+	background-color: #fff;
+	border: 1px solid var(--color-primary);
+	cursor: pointer;
+	border-radius: 8px;
+	margin-right: 2rem;
+}
+
+#itemName:focus,
+#itemName:hover{
+	outline: none;
+	border: 2px solid var(--color-primary);
+} 
+ .item--option{
+	background-color: #eeeeee;
+	font-size: 1.6rem;
 }

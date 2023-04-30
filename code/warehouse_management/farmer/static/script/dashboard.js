@@ -207,9 +207,9 @@ const agriNews = [
 //show sidebar
 
 //close sidebar
-closeBtn.addEventListener("click", () => {
-	sideMenu.style.display = "none";
-});
+// closeBtn.addEventListener("click", () => {
+// 	sideMenu.style.display = "none";
+// });
 
 //change
 

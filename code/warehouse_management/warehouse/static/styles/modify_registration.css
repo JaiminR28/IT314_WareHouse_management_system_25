@@ -479,3 +479,72 @@ aside .logo img {
 	object-fit: contain;
 	margin-left: 2.4rem;
 }
+
+
+
+/* Alert */
+.alert {
+	min-height: 67px;
+	width: 560px;
+	max-width: 90%;
+	border-radius: 12px;
+	padding: 16px 22px 17px 20px;
+	display: flex;
+	align-items: center;
+}
+
+.warning--message {
+	position: fixed;
+	top: 2rem;
+	left: 15%;
+}
+
+.messages {
+	color: white;
+	list-style: none;
+	font-size: 1.6rem;
+	margin-left: 4rem;
+}
+
+.alert-error {
+	background: #e41749;
+}
+.icon__wrapper {
+	height: 34px;
+	width: 34px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.253);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.icon__wrapper span {
+	font-size: 21px;
+	color: #fff;
+}
+.alert p {
+	color: #fff;
+	font-family: Verdana;
+	margin-left: 10px;
+}
+.alert p a,
+.alert p a:visited,
+.alert p a:active {
+	color: #fff;
+}
+.alert .open {
+	margin-left: auto;
+	margin-right: 5px;
+}
+.alert .close,
+.alert .open {
+	color: #fff;
+	transition: transform 0.5s;
+	font-size: 18px;
+	cursor: pointer;
+}
+.alert .close:hover,
+.alert .open:hover {
+	transform: scale(1.3);
+}
+	

@@ -48,9 +48,9 @@
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
-		<link rel="stylesheet" href="{% static 'styles/addItem.css' %}" />
 
-		<script defer src="{% static 'script/add-item.js' %}"></script>
+		<link rel="stylesheet" href="{% static 'styles/f-add-item.css' %}" />
+			<script defer src="{% static 'script/f-add-item.js' %}"></script>
 
 		<title>Add Items</title>
 	</head>
@@ -77,7 +77,7 @@
 					</a>
 
 					<a
-						href="{% url 'farmer:makeReservation' %}"
+						href="{% url 'farmer:makeReservation' %} " class="active"
 					>
 						<img
 							src="{% static 'Images/navbar/list-plus.svg' %}"
@@ -157,6 +157,7 @@
 									id="minTemp"
 									placeholder="Enter min Temperature "
 									step="any"
+									max="31"
 									required
 								/>
 							</div>
@@ -167,9 +168,10 @@
 									type="number"
 									name="maxTemp"
 									step="any"
-									id="enter max Temperature"
+									id="maxTemp"
 									placeholder="Enter max Days"
 									step="any"
+									max="32"
 									required
 								/>
 							</div>

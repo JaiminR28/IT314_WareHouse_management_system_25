@@ -1,25 +1,30 @@
-{% comment %} {% extends 'f-base-generic.html' %}
-
-{% block content %}
-    <div>
-        Reservations made by you are:
-        <br><br>
-        {% for item in items %}
-            <div>
-                Item Name: {{ item.item_name }} <br>
-                Warehouse Email: {{ item.warehouse_email }} <br>
-                Start Date: {{ item.start_date }} <br>
-                End Date: {{ item.end_date }} <br>
-                Quantity: {{ item.quantity }} kg <br>
-                <a href="{% url 'farmer:modifyReservation' item.reservation_id %}" class="btn btn-primary">Modify Reservation</a>
-                <a href="{% url 'farmer:deleteReservation' item.reservation_id %}" class="btn btn-primary">Delete Reservation</a>
-            </div>
-            <br><br><hr>
-        {% endfor %}
-    </div>
-{% endblock %} {% endcomment %}
-
-{% load static %}
+{% comment %} {% extends 'f-base-generic.html' %} {% block content %}
+<div>
+	Reservations made by you are:
+	<br /><br />
+	{% for item in items %}
+	<div>
+		Item Name: {{ item.item_name }} <br />
+		Warehouse Email: {{ item.warehouse_email }} <br />
+		Start Date: {{ item.start_date }} <br />
+		End Date: {{ item.end_date }} <br />
+		Quantity: {{ item.quantity }} kg <br />
+		<a
+			href="{% url 'farmer:modifyReservation' item.reservation_id %}"
+			class="btn btn-primary"
+			>Modify Reservation</a
+		>
+		<a
+			href="{% url 'farmer:deleteReservation' item.reservation_id %}"
+			class="btn btn-primary"
+			>Delete Reservation</a
+		>
+	</div>
+	<br /><br />
+	<hr />
+	{% endfor %}
+</div>
+{% endblock %} {% endcomment %} {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -35,7 +40,7 @@
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
-		<link rel="stylesheet" href="{% static 'styles/showData.css' %}" />
+		<link rel="stylesheet" href="{% static 'styles/f-showData.css' %}" />
 
 		<title>Show Reservations</title>
 	</head>
@@ -61,9 +66,7 @@
 						<h3>Home</h3>
 					</a>
 
-					<a
-						href="{% url 'farmer:makeReservation' %}"
-					>
+					<a href="{% url 'farmer:makeReservation' %}">
 						<img
 							src="{% static 'Images/navbar/list-plus.svg' %}"
 							alt=""
@@ -71,7 +74,10 @@
 						/>
 						<h3>Add Reservation</h3>
 					</a>
-					<a href="{% url 'farmer:showReservations' %}">
+					<a
+						href="{% url 'farmer:showReservations' %}"
+						class="active"
+					>
 						<img
 							src="{% static 'Images/Navbar/report-text-svgrepo-com.svg' %}"
 							alt=""
@@ -86,6 +92,14 @@
 							class="navbar--menu-icon"
 						/>
 						<h3>Generate Report</h3>
+					</a>
+					<a href="{% url 'farmer:searchNearbyWarehouses' %}">
+						<img
+							src="{% static 'Images/Navbar/warehouse-svgrepo-com.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Nearby warehouses</h3>
 					</a>
 					<a href="{% url 'farmer:videoCall' %}">
 						<img
@@ -124,17 +138,29 @@
 							</tr>
 						</thead>
 						<tbody>
-                            {% for item in items %}
-                                <tr>
-                                    <td>{{ item.item_name }}</td>
-                                    <td>{{ item.warehouse_email }}</td>
-                                    <td>{{ item.start_date }}</td>
-                                    <td>{{ item.end_date }}</td>
-                                    <td>{{ item.quantity }}</td>
-                                    <td><a href="{% url 'farmer:modifyReservation' item.reservation_id %}">Modify Reservation</a></td>
-                                    <td><a href="{% url 'farmer:deleteReservation' item.reservation_id %}">Delete Reservation</a></td>
-                                </tr>
-                            {% endfor %}
+							{% for item in items %}
+							<tr>
+								<td>{{ item.item_name }}</td>
+								<td>{{ item.warehouse_email }}</td>
+								<td>{{ item.start_date }}</td>
+								<td>{{ item.end_date }}</td>
+								<td>{{ item.quantity }}</td>
+								<td>
+									<a
+										href="{% url 'farmer:modifyReservation' item.reservation_id %}"
+										class="modify-btn"
+										>Modify</a
+									>
+								</td>
+								<td>
+									<a
+										href="{% url 'farmer:deleteReservation' item.reservation_id %}"
+										class="button-45"
+										>Delete</a
+									>
+								</td>
+							</tr>
+							{% endfor %}
 						</tbody>
 					</table>
 				</div>

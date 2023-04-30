@@ -324,61 +324,6 @@ table tbody td{
 }
 
 
-/* CSS */
-.button-45 {
-  align-items: center;
-  background-color: #FFE7E7;
-  background-position: 0 0;
-  border: 1px solid #FEE0E0;
-  border-radius: 0.6rem;
-  box-sizing: border-box;
-  color: #D33A2C;
-  cursor: pointer;
-  display: flex;
-  font-size: 1.2rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  line-height: 33.4929px;
-  list-style: outside url(https://www.smashingmagazine.com/images/bullet.svg) none;
-  padding: 0.05rem 1.2rem;
-  text-align: left;
-  text-decoration: none;
-  text-shadow: none;
-  text-underline-offset: 1px;
-  transition: border .2s ease-in-out,box-shadow .2s ease-in-out;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  white-space: nowrap;
-  word-break: break-word;
-}
-
-.button-45:active,
-.button-45:hover,
-.button-45:focus {
-  outline: 0;
-}
-
-
-.button-45:active {
-  background-color: #D33A2C;
-  box-shadow: rgba(0, 0, 0, 0.12) 0 1px 3px 0 inset;
-  color: #FFFFFF;
-}
-
-.button-45:hover {
-  background-color: #FFE3E3;
-  border-color: #FAA4A4;
-}
-
-.button-45:active:hover,
-.button-45:focus:hover,
-.button-45:focus {
-  background-color: #D33A2C;
-  box-shadow: rgba(0, 0, 0, 0.12) 0 1px 3px 0 inset;
-  color: #FFFFFF;
-}
-
 table 
 form .button input:hover {
 	/* transform: scale(0.99); */
@@ -424,4 +369,191 @@ aside .logo img {
 	height: 4rem;
 	object-fit: contain;
 	margin-left: 2.4rem;
+}
+
+
+/* Button Css */
+/* CSS */
+.modify-btn {
+  align-items: center;
+  background-color: #ffffef;
+  background-position: 0 0;
+  border: 1px solid #e1e1ce;
+  border-radius: 0.6rem;
+  box-sizing: border-box;
+  color: #5a5a43;
+  cursor: pointer;
+  display: flex;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 33.4929px;
+  list-style: outside url(https://www.smashingmagazine.com/images/bullet.svg) none;
+  padding: 0.05rem 0.1rem;
+  text-decoration: none;
+  text-shadow: none;
+  text-underline-offset: 1px;
+  transition: border .2s ease-in-out,box-shadow .2s ease-in-out;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  word-break: break-word;
+
+  justify-content: center;
+}
+
+.modify-btn:active,
+.modify-btn:hover,
+.modify-btn:focus {
+  outline: 0;
+}
+
+
+.modify-btn:active {
+  background-color: #5a5a43;
+  box-shadow: rgba(0, 0, 0, 0.12) 0 1px 3px 0 inset;
+  color: #FFFFFF;
+}
+
+.modify-btn:hover {
+  background-color: #f0f0e7;
+  border-color: #cacaaa;
+}
+
+.modify-btn:active:hover,
+.modify-btn:focus:hover,
+.modify-btn:focus {
+  background-color: #5a5a43;
+  box-shadow: rgba(0, 0, 0, 0.12) 0 1px 3px 0 inset;
+  color: #FFFFFF;
+}
+
+
+
+/* Delete button */
+
+/* CSS */
+.button-45 {
+  align-items: center;
+  background-color: #FFE7E7;
+  background-position: 0 0;
+  border: 1px solid #FEE0E0;
+  border-radius: 0.6rem;
+  box-sizing: border-box;
+  color: #D33A2C;
+  cursor: pointer;
+  display: flex;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 33.4929px;
+  list-style: outside url(https://www.smashingmagazine.com/images/bullet.svg) none;
+  padding: 0.05rem 1.2rem;
+  text-align: left;
+  text-decoration: none;
+  text-shadow: none;
+  text-underline-offset: 1px;
+  transition: border .2s ease-in-out,box-shadow .2s ease-in-out;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  word-break: break-word;
+
+  justify-content: center;
+}
+
+.button-45:active,
+.button-45:hover,
+.button-45:focus {
+  outline: 0;
+}
+
+
+.button-45:active {
+  background-color: #D33A2C;
+  box-shadow: rgba(0, 0, 0, 0.12) 0 1px 3px 0 inset;
+  color: #FFFFFF;
+}
+
+.button-45:hover {
+  background-color: #FFE3E3;
+  border-color: #FAA4A4;
+}
+
+.button-45:active:hover,
+.button-45:focus:hover,
+.button-45:focus {
+  background-color: #D33A2C;
+  box-shadow: rgba(0, 0, 0, 0.12) 0 1px 3px 0 inset;
+  color: #FFFFFF;
+}
+
+
+
+/* Alert */
+.alert {
+	min-height: 67px;
+	width: 560px;
+	max-width: 90%;
+	border-radius: 12px;
+	padding: 16px 22px 17px 20px;
+	display: flex;
+	align-items: center;
+}
+
+.warning--message {
+	position: fixed;
+	top: 2rem;
+	left: 15%;
+}
+
+.messages {
+	color: white;
+	list-style: none;
+	font-size: 1.6rem;
+	margin-left: 4rem;
+}
+
+.alert-error {
+	background: #e41749;
+}
+.icon__wrapper {
+	height: 34px;
+	width: 34px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.253);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.icon__wrapper span {
+	font-size: 21px;
+	color: #fff;
+}
+.alert p {
+	color: #fff;
+	font-family: Verdana;
+	margin-left: 10px;
+}
+.alert p a,
+.alert p a:visited,
+.alert p a:active {
+	color: #fff;
+}
+.alert .open {
+	margin-left: auto;
+	margin-right: 5px;
+}
+.alert .close,
+.alert .open {
+	color: #fff;
+	transition: transform 0.5s;
+	font-size: 18px;
+	cursor: pointer;
+}
+.alert .close:hover,
+.alert .open:hover {
+	transform: scale(1.3);
 }

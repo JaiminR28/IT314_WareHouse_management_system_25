@@ -442,7 +442,7 @@ aside .logo img {
 .warning--message {
 	position: fixed;
 	top: 2rem;
-	left: 15%;
+	left: 50%;
 }
 
 .messages {

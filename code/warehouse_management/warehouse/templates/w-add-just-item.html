@@ -29,7 +29,7 @@
     </form> 
 {% endblock %}
  -->
-
+{% load static %}
  <!DOCTYPE html>
  <html lang="en">
      <head>
@@ -47,7 +47,7 @@
  
          <link rel="stylesheet" href="{% static 'styles/addItem.css' %}" />
  
-         <script defer src="{% static 'script/script.js' %}"></script>
+         <script defer src="{% static 'script/f-add-item.js' %}"></script>
  
          <title>Add Items</title>
      </head>
@@ -172,24 +172,27 @@
                              </div>
                              <br />
                              <div class="input-box">
-                                 <label class="details">Min Temperature:</label>
+                                 <label class="details">Min Temperature ( between -10 &deg; C to 31 &deg; C):</label>
                                  <input
                                      type="number"
                                      name="minTemp"
                                      id="minTemp"
                                      placeholder="Enter min Temperature "
                                      required
+                                     min="-10"
+                                     max="31"
                                  />
                              </div>
                              <br />
                              <div class="input-box">
-                                 <label class="details">Max Temperature:</label>
+                                 <label class="details">Max Temperature ( max 32 &deg; C):</label>
                                  <input
                                      type="number"
                                      name="maxTemp"
                                      id="maxTemp"
                                      placeholder="Enter max Temperature"
                                      required
+                                     max="32"
                                  />
                              </div>
                              <br />

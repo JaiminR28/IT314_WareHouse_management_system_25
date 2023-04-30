@@ -60,23 +60,6 @@ def contact(request):
 def aboutus(request):
     return render(request, 'aboutUs.html')
 
-<<<<<<< HEAD
-# def returnhome(request):
-#     if request.session.get('isLoggedIn', False) == True:
-#         query = {'email': request.session.get('farmerEmail')}
-#         projection = {'first_name': 1, 'verified': 1, 'email': 1}
-
-#         users = farmer.find(query, projection)
-
-#         context = {
-#             'first_name': users[0]['first_name'],
-#             'email': users[0]['email']
-#         }
-#         return render(request, 'f-home.html', context=context)
-#     else:
-#         messages.error(request, 'You need to login first!')
-#         return render(request, 'f-login.html')
-=======
 def generateReportPage(request):
     return render(request, 'aboutUs.html')
 
@@ -89,7 +72,6 @@ def returnhome(request):
         'name' : users[0]['name']
     }
     return render(request, 'f-home.html', context=context)
->>>>>>> da696ad8ac53fad94f262a6caf431af0f530740b
 
 def login(request):
     return render(request, 'f-login.html')

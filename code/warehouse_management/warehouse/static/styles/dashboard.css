@@ -536,11 +536,6 @@ nav a{
 	align-items: center;
 }
 
-.warning--message {
-	position: fixed;
-	top: 2rem;
-	left: 15%;
-}
 
 .messages {
 	color: white;
@@ -548,9 +543,14 @@ nav a{
 	font-size: 1.6rem;
 	margin-left: 4rem;
 }
+.warning--message {
+	position: fixed;
+	top: 2rem;
+	left: 50%;
+}
 
 .alert-error {
-	background: #e41749;
+	background: #84F505;;
 }
 .icon__wrapper {
 	height: 34px;

@@ -103,7 +103,7 @@ h5 {
 }
 
 small {
-	font-size: 0.75rem;
+	font-size: 0.9rem;
 }
 .material-symbols-outlined {
 	font-variation-settings: "FILL" 0, "wght" 200, "GRAD" 0, "opsz" 48;
@@ -366,7 +366,7 @@ main .profile-title .sales1 svg circle {
 
 /* weather-price-div */
 main .weather-price-div {
-	margin-top: 2rem;
+	margin-top: 1.6rem;
 	display: flex;
 	justify-content: space-between;
 }

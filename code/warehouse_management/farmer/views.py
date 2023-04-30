@@ -26,7 +26,7 @@ from io import BytesIO
 EMAIL = ""
 # client = MongoClient()
 client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.net/?retryWrites=true&w=majority')
-db = client['demo']
+db = client['test']
 farmer = db['Farmer']
 warehouse = db['Warehouse']
 items_stored = db['Items_Stored']
@@ -60,15 +60,21 @@ def contact(request):
 def aboutus(request):
     return render(request, 'aboutUs.html')
 
-def returnhome(request):
-    query = {'email': request.session['farmerEmail']}
-    projection = {'email': 1, 'verified': 1, 'name': 1}
-    users = farmer.find(query, projection)
-    context = {
-        'user' : users[0]['email'],
-        'name' : users[0]['name']
-    }
-    return render(request, 'f-home.html', context=context)
+# def returnhome(request):
+#     if request.session.get('isLoggedIn', False) == True:
+#         query = {'email': request.session.get('farmerEmail')}
+#         projection = {'first_name': 1, 'verified': 1, 'email': 1}
+
+#         users = farmer.find(query, projection)
+
+#         context = {
+#             'first_name': users[0]['first_name'],
+#             'email': users[0]['email']
+#         }
+#         return render(request, 'f-home.html', context=context)
+#     else:
+#         messages.error(request, 'You need to login first!')
+#         return render(request, 'f-login.html')
 
 def login(request):
     return render(request, 'f-login.html')
@@ -279,29 +285,6 @@ def searchNearbyWarehouses(request):
         messages.error(request, 'You need to login first!')
         return render(request, 'f-login.html')
 
-# def storedGoods(request):
-#     if request.session['isLoggedIn'] == True:
-#         query = {
-#             'crops_stored': {
-#                 'farmer_id': request.session['farmerId']
-#             }
-#         }
-
-#         projection = {}
-
-#         warehouse_list = warehouse.find(query, projection)
-#         farmer_id = request.session['farmerId']
-
-#         context = {
-#             'warehouse_list': warehouse_list,
-#             'farmer_id': farmer_id,
-#         }
-#         return render(request, 'f-stored-goods.html', context=context)
-#     else:
-#         messages.error(request, 'You need to Login first!')
-#         return render(request, 'f-login.html')
-
-
 def makeReservation(request):
     if request.session.get('isLoggedIn', False) == True:
         query = {}
@@ -359,9 +342,9 @@ def reservationEntry(request):
                 start_date_obj = datetime.strptime(start_date, format) 
                 end_date_obj = datetime.strptime(end_date, format) 
 
-                print(start_date_obj)
-                print(end_date_obj)
-                print()
+                # print(start_date_obj)
+                # print(end_date_obj)
+                # print()
 
                 if start_date_obj > end_date_obj:
                     context = {
@@ -373,8 +356,8 @@ def reservationEntry(request):
                 for i in items_stored_list:
                     t_start_date = datetime.strptime(i['start_date'], format) 
                     t_end_date = datetime.strptime(i['end_date'], format) 
-                    print(t_start_date)
-                    print(t_end_date)
+                    # print(t_start_date)
+                    # print(t_end_date)
                     if (t_start_date >= start_date_obj and t_start_date <= end_date_obj) or (t_end_date >= start_date_obj and t_end_date <= end_date_obj) or (t_start_date <= start_date_obj and t_end_date >= end_date_obj):
                         print('here')
                         print(float(i['quantity']))
@@ -437,6 +420,8 @@ def showReservations(request):
         projection = {}
         items_stored_list = items_stored.find(query, projection)
 
+        for item in items_stored_list:
+            print(item)
         context = {
             'items': items_stored_list,
         }
@@ -774,6 +759,10 @@ def showCropSuggestions(request):
             'items': items_list,
         }
 
+        print("Info 1")
+
+        for x in items_list:
+            print(x)
         return render(request, 'f-show-crop-suggestions.html', context=context)
     else:
         messages.error(request, 'You need to Login first!')

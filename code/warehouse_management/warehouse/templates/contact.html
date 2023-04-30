@@ -17,25 +17,26 @@
         <div class="contact-box">
             <div class="contact-left">
                 <h3>Send your request</h3>
-                <form>
+                <form action="{% url 'home:sendQuery' %}" method="POST">
+                    {% csrf_token %}
                     <div class="input-row">
                         <div class="input-group">
                             <label>Name</label>
-                            <input type="text" placeholder="Your Name">                 
+                            <input id="name" name="name" type="text" placeholder="Your Name">                 
                           
                             <label>Phone No.</label>
-                            <input type="text" placeholder="Your phone number">          
+                            <input id="phoneNum" name="phoneNum" type="text" placeholder="Your phone number">          
                         </div>
                         <div class="input-group">    
                             <label>Email</label>
-                            <input type="email" placeholder="Your email">        
+                            <input id="email" name="email" type="email" placeholder="Your email">        
                          
-                            <label>Query</label>
-                            <input type="text" placeholder="Your query">           
+                            <label>Title</label>
+                            <input id="title" name="query" type="text" placeholder="Your query">           
                         </div>
                     </div>
                     <label>Description</label>
-                    <textarea name="" id="" cols="30" rows="5" placeholder="Describe the query"></textarea>
+                    <textarea name="query" id="query" cols="30" rows="5" placeholder="Describe the query"></textarea>
                     
                     <button type="submit">Submit Query</button>
                     
@@ -46,7 +47,7 @@
                 <table>
                     <tr>
                         <td>Email:</td>
-                        <td>warehousewise@gmail.com</td>   
+                        <td>daiict.warehouses@gmail.com</td>   
                     </tr>
                     <tr>
                         <td>Phone:</td>

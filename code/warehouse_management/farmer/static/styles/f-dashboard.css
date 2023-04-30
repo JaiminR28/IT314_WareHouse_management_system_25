@@ -861,6 +861,9 @@ main .weather-price-div h2 {
  .crop--pricing .item.corn .icon{
     background: var(--color-success);
 }
+.crop--pricing .item.milk .icon{
+    background-color: #318DE2;
+}
 
 .crop-unit{
     font-weight: 600;

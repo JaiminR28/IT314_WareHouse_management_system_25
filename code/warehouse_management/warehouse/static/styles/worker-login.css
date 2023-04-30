@@ -56,7 +56,7 @@ body {
 	justify-content: space-between;
 	align-items: center;
 	position: fixed;
-	width: 80%;
+	width: 60%;
 	left: 50%;
 	transform: translateX(-50%);
 	margin: 0.8rem auto;

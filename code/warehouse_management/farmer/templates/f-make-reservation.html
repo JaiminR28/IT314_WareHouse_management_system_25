@@ -137,6 +137,14 @@
 						/>
 						<h3>Nearby warehouses</h3>
 					</a>
+					<a href="{% url 'farmer:showCropSuggestions' %}">
+						<img
+							src="{% static 'Images/Navbar/cropSuggest.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Crop Suggestions</h3>
+					</a>
 					<a href="{% url 'farmer:videoCall' %}">
 						<img
 							src="{% static 'Images/Navbar/video-camera.svg' %}"
@@ -191,7 +199,7 @@
 									required
 								/>
 							</div>
-							<div class="input-box">
+							<div class="input-box" id="endDateBlck">
 								<label class="details">End Date</label>
 								<input
 									type="date"

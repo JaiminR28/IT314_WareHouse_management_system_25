@@ -1,14 +1,171 @@
-{% extends 'f-base-generic.html' %}
+{% comment %} {% extends 'f-base-generic.html' %} {% block content %}
+<div>
+	Crops for you to grow are:
+	<br /><br />
+	{% for item in items %}
+	<div>
+		Name: {{ item.name }} <br />
+		Quantity present in the system: {{ item.totQty }} kg <br />
+	</div>
+	<hr />
+	{% endfor %}
+</div>
+{% endblock %} {% endcomment %} {% comment %} {% extends 'f-base-generic.html'
+%} {% block content %}
+<div>
+	Reservations made by you are:
+	<br /><br />
+	{% for item in items %}
+	<div>
+		Item Name: {{ item.item_name }} <br />
+		Warehouse Email: {{ item.warehouse_email }} <br />
+		Start Date: {{ item.start_date }} <br />
+		End Date: {{ item.end_date }} <br />
+		Quantity: {{ item.quantity }} kg <br />
+		<a
+			href="{% url 'farmer:modifyReservation' item.reservation_id %}"
+			class="btn btn-primary"
+			>Modify Reservation</a
+		>
+		<a
+			href="{% url 'farmer:deleteReservation' item.reservation_id %}"
+			class="btn btn-primary"
+			>Delete Reservation</a
+		>
+	</div>
+	<br /><br />
+	<hr />
+	{% endfor %}
+</div>
+{% endblock %} {% endcomment %} {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale-1.0" />
 
-{% block content %}
-    <div>
-        Crops for you to grow are:
-        <br><br>
-        {% for item in items %}
-            <div>
-                Name: {{ item.name }} <br>
-                Quantity present in the system: {{ item.totQty }} kg <br>
-            </div><hr>
-        {% endfor %}
-    </div>
-{% endblock %}
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap"
+			rel="stylesheet"
+		/>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+		<link rel="stylesheet" href="{% static 'styles/cropSuggest.css' %}" />
+
+		<title>Show Reservations</title>
+	</head>
+
+	<body>
+		<div class="container">
+			<aside>
+				<div class="top">
+					<div class="logo">
+						<img src="{% static 'Images/WarehouseWise.png' %}" />
+					</div>
+					<div class="close" id="close-btn">
+						<span class="material-symbols-outlined"> close </span>
+					</div>
+				</div>
+				<div class="sidebar">
+					<a href="{% url 'farmer:home' %}">
+						<img
+							src="{% static 'Images/navbar/house.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Home</h3>
+					</a>
+
+					<a href="{% url 'farmer:makeReservation' %}">
+						<img
+							src="{% static 'Images/navbar/list-plus.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Add Reservation</h3>
+					</a>
+					<a href="{% url 'farmer:showReservations' %}">
+						<img
+							src="{% static 'Images/Navbar/report-text-svgrepo-com.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Show Reservations</h3>
+					</a>
+					<a href="{% url 'farmer:generateReport' %}">
+						<img
+							src="{% static 'Images/Navbar/file-arrow-down.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Generate Report</h3>
+					</a>
+					<a href="{% url 'farmer:searchNearbyWarehouses' %}">
+						<img
+							src="{% static 'Images/Navbar/warehouse-svgrepo-com.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Nearby warehouses</h3>
+					</a>
+					<a
+						href="{% url 'farmer:showCropSuggestions' %}"
+						class="active"
+					>
+						<img
+							src="{% static 'Images/Navbar/cropSuggest.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Crop Suggestions</h3>
+					</a>
+					<a href="{% url 'farmer:videoCall' %}">
+						<img
+							src="{% static 'Images/Navbar/video-camera.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Video Call</h3>
+					</a>
+
+					<a href="{% url 'farmer:logout' %}">
+						<img
+							class="navbar--menu-icon"
+							src="{% static 'Images/navbar/logout-svgrepo-com.svg' %}"
+							alt=""
+						/>
+						<h3>Logout</h3>
+					</a>
+				</div>
+			</aside>
+			<main>
+				<div class="title--heading">
+					<h3 class="page--title">Crops for you to grow are</h3>
+				</div>
+				<div class="show--registration">
+					<table>
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>
+									Quantity present in the system ( In Kg )
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for item in items %}
+							<tr>
+								<td>{{ item.name }}</td>
+								<td>{{ item.totQty }}</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</main>
+		</div>
+	</body>
+</html>

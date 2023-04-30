@@ -689,6 +689,7 @@ main .weather-price-div h2 {
 
 .weather{
     	background-color: white;
+	padding: 1rem;
 }
 
 .header {
@@ -883,7 +884,7 @@ main .weather-price-div h2 {
 .warning--message {
 	position: fixed;
 	top: 2rem;
-	left: 15%;
+	left: 45%;
 }
 
 .messages {
@@ -894,7 +895,7 @@ main .weather-price-div h2 {
 }
 
 .alert-error {
-	background: #e41749;
+	background: #84F505;
 }
 .icon__wrapper {
 	height: 34px;

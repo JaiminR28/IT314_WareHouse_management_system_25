@@ -57,7 +57,7 @@
 					</div>
 				</div>
 				<div class="sidebar">
-					<a href="{% url 'farmer:returnhome' %}">
+					<a href="{% url 'farmer:home' %}">
 						<img
 							src="{% static 'Images/navbar/house.svg' %}"
 							alt=""
@@ -100,6 +100,14 @@
 							class="navbar--menu-icon"
 						/>
 						<h3>Nearby warehouses</h3>
+					</a>
+					<a href="{% url 'farmer:showCropSuggestions' %}">
+						<img
+							src="{% static 'Images/Navbar/cropSuggest.svg' %}"
+							alt=""
+							class="navbar--menu-icon"
+						/>
+						<h3>Crop Suggestions</h3>
 					</a>
 					<a href="{% url 'farmer:videoCall' %}">
 						<img

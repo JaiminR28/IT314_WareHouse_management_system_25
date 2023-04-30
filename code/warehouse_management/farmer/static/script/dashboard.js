@@ -305,9 +305,14 @@ async function checkWeather(coords) {
 	humidity.innerHTML = `${weather_data.current.humidity}%`;
 	wind_speed.innerHTML = `${weather_data.current.wind_kph}Km/H`;
 
+	console.log(weather_data.current.condition.text);
+
 	switch (weather_data.current.condition.text) {
 		case "Overcast":
 			weather_img.src = "/static/Images/Weather/cloud.png";
+			break;
+		case "Patchy rain possible":
+			weather_img.src = "/static/Images/Weather/lightRain.png";
 			break;
 		case "Sunny":
 			weather_img.src = "/static/Images/Weather/clear.png";

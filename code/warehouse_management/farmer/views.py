@@ -26,7 +26,7 @@ from io import BytesIO
 EMAIL = ""
 # client = MongoClient()
 client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.net/?retryWrites=true&w=majority')
-db = client['test']
+db = client['demo']
 farmer = db['Farmer']
 warehouse = db['Warehouse']
 items_stored = db['Items_Stored']

@@ -5,4 +5,5 @@ app_name = 'home'
 
 urlpatterns = [
     path('home/', views.home, name='home'),
+    path('sendQuery/', views.sendQuery, name='sendQuery'),
 ]

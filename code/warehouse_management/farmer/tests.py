@@ -925,11 +925,11 @@ items = db['Items']
 
 # class ShowReservationsTestCase(TestCase):
 #     def setUp(self):
-#         reservation_id = str(uuid.uuid4())
+#         self.reservation_id = str(uuid.uuid4())
 #         self.today = datetime.now().strftime('%Y-%m-%d')
 #         self.tomorrow = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
 #         items_stored.insert_one({
-#             'reservation_id': reservation_id,
+#             'reservation_id': self.reservation_id,
 #             'item_name': 'test',
 #             'warehouse_email': 'test1@gmail.com',
 #             'farmer_email': 'test2@gmail.com',
@@ -950,31 +950,37 @@ items = db['Items']
 #         self.assertEqual(response.status_code, 200)
 #         self.assertTemplateUsed(response, 'f-show-reservations.html')
 #         self.assertIn('items', response.context)
+#         # print("In test case")
+#         # for i in response.context['items']:
+#         #     print(i)
+#         # print(response.context['items'])
+        
+#         self.assertQuerysetEqual(response.context['items'], items_stored.find({}, {}))
 
-#     def test_show_reservations_unauthenticated(self):
-#         session = self.client.session
-#         session['isLoggedIn'] = False
-#         session.save()
-#         response = self.client.get('/farmer/show-reservations')
-#         self.assertEqual(response.status_code, 200)
-#         self.assertTemplateUsed(response, 'f-login.html')
-#         messages = list(response.context.get('messages'))
-#         self.assertEqual(len(messages), 1)
-#         self.assertEqual(str(messages[0]), 'You need to Login first!')
+    # def test_show_reservations_unauthenticated(self):
+    #     session = self.client.session
+    #     session['isLoggedIn'] = False
+    #     session.save()
+    #     response = self.client.get('/farmer/show-reservations')
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertTemplateUsed(response, 'f-login.html')
+    #     messages = list(response.context.get('messages'))
+    #     self.assertEqual(len(messages), 1)
+    #     self.assertEqual(str(messages[0]), 'You need to Login first!')
 
-#     def test_show_reservations_anonymous_user(self):
-#         session = self.client.session
-#         del session['isLoggedIn']
-#         session.save()
-#         response = self.client.get('/farmer/show-reservations')
-#         self.assertEqual(response.status_code, 200)
-#         self.assertTemplateUsed(response, 'f-login.html')
-#         messages = list(response.context.get('messages'))
-#         self.assertEqual(len(messages), 1)
-#         self.assertEqual(str(messages[0]), 'You need to Login first!')
+    # def test_show_reservations_anonymous_user(self):
+    #     session = self.client.session
+    #     del session['isLoggedIn']
+    #     session.save()
+    #     response = self.client.get('/farmer/show-reservations')
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertTemplateUsed(response, 'f-login.html')
+    #     messages = list(response.context.get('messages'))
+    #     self.assertEqual(len(messages), 1)
+    #     self.assertEqual(str(messages[0]), 'You need to Login first!')
 
-#     def tearDown(self):
-#         items_stored.delete_many({})
+    # def tearDown(self):
+    #     items_stored.delete_many({})
 
 
 # class AddItemTestCase(TestCase):
@@ -1405,108 +1411,108 @@ items = db['Items']
 
     
 
-# class ShowCropSuggestionsTestCase(TestCase):
+class ShowCropSuggestionsTestCase(TestCase):
     
-#     def setUp(self):
-#         self.client = Client()
-#         session = self.client.session
-#         session['isLoggedIn'] = True
-#         session.save()
+    def setUp(self):
+        self.client = Client()
+        session = self.client.session
+        session['isLoggedIn'] = True
+        session.save()
 
-#         items.insert_many([{
-#             'name': 'test1',
-#             'min_temperature': 39,
-#             'max_temperature': 67,
-#             'storage_life': 35,
-#             'is_crop': True
-#         },{
-#             'name': 'test2',
-#             'min_temperature': 39,
-#             'max_temperature': 67,
-#             'storage_life': 35,
-#             'is_crop': True
-#         },{
-#             'name': 'test3',
-#             'min_temperature': 39,
-#             'max_temperature': 67,
-#             'storage_life': 35,
-#             'is_crop': False
-#         }
-#         ])
+        items.insert_many([{
+            'name': 'test1',
+            'min_temperature': 39,
+            'max_temperature': 67,
+            'storage_life': 35,
+            'is_crop': True
+        },{
+            'name': 'test2',
+            'min_temperature': 39,
+            'max_temperature': 67,
+            'storage_life': 35,
+            'is_crop': True
+        },{
+            'name': 'test3',
+            'min_temperature': 39,
+            'max_temperature': 67,
+            'storage_life': 35,
+            'is_crop': False
+        }
+        ])
 
-#         self.today = datetime.now().strftime('%Y-%m-%d')
-#         self.tomorrow = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
-#         items_stored.insert_many([{
-#             'reservation_id': str(uuid.uuid4()),
-#             'item_name': 'test1',
-#             'warehouse_email': 'test1@gmail.com',
-#             'farmer_email': 'test2@gmail.com',
-#             'start_date': self.today,
-#             'end_date': self.tomorrow,
-#             'quantity': 11.0
-#         }, {
-#             'reservation_id': str(uuid.uuid4()),
-#             'item_name': 'test1',
-#             'warehouse_email': 'test1@gmail.com',
-#             'farmer_email': 'test2@gmail.com',
-#             'start_date': self.today,
-#             'end_date': self.tomorrow,
-#             'quantity': 12.0
-#         }, {
-#             'reservation_id': str(uuid.uuid4()),
-#             'item_name': 'test2',
-#             'warehouse_email': 'test1@gmail.com',
-#             'farmer_email': 'test2@gmail.com',
-#             'start_date': self.today,
-#             'end_date': self.tomorrow,
-#             'quantity': 33.0
-#         }, {
-#             'reservation_id': str(uuid.uuid4()),
-#             'item_name': 'test3',
-#             'warehouse_email': 'test1@gmail.com',
-#             'farmer_email': 'test2@gmail.com',
-#             'start_date': self.today,
-#             'end_date': self.tomorrow,
-#             'quantity': 50.0
-#         }])
+        self.today = datetime.now().strftime('%Y-%m-%d')
+        self.tomorrow = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
+        items_stored.insert_many([{
+            'reservation_id': str(uuid.uuid4()),
+            'item_name': 'test1',
+            'warehouse_email': 'test1@gmail.com',
+            'farmer_email': 'test2@gmail.com',
+            'start_date': self.today,
+            'end_date': self.tomorrow,
+            'quantity': 11.0
+        }, {
+            'reservation_id': str(uuid.uuid4()),
+            'item_name': 'test1',
+            'warehouse_email': 'test1@gmail.com',
+            'farmer_email': 'test2@gmail.com',
+            'start_date': self.today,
+            'end_date': self.tomorrow,
+            'quantity': 12.0
+        }, {
+            'reservation_id': str(uuid.uuid4()),
+            'item_name': 'test2',
+            'warehouse_email': 'test1@gmail.com',
+            'farmer_email': 'test2@gmail.com',
+            'start_date': self.today,
+            'end_date': self.tomorrow,
+            'quantity': 33.0
+        }, {
+            'reservation_id': str(uuid.uuid4()),
+            'item_name': 'test3',
+            'warehouse_email': 'test1@gmail.com',
+            'farmer_email': 'test2@gmail.com',
+            'start_date': self.today,
+            'end_date': self.tomorrow,
+            'quantity': 50.0
+        }])
 
-#     def test_show_crop_suggestions_success(self):
-#         response = self.client.get('/farmer/show-crop-suggestions')
-#         self.assertEqual(response.status_code, 200)
-#         self.assertTemplateUsed(response, 'f-show-crop-suggestions.html')
-#         self.assertQuerysetEqual(response.context['items'], [
-#             {'name': 'test1', 'totQty': 23.0},
-#             {'name': 'test2', 'totQty': 33.0}
-#         ])
+    def test_show_crop_suggestions_success(self):
+        response = self.client.get('/farmer/show-crop-suggestions')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'f-show-crop-suggestions.html')
+        self.assertQuerysetEqual(response.context['items'], [
+            {'name': 'test1', 'totQty': 23.0},
+            {'name': 'test2', 'totQty': 33.0}
+        ])
         
-#     def test_show_crop_suggestions_not_logged_in(self):
-#         session = self.client.session
-#         session['isLoggedIn'] = False
-#         session.save()
+    def test_show_crop_suggestions_not_logged_in(self):
+        session = self.client.session
+        session['isLoggedIn'] = False
+        session.save()
 
 
-#         response = self.client.get('/farmer/show-crop-suggestions')
-#         messages = list(response.context.get('messages'))
-#         self.assertEqual(len(messages), 1)
-#         self.assertEqual(str(messages[0]), 'You need to Login first!')  
-#         self.assertTemplateUsed(response, 'f-login.html')
+        response = self.client.get('/farmer/show-crop-suggestions')
+        messages = list(response.context.get('messages'))
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), 'You need to Login first!')  
+        self.assertTemplateUsed(response, 'f-login.html')
 
-#     def test_show_crop_suggestions_anonymous_user(self):
-#         session = self.client.session
-#         del session['isLoggedIn']
-#         session.save()
-
-
-#         response = self.client.get('/farmer/show-crop-suggestions')
-#         messages = list(response.context.get('messages'))
-#         self.assertEqual(len(messages), 1)
-#         self.assertEqual(str(messages[0]), 'You need to Login first!')  
-#         self.assertTemplateUsed(response, 'f-login.html')
+    def test_show_crop_suggestions_anonymous_user(self):
+        session = self.client.session
+        del session['isLoggedIn']
+        session.save()
 
 
-#     def tearDown(self):
-#         items_stored.delete_many({})
-#         items.delete_many({})
+        response = self.client.get('/farmer/show-crop-suggestions')
+        messages = list(response.context.get('messages'))
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), 'You need to Login first!')  
+        self.assertTemplateUsed(response, 'f-login.html')
+
+
+    def tearDown(self):
+        items_stored.delete_many({})
+        items.delete_many({})
 
 
 # class DeleteReservationTestCase(TestCase):

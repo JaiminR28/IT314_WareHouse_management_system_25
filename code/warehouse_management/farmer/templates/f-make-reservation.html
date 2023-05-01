@@ -94,23 +94,15 @@
 					</div>
 				</div>
 				<div class="sidebar">
-					<a href="{% url 'farmer:home' %}">
-						<img
-							src="{% static 'Images/navbar/house.svg' %}"
-							alt=""
-							class="navbar--menu-icon"
-						/>
+					<a href="{% url 'farmer:home' %}" >
+						<svg fill="#000000" class="navbar--menu-icon" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    							<path d="M31.772 16.043l-15.012-15.724c-0.189-0.197-0.449-0.307-0.721-0.307s-0.533 0.111-0.722 0.307l-15.089 15.724c-0.383 0.398-0.369 1.031 0.029 1.414 0.399 0.382 1.031 0.371 1.414-0.029l1.344-1.401v14.963c0 0.552 0.448 1 1 1h6.986c0.551 0 0.998-0.445 1-0.997l0.031-9.989h7.969v9.986c0 0.552 0.448 1 1 1h6.983c0.552 0 1-0.448 1-1v-14.968l1.343 1.407c0.197 0.204 0.459 0.308 0.722 0.308 0.249 0 0.499-0.092 0.692-0.279 0.398-0.382 0.411-1.015 0.029-1.413zM26.985 14.213v15.776h-4.983v-9.986c0-0.552-0.448-1-1-1h-9.965c-0.551 0-0.998 0.445-1 0.997l-0.031 9.989h-4.989v-15.777c0-0.082-0.013-0.162-0.032-0.239l11.055-11.52 10.982 11.507c-0.021 0.081-0.036 0.165-0.036 0.252z"></path>
+						</svg>
 						<h3>Home</h3>
 					</a>
 
-					<a
-						href="{% url 'farmer:makeReservation' %}" class="active"
-					>
-						<img
-							src="{% static 'Images/navbar/list-plus.svg' %}"
-							alt=""
-							class="navbar--menu-icon"
-						/>
+					<a href="{% url 'farmer:makeReservation' %}" class="active">
+						<svg xmlns="http://www.w3.org/2000/svg" class="navbar--menu-icon" fill="#363949" viewBox="0 0 256 256"><path d="M32,64a8,8,0,0,1,8-8H216a8,8,0,0,1,0,16H40A8,8,0,0,1,32,64Zm8,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16Zm104,48H40a8,8,0,0,0,0,16H144a8,8,0,0,0,0-16Zm88,0H216V168a8,8,0,0,0-16,0v16H184a8,8,0,0,0,0,16h16v16a8,8,0,0,0,16,0V200h16a8,8,0,0,0,0-16Z"></path></svg>
 						<h3>Add Reservation</h3>
 					</a>
 					<a href="{% url 'farmer:showReservations' %}">
@@ -155,11 +147,9 @@
 					</a>
 
 					<a href="{% url 'farmer:logout' %}">
-						<img
-							class="navbar--menu-icon"
-							src="{% static 'Images/navbar/logout-svgrepo-com.svg' %}"
-							alt=""
-						/>
+						<svg class="navbar--menu-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+							<path d="M15 16.5V19C15 20.1046 14.1046 21 13 21H6C4.89543 21 4 20.1046 4 19V5C4 3.89543 4.89543 3 6 3H13C14.1046 3 15 3.89543 15 5V8.0625M11 12H21M21 12L18.5 9.5M21 12L18.5 14.5" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+						</svg>
 						<h3>Logout</h3>
 					</a>
 				</div>

@@ -107,33 +107,38 @@
 					</div>
 				</div>
 				<div class="sidebar">
-					<a href="{% url 'warehouse:returnhome' %}">
-						<img
-							src="{% static '/Images/navbar/house.svg' %}"
-							alt=""
-							class="navbar--menu-icon"
-						/>
+					<a href="{% url 'warehouse:returnhome' %}" >
+						<svg fill="#000000" class="navbar--menu-icon" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    							<path d="M31.772 16.043l-15.012-15.724c-0.189-0.197-0.449-0.307-0.721-0.307s-0.533 0.111-0.722 0.307l-15.089 15.724c-0.383 0.398-0.369 1.031 0.029 1.414 0.399 0.382 1.031 0.371 1.414-0.029l1.344-1.401v14.963c0 0.552 0.448 1 1 1h6.986c0.551 0 0.998-0.445 1-0.997l0.031-9.989h7.969v9.986c0 0.552 0.448 1 1 1h6.983c0.552 0 1-0.448 1-1v-14.968l1.343 1.407c0.197 0.204 0.459 0.308 0.722 0.308 0.249 0 0.499-0.092 0.692-0.279 0.398-0.382 0.411-1.015 0.029-1.413zM26.985 14.213v15.776h-4.983v-9.986c0-0.552-0.448-1-1-1h-9.965c-0.551 0-0.998 0.445-1 0.997l-0.031 9.989h-4.989v-15.777c0-0.082-0.013-0.162-0.032-0.239l11.055-11.52 10.982 11.507c-0.021 0.081-0.036 0.165-0.036 0.252z"></path>
+						</svg>
 						<h3>Home</h3>
 					</a>
-
 					<a href="{% url 'warehouse:mailPDF' %}">
-						<img
-							src="{% static '/Images/navbar/list-plus.svg' %}"
-							alt=""
-							class="navbar--menu-icon"
-						/>
+						<svg xmlns="http://www.w3.org/2000/svg" class="navbar--menu-icon"  viewBox="0 0 256 256"><path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48ZM203.43,64,128,133.15,52.57,64ZM216,192H40V74.19l82.59,75.71a8,8,0,0,0,10.82,0L216,74.19V192Z"></path></svg>
 						<h3>Mail PDF</h3>
 					</a>
 
 					<a
-						href="{% url 'warehouse:showReservations' %}"
+						href="{% url 'warehouse:modifyReservationEntry' %}"
 						class="active"
 					>
-						<img
-							src="{% static '/Images/navbar/file-edit-svgrepo-com.svg' %}"
-							alt=""
-							class="navbar--menu-icon"
-						/>
+						<svg fill="#000000" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+	 						viewBox="0 0 511.987 511.987" xml:space="preserve">
+								<g>
+									<g>
+										<g>
+											<path d="M341.333,277.34h21.333v-160c0-2.88-1.173-5.547-3.093-7.573L252.907,3.1c-2.027-1.92-4.693-3.093-7.573-3.093H10.667
+												C4.8,0.007,0,4.807,0,10.673v448c0,5.867,4.8,10.667,10.667,10.667h192v-21.333H21.333V21.34h213.333v96
+												c0,5.867,4.8,10.667,10.667,10.667h96V277.34z M256,106.673V36.38l70.293,70.293H256z"/>
+											<path d="M508.907,312.433L455.573,259.1c-4.267-4.053-10.88-4.053-15.04,0l-160,160c-0.853,0.96-1.6,1.92-2.133,3.093
+												c-0.107,0.32-0.213,0.533-0.32,0.853c-0.107,0.32-0.213,0.427-0.32,0.64l-21.333,74.667c-1.6,5.653,1.707,11.52,7.36,13.227
+												c1.92,0.533,3.947,0.533,5.867,0l74.667-21.333c0.213-0.107,0.427-0.213,0.64-0.32c0.213-0.107,0.533-0.213,0.853-0.32
+												c1.173-0.533,2.24-1.28,3.093-2.133l160-160C512.96,323.313,513.067,316.593,508.907,312.433z M282.24,485.873l11.093-38.827
+												l27.733,27.733L282.24,485.873z M341.333,464.967l-38.293-38.293L448,281.713l38.293,38.293L341.333,464.967z"/>
+										</g>
+									</g>
+								</g>
+								</svg>
 						<h3>Modify Reservations</h3>
 					</a>
 					<a href="{% url 'warehouse:showReservations' %}">
@@ -170,11 +175,9 @@
 					</a>
 
 					<a href="{% url 'warehouse:logout' %}">
-						<img
-							class="navbar--menu-icon"
-							src="{% static '/Images/navbar/logout-svgrepo-com.svg' %}"
-							alt=""
-						/>
+						<svg class="navbar--menu-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+							<path d="M15 16.5V19C15 20.1046 14.1046 21 13 21H6C4.89543 21 4 20.1046 4 19V5C4 3.89543 4.89543 3 6 3H13C14.1046 3 15 3.89543 15 5V8.0625M11 12H21M21 12L18.5 9.5M21 12L18.5 14.5" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+						</svg>
 						<h3>Logout</h3>
 					</a>
 				</div>

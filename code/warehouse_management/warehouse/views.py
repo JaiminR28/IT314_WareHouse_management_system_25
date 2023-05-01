@@ -32,7 +32,7 @@ from io import BytesIO
 
 # client = MongoClient()
 client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.net/?retryWrites=true&w=majority')
-db = client['demo']
+db = client['test']
 warehouse = db['Warehouse']
 goods = db['Goods']
 farmer = db['Farmer']
@@ -64,7 +64,7 @@ def logout(request):
     return render(request, 'w-login.html')
 
 def report(request):
-    if(request.session['isLoggedIn']):
+    if(request.session.get('isLoggedIn', False)):
         return render(request, 'w-report.html')
     
 def performVideoCall(request):
@@ -238,8 +238,8 @@ def registerEntry(request):
 
 
 def generatePDF(request):
-    # request.session['isLoggedIn']
-    if request.session['isLoggedIn']:
+    # request.session.get('isLoggedIn', False)
+    if request.session.get('isLoggedIn', False):
         if True:         
             email = request.session['warehouseEmail']
             query = {'warehouse_email': email}
@@ -509,8 +509,8 @@ def generate_pdf(email):
             return response
 
 def mailPDF(request):
-    # request.session['isLoggedIn']
-    if request.session['isLoggedIn']:
+    # request.session.get('isLoggedIn', False)
+    if request.session.get('isLoggedIn', False):
         email = request.session['warehouseEmail']
         pdf = generate_pdf(email)
         send_email = EmailMessage('Warehouse Report', 'Here is your warehouse report.', settings.EMAIL_HOST_USER, [email])
@@ -532,7 +532,7 @@ def mailPDF(request):
     
 
 def showReservations(request):
-    if request.session['isLoggedIn'] == True:
+    if request.session.get('isLoggedIn', False) == True:
         query = {
             'warehouse_email': request.session['warehouseEmail']
         }
@@ -552,19 +552,19 @@ def showReservations(request):
         return render(request, 'w-login.html')
 
 def addJustItem(request):
-    if request.session['isLoggedIn'] == True:
+    if request.session.get('isLoggedIn', False) == True:
         return render(request, 'w-add-just-item.html')
     messages.error(request, 'You need to Login first!')
     return render(request, 'w-login.html')
     
 # def addItem(request):
-#     if request.session['isLoggedIn'] == True:
+#     if request.session.get('isLoggedIn', False) == True:
 #         return render(request, 'w-add-item.html')
 #     else:
 #         return render(request, 'w-login.html')
 
 def itemJustEntry(request):
-    if request.session['isLoggedIn'] == True:
+    if request.session.get('isLoggedIn', False) == True:
         if request.method == 'POST':
             if request.POST.get('itemName') and request.POST.get('minTemp') and request.POST.get('maxTemp') and request.POST.get('storageLife') and request.POST.get('isCrop'):
                 item_name = request.POST.get('itemName')
@@ -616,7 +616,7 @@ def itemJustEntry(request):
         return render(request, 'w-login.html')
 
 # def itemEntry(request):
-#     if request.session['isLoggedIn'] == True:
+#     if request.session.get('isLoggedIn', False) == True:
 #         if request.method == 'POST':
 #             if request.POST.get('itemName') and request.POST.get('minTemp') and request.POST.get('maxTemp') and request.POST.get('storageLife') and request.POST.get('isCrop'):
 #                 item_name = request.POST.get('itemName')
@@ -658,7 +658,27 @@ def itemJustEntry(request):
 #         return render(request, 'w-login.html')
     
 def modifyReservation(request, reservation_id):
-    if request.session['isLoggedIn'] == True:
+    if request.session.get('isLoggedIn', False) == True:
+        query = {
+            'reservation_id': reservation_id,
+            'warehouse_email': request.session.get('warehouseEmail')
+        }
+        projection = {}
+
+        reservation_check = items_stored.find(query, projection)
+        
+        if len(list(reservation_check.clone())) == 0:
+            query = {
+                'warehouse_email': request.session.get('warehouseEmail')
+            }
+            projection = {}
+            items_stored_list = items_stored.find(query, projection)
+
+            context = {
+                'items': items_stored_list,
+            }
+            messages.error(request, 'Reservation not found!')
+            return render(request, 'w-show-reservations.html', context=context)
         query = {}
         projection = {}
 
@@ -683,7 +703,7 @@ def modifyReservation(request, reservation_id):
         return render(request, 'w-login.html')
     
 def deleteReservation(request, reservation_id):
-    if request.session['isLoggedIn'] == True:
+    if request.session.get('isLoggedIn', False) == True:
         query = {}
         projection = {}
 
@@ -694,9 +714,23 @@ def deleteReservation(request, reservation_id):
             'items': items_list,
         }       
 
-        query = {'reservation_id': reservation_id}
+        query = {'reservation_id': reservation_id, 'warehouse_email': request.session['warehouseEmail']}
         projection = {'reservation_id': 1, 'farmer_email': 1, 'start_date': 1, 'end_date': 1, 'quantity': 1, 'item_name': 1}
         stores = items_stored.find(query, projection)
+
+        if len(list(stores.clone())) == 0:
+            query = {
+                'warehouse_email': request.session.get('warehouseEmail')
+            }
+            projection = {}
+            items_stored_list = items_stored.find(query, projection)
+
+            context = {
+                'items': items_stored_list,
+            }
+            messages.error(request, 'Reservation not found!')
+            return render(request, 'w-show-reservations.html', context=context)
+
         # print(items_list.item_name)
         query = {'email': stores[0]['farmer_email']}
         projection = {'email': 1, 'first_name': 1}
@@ -735,7 +769,9 @@ def modifyReservationEntry(request, reservation_id):
                 quantity = float(request.POST.get('quantity'))
 
 
-                query = {'reservation_id': reservation_id}
+                query = {'reservation_id': reservation_id,
+                        'warehouse_email': request.session['warehouseEmail']
+                }
                 projection = {}
 
                 reservation_check = items_stored.find(query, projection)
@@ -743,7 +779,7 @@ def modifyReservationEntry(request, reservation_id):
 
                 if len(list(reservation_check.clone())) == 0:
                     messages.error(request, 'Reservation not found!')
-                    return redirect('warehouse:showReservations')
+                    return render(request, 'w-show-reservations.html')
                     
                 # print(start_date)
                 # print(end_date)
@@ -762,7 +798,16 @@ def modifyReservationEntry(request, reservation_id):
 
                 if len(list(warehouse_details.clone())) == 0:
                     messages.error(request, 'Warehouse not found!')
-                    return redirect('warehouse:modifyReservation', reservation_id=reservation_id)
+                    query = {
+                        'warehouse_email': request.session.get('warehouseEmail')
+                    }
+                    projection = {}
+                    items_stored_list = items_stored.find(query, projection)
+
+                    context = {
+                        'items': items_stored_list,
+                    }
+                    return render(request, 'w-show-reservations.html', context=context)                    
 
                 
                 quantity_stored = 0
@@ -776,7 +821,17 @@ def modifyReservationEntry(request, reservation_id):
 
                 if start_date_obj > end_date_obj:
                     messages.error(request, 'Invalid start date and end date')
-                    return redirect('warehouse:modifyReservation', reservation_id=reservation_id)
+                    query = {
+                        'warehouse_email': request.session.get('warehouseEmail')
+                    }
+                    projection = {}
+                    items_stored_list = items_stored.find(query, projection)
+
+                    context = {
+                        'items': items_stored_list,
+                    }
+                    return render(request, 'w-show-reservations.html', context=context)
+                    
 
                 for i in items_stored_list:
                     if i['reservation_id'] != reservation_id:
@@ -820,112 +875,31 @@ def modifyReservationEntry(request, reservation_id):
                     return render(request, 'w-home.html', context=context)
                 else:
                     messages.error(request, 'Quantity exceeds the warehouse limit')
-                    return redirect('warehouse:modifyReservation', reservation_id=reservation_id)
+                    query = {
+                        'warehouse_email': request.session.get('warehouseEmail')
+                    }
+                    projection = {}
+                    items_stored_list = items_stored.find(query, projection)
+
+                    context = {
+                        'items': items_stored_list,
+                    }
+                    return render(request, 'w-show-reservations.html', context=context)
+                    
             else:
                 messages.error(request, "Enter details in all the fields")
-                # return render(request, 'f-modify-reservation.html')
-                return redirect('warehouse:modifyReservation', reservation_id=reservation_id)
+                query = {
+                    'warehouse_email': request.session.get('warehouseEmail')
+                }
+                projection = {}
+                items_stored_list = items_stored.find(query, projection)
+
+                context = {
+                    'items': items_stored_list,
+                }
+                return render(request, 'w-show-reservations.html', context=context)
         else:
             return render(request, 'w-error.html')
     else:
         messages.error(request, 'You need to Login first!')
         return render(request, 'w-login.html')
-
-# def modifyReservationEntry(request, reservation_id):
-#     if request.session['isLoggedIn'] == True:
-#         if request.method == 'POST':
-#             if request.POST.get('farmerEmail') and request.POST.get('itemName') and request.POST.get('startDate') and request.POST.get('endDate') and request.POST.get('quantity'):
-#                 farmer_email = request.POST.get('farmerEmail')
-#                 item_name = request.POST.get('itemName')
-#                 start_date = request.POST.get('startDate')
-#                 end_date = request.POST.get('endDate')  
-#                 quantity = float(request.POST.get('quantity'))
-
-#                 # print(farmer_email, item_name, start_date, end_date, quantity)
-
-#                 query = {'reservation_id': reservation_id}
-#                 projection = {}
-#                 items_stored_list = items_stored.find(query, projection)
-
-#                 # print("1")
-
-#                 if len(list(items_stored_list.clone())) == 0:
-#                     messages.error(request, 'Reservation not found!')
-#                     return render(request, 'w-show-reservation.html')   
-
-#                 query = {'email': request.session['warehouseEmail']}                
-#                 projection = {}
-#                 warehouse_details = warehouse.find(query, projection)   
-
-#                 # print("2")                          
-
-#                 if len(list(warehouse_details.clone())) == 0:
-#                     messages.error(request, 'Warehouse not found!')
-#                     return redirect('warehouse:modifyReservation', reservation_id=reservation_id)
-                
-#                 quantity_stored = 0
-#                 format = '%Y-%m-%d'
-
-#                 start_date_obj = datetime.strptime(start_date, format) 
-#                 end_date_obj = datetime.strptime(end_date, format) 
-
-#                 # print("3")
-
-#                 if start_date_obj > end_date_obj:
-#                     messages.error(request, 'Invalid start date and end date')
-#                     return redirect('warehouse:modifyReservation', reservation_id=reservation_id)
-
-#                 for i in items_stored_list:
-#                     if i['reservation_id'] != reservation_id:
-#                         t_start_date = datetime.strptime(i['start_date'], format) 
-#                         t_end_date = datetime.strptime(i['end_date'], format) 
-#                         if (t_start_date >= start_date_obj and t_start_date <= end_date_obj) or (t_end_date >= start_date_obj and t_end_date <= end_date_obj) or (t_start_date <= start_date_obj and t_end_date >= end_date_obj):
-#                             quantity_stored += float(i['quantity'])
-                
-#                 if quantity_stored + quantity <= float(warehouse_details[0]['storage_capacity']):
-#                     messages.success(request, 'Reservation modified successfully')
-#                     query = {'reservation_id': reservation_id}
-#                     newvalues = {
-#                         '$set': {
-#                             'item_name': item_name,
-#                             'farmer_email': farmer_email,
-#                             'start_date': start_date,
-#                             'end_date': end_date,
-#                             'quantity': quantity
-#                         }
-#                     }
-
-#                     query = {'email': farmer_email}
-#                     projection = {'email': 1, 'first_name': 1}
-#                     result = farmer.find(query, projection)
-#                     subject = "Your Items are updated!!"
-#                     new_store = f"Item Name: {item_name} \nStart Date: {start_date}\nEnd Date: {end_date}\nQuantity: {quantity}" 
-#                     message = "Hello " + result[0]['first_name'] + "!! \n" +new_store+ "\n\nThanking You\nArth Detroja"        
-#                     from_email = settings.EMAIL_HOST_USER
-#                     to_list = [farmer_email]
-#                     send_mail(subject, message, from_email, to_list, fail_silently=False)  
-
-#                     items_stored.update_one(query, newvalues)
-
-#                     query = {'email': request.session['warehouseEmail']}
-#                     projection = {'name': 1}
-#                     result = warehouse.find(query, projection)
-                    
-#                     context = {
-#                         'user': request.session['warehouseEmail'],
-#                         'name': result[0]['name']
-#                     }
-#                     # print("4")
-#                     return render(request, 'w-home.html', context=context)
-#                 else:
-#                     messages.error(request, 'Quantity exceeds the warehouse limit')
-#                     return redirect('warehouse:modifyReservation', reservation_id=reservation_id)
-#             else:
-#                 messages.error(request, "Enter details in all the fields")
-#                 # return render(request, 'w-modify-reservation.html')
-#                 return redirect('warehouse:modifyReservation', reservation_id=reservation_id)
-#         else:
-#             return render(request, 'w-error.html')
-#     else:
-#         messages.error(request, 'You need to Login first!')
-#         return render(request, 'w-login.html')

@@ -26,7 +26,7 @@ from io import BytesIO
 EMAIL = ""
 # client = MongoClient()
 client = MongoClient('mongodb+srv://arth01:passadmin@cluster0.z4s5bj0.mongodb.net/?retryWrites=true&w=majority')
-db = client['demo']
+db = client['test']
 farmer = db['Farmer']
 warehouse = db['Warehouse']
 items_stored = db['Items_Stored']
@@ -417,12 +417,18 @@ def showReservations(request):
         projection = {}
         items_stored_list = items_stored.find(query, projection)
 
-        for item in items_stored_list:
-            print(item)
-        context = {
-            'items': items_stored_list,
-        }
+        # for item in items_stored_list:
+        #     print(item)
 
+        data_list = []
+        # print(items_stored_list)
+        for i in items_stored_list:
+            data_list.append(i)
+
+        context = {
+            'items': data_list,
+        }
+        # print(context)
         return render(request, 'f-show-reservations.html', context=context)
     else:
         messages.error(request, 'You need to Login first!')
@@ -751,14 +757,17 @@ def showCropSuggestions(request):
 			}
         ])
 
+        store_list = []
+        for x in items_list:
+            store_list.append(x)
 
         context = {
-            'items': items_list,
+            'items': store_list
         }
 
-        print("Info 1")
+        # print("Info 1")
 
-        for x in items_list:
+        for x in context['items']:
             print(x)
         return render(request, 'f-show-crop-suggestions.html', context=context)
     else:
